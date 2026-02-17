@@ -8,7 +8,7 @@ import AppNavigation from '@/components/layout/AppNavigation'
 import ArticleGrid from '@/components/articles/ArticleGrid'
 import Pagination from '@/components/articles/Pagination'
 import SearchInput from '@/components/articles/SearchInput'
-import { Loader2 } from 'lucide-react'
+import { ArticleGridSkeleton } from '@/components/articles/ArticleCardSkeleton'
 import { ArticleForDisplay } from '@/types/index'
 
 
@@ -184,12 +184,7 @@ export default function ArticlesPage() {
         )}
 
         {/* Loading State */}
-        {loading && (
-          <div className="flex justify-center items-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-brand-blue" />
-            <span className="ml-2 text-gray-600">Loading articles...</span>
-          </div>
-        )}
+        {loading && <ArticleGridSkeleton count={9} />}
 
         {/* Error handling is done automatically by Convex */}
 

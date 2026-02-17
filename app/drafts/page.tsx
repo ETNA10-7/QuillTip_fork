@@ -1,11 +1,24 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/providers/AuthContext'
 import Link from 'next/link'
 import AppNavigation from '@/components/layout/AppNavigation'
 import { useQuery, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
+import { Id } from '@/convex/_generated/dataModel'
+import { toast } from 'sonner'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog'
 
 
 export default function DraftsPage() {
@@ -18,6 +31,7 @@ export default function DraftsPage() {
   
   // Convex mutation for deleting articles
   const deleteArticleMutation = useMutation(api.articles.deleteArticle)
+  const [deleteTarget, setDeleteTarget] = useState<Id<"articles"> | null>(null)
 
   if (isLoading) {
     return (
@@ -108,17 +122,7 @@ export default function DraftsPage() {
                       Edit
                     </Link>
                     <button
-                      onClick={async () => {
-                        if (confirm('Are you sure you want to delete this draft?')) {
-                          try {
-                            await deleteArticleMutation({ id: draft._id })
-                            // No need to manually update state - Convex will handle reactivity
-                          } catch (error) {
-                            console.error('Failed to delete draft:', error)
-                            alert('Failed to delete draft. Please try again.')
-                          }
-                        }
-                      }}
+                      onClick={() => setDeleteTarget(draft._id)}
                       className="px-4 py-2 text-red-600 border border-red-600 rounded-lg hover:bg-red-50 transition-colors"
                     >
                       Delete
@@ -140,6 +144,37 @@ export default function DraftsPage() {
           </ul>
         </div>
       </div>
+
+      <AlertDialog open={!!deleteTarget} onOpenChange={(open) => { if (!open) setDeleteTarget(null) }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete this draft?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. The draft will be permanently deleted.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-red-600 hover:bg-red-700 text-white"
+              onClick={async () => {
+                if (!deleteTarget) return
+                try {
+                  await deleteArticleMutation({ id: deleteTarget })
+                  toast.success('Draft deleted')
+                } catch (error) {
+                  console.error('Failed to delete draft:', error)
+                  toast.error('Failed to delete draft. Please try again.')
+                } finally {
+                  setDeleteTarget(null)
+                }
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   )
 }

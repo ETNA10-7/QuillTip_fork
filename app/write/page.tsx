@@ -18,6 +18,7 @@ import { useQuery, useMutation, useConvex } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { uploadFile, compressImage } from '@/lib/upload'
+import { toast } from 'sonner'
 
 const lowlight = createLowlight(common)
 
@@ -30,7 +31,6 @@ export default function WritePage() {
   const [coverUploadError, setCoverUploadError] = useState('')
   const [tags, setTags] = useState('')
   const [isPublishing, setIsPublishing] = useState(false)
-  const [isUnpublishing, setIsUnpublishing] = useState(false)
   const [articleId, setArticleId] = useState<string | undefined>()
   const [editorContent, setEditorContent] = useState<JSONContent | null>(null)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
@@ -46,7 +46,6 @@ export default function WritePage() {
   // Convex mutations
   const createArticleMutation = useMutation(api.articles.createArticle)
   const publishArticleMutation = useMutation(api.articles.publishArticle)
-  const unpublishArticleMutation = useMutation(api.articles.unpublishArticle)
 
   // Initialize editor with proper configuration
   const editor = useEditor({
@@ -215,7 +214,7 @@ export default function WritePage() {
   // Handle publish
   const handlePublish = useCallback(async () => {
     if (!title || !editorContent) {
-      alert('Please add a title and content before publishing')
+      toast.warning('Please add a title and content before publishing')
       return
     }
 
@@ -252,49 +251,14 @@ export default function WritePage() {
         publishedAt: new Date()
       })
       
-      alert('Article published successfully!')
+      toast.success('Article published successfully!')
     } catch (error) {
       console.error('Publish error:', error)
-      alert(`Failed to publish article: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      toast.error(`Failed to publish: ${error instanceof Error ? error.message : 'Unknown error'}`)
     } finally {
       setIsPublishing(false)
     }
   }, [title, editorContent, excerpt, tags, coverImage, saveNow, articleId, publishArticleMutation, createArticleMutation])
-
-  // Handle unpublish
-  const handleUnpublish = useCallback(async () => {
-    if (!articleId) {
-      alert('No article to unpublish')
-      return
-    }
-
-    setIsUnpublishing(true)
-    try {
-      await unpublishArticleMutation({ id: articleId as Id<"articles"> })
-
-      // Update publish status
-      setPublishStatus({
-        published: false,
-        publishedAt: null
-      })
-      
-      alert('Article unpublished successfully!')
-    } catch (error) {
-      console.error('Unpublish error:', error)
-      alert(`Failed to unpublish article: ${error instanceof Error ? error.message : 'Unknown error'}`)
-    } finally {
-      setIsUnpublishing(false)
-    }
-  }, [articleId, unpublishArticleMutation])
-
-  // Handle toggle publish status
-  const handleTogglePublish = useCallback(async () => {
-    if (publishStatus.published) {
-      await handleUnpublish()
-    } else {
-      await handlePublish()
-    }
-  }, [publishStatus.published, handleUnpublish, handlePublish])
 
   // Authentication checks
   if (isLoading) {
@@ -381,36 +345,19 @@ export default function WritePage() {
               {isSaving ? 'Saving...' : 'Save Now'}
             </button>
             
-            {/* Publish/Unpublish buttons */}
+            {/* Publish button */}
             {publishStatus.published ? (
-              <button
-                onClick={handleUnpublish}
-                disabled={isUnpublishing}
-                className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                title="Make this article private (unpublish)"
-              >
-                {isUnpublishing ? 'Unpublishing...' : 'Unpublish'}
-              </button>
+              <span className="inline-flex items-center gap-1 px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-lg">
+                Published
+              </span>
             ) : (
               <button
                 onClick={handlePublish}
                 disabled={isPublishing || !title || !editorContent}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                title="Make this article public"
+                title="Make this article public (permanent — stored on Arweave)"
               >
                 {isPublishing ? 'Publishing...' : 'Publish'}
-              </button>
-            )}
-            
-            {/* Toggle button for existing articles */}
-            {articleId && (
-              <button
-                onClick={handleTogglePublish}
-                disabled={isPublishing || isUnpublishing || !title || !editorContent}
-                className="px-3 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm"
-                title={publishStatus.published ? "Switch to draft" : "Publish article"}
-              >
-                {publishStatus.published ? '📝 Make Draft' : '🚀 Make Public'}
               </button>
             )}
           </div>

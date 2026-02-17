@@ -306,7 +306,7 @@ export const transferNFT = mutation({
       nftId: args.nftId,
       fromUserId: userId,
       toUserId: recipient._id,
-      transactionId: `tx_${Date.now()}`, // Mock transaction ID
+      transactionId: `pending_transfer_${args.nftId}`,
       transferredAt: now,
     });
     

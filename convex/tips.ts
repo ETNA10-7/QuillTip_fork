@@ -206,7 +206,7 @@ export const confirmTip = internalMutation({
     // Update tip status
     await ctx.db.patch(args.tipId, {
       status: "CONFIRMED",
-      stellarTxId: args.stellarTxId || `mock_tx_${Date.now()}`,
+      stellarTxId: args.stellarTxId || `pending_${args.tipId}`,
       updatedAt: now,
     });
     
@@ -348,7 +348,12 @@ export const withdrawEarnings = mutation({
     
     const user = await ctx.db.get(userId);
     if (!user) throw new Error("User not found");
-    
+
+    // Validate Stellar address format
+    if (!args.stellarAddress || !/^G[A-Z2-7]{55}$/.test(args.stellarAddress)) {
+      throw new Error("Invalid Stellar address format");
+    }
+
     // Get author earnings
     const earnings = await ctx.db
       .query("authorEarnings")
@@ -430,7 +435,7 @@ export const confirmWithdrawal = internalMutation({
     // Update withdrawal status
     await ctx.db.patch(args.withdrawalId, {
       status: "COMPLETED",
-      stellarTxId: args.stellarTxId || `mock_withdraw_tx_${Date.now()}`,
+      stellarTxId: args.stellarTxId || `pending_${args.withdrawalId}`,
       completedAt: now,
       updatedAt: now,
     });

@@ -7,11 +7,15 @@ import { enrichWithUser } from "./lib/enrich";
 // Helper to generate a unique slug for an article
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function generateArticleSlug(title: string, authorId: string, ctx: any) {
-  const slug = title
+  let slug = title
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "")
     .substring(0, 100);
+
+  if (!slug) {
+    slug = `article-${Date.now()}`;
+  }
 
   const existingSlug = await ctx.db
     .query("articles")
@@ -308,7 +312,14 @@ export const updateArticle = mutation({
     const article = await ctx.db.get(args.id);
     if (!article) throw new Error("Article not found");
     if (article.authorId !== userId) throw new Error("Not authorized");
-    
+
+    // Validate input
+    validateArticleInput({
+      title: args.title ?? article.title,
+      excerpt: args.excerpt,
+      tags: args.tags,
+    });
+
     const updates: {
       updatedAt: number;
       title?: string;
@@ -364,17 +375,22 @@ export const publishArticle = mutation({
 
     const now = Date.now();
 
+    // Only schedule Arweave upload if one isn't already pending or completed
+    const shouldUpload = !article.arweaveStatus || article.arweaveStatus === "failed";
+
     await ctx.db.patch(args.id, {
       published: true,
       publishedAt: now,
-      arweaveStatus: "pending",
+      ...(shouldUpload ? { arweaveStatus: "pending" } : {}),
       updatedAt: now,
     });
 
-    // Schedule Arweave upload (runs in background)
-    await ctx.scheduler.runAfter(0, internal.arweave.uploadArticleToArweave, {
-      articleId: args.id,
-    });
+    if (shouldUpload) {
+      // Schedule Arweave upload (runs in background)
+      await ctx.scheduler.runAfter(0, internal.arweave.uploadArticleToArweave, {
+        articleId: args.id,
+      });
+    }
 
     // Update user's article count
     const user = await ctx.db.get(userId);
@@ -388,41 +404,6 @@ export const publishArticle = mutation({
     return args.id;
   },
 });
-// Unpublish article
-export const unpublishArticle = mutation({
-  args: {
-    id: v.id("articles"),
-  },
-  handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
-    
-    const article = await ctx.db.get(args.id);
-    if (!article) throw new Error("Article not found");
-    if (article.authorId !== userId) throw new Error("Not authorized");
-    if (!article.published) throw new Error("Already unpublished");
-    
-    const now = Date.now();
-    
-    await ctx.db.patch(args.id, {
-      published: false,
-      publishedAt: undefined,
-      updatedAt: now,
-    });
-    
-    // Update user's article count
-    const user = await ctx.db.get(userId);
-    if (user) {
-      await ctx.db.patch(userId, {
-        articleCount: Math.max(0, (user.articleCount || 0) - 1),
-        updatedAt: now,
-      });
-    }
-    
-    return args.id;
-  },
-});
-
 // Delete article
 export const deleteArticle = mutation({
   args: {

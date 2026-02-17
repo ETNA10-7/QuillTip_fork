@@ -22,6 +22,7 @@ import { useState } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
 import { ImageUploadDialog } from './ImageUploadDialog'
 import { YouTubeEmbedDialog } from './YouTubeEmbedDialog'
+import { toast } from 'sonner'
 
 interface EditorToolbarProps {
   editor: Editor | null
@@ -41,6 +42,7 @@ function ToolbarButton({ onClick, isActive = false, disabled = false, children, 
       onClick={onClick}
       disabled={disabled}
       title={title}
+      aria-label={title}
       className={`
         p-2 rounded hover:bg-gray-100 transition-colors
         ${isActive ? 'bg-gray-200 text-blue-600' : 'text-gray-700'}
@@ -91,7 +93,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
       })
     } else {
       console.error('setYoutubeVideo command not available')
-      alert('YouTube extension not properly loaded. Please refresh the page.')
+      toast.error('YouTube extension not properly loaded. Please refresh the page.')
     }
   }
 
