@@ -96,13 +96,13 @@ export default function FeaturesSection() {
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5 }}
           >
-            <Zap className="w-4 h-4 text-neutral-700" />
-            <span className="text-sm font-medium text-neutral-700 tracking-wide">
-              POWERFUL FEATURES
+            <Zap className="w-3.5 h-3.5 text-neutral-400" />
+            <span className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider">
+              Powerful Features
             </span>
           </motion.div>
 
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-tight">
+          <h2 className="font-display text-4xl lg:text-5xl font-medium tracking-[-0.01em] mb-6 leading-[1.2]">
             <span className="text-neutral-900">
               Built for Writers,
             </span>
@@ -111,7 +111,7 @@ export default function FeaturesSection() {
               Designed for Readers
             </span>
           </h2>
-          <p className="text-base text-neutral-700 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[15px] sm:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed">
             Everything you need to create, publish, and monetize your content on a decentralized platform
           </p>
         </motion.div>
@@ -142,10 +142,10 @@ export default function FeaturesSection() {
               </motion.div>
 
               {/* Content */}
-              <h3 className="text-lg font-bold text-neutral-900 mb-3 group-hover:text-neutral-700 transition-colors duration-300">
+              <h3 className="text-[15px] font-semibold text-neutral-900 mb-2 group-hover:text-neutral-700 transition-colors duration-300">
                 {feature.title}
               </h3>
-              <p className="text-neutral-700 text-sm leading-relaxed">
+              <p className="text-neutral-500 text-[13px] leading-relaxed">
                 {feature.description}
               </p>
 

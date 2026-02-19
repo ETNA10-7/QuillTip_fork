@@ -21,7 +21,6 @@ import type * as nfts from "../nfts.js";
 import type * as tips from "../tips.js";
 import type * as uploads from "../uploads.js";
 import type * as users from "../users.js";
-import type * as waitlist from "../waitlist.js";
 
 import type {
   ApiFromModules,
@@ -43,7 +42,6 @@ declare const fullApi: ApiFromModules<{
   tips: typeof tips;
   uploads: typeof uploads;
   users: typeof users;
-  waitlist: typeof waitlist;
 }>;
 
 /**

@@ -130,13 +130,13 @@ export default function HowItWorksSection() {
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5 }}
           >
-            <Sparkles className="w-4 h-4 text-neutral-700" />
-            <span className="text-sm font-medium text-neutral-700 tracking-wide">
-              SIMPLE PROCESS
+            <Sparkles className="w-3.5 h-3.5 text-neutral-400" />
+            <span className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider">
+              Simple Process
             </span>
           </motion.div>
 
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-tight">
+          <h2 className="font-display text-4xl lg:text-5xl font-medium tracking-[-0.01em] mb-6 leading-[1.2]">
             <span className="text-neutral-900">
               Start Earning in
             </span>
@@ -145,7 +145,7 @@ export default function HowItWorksSection() {
               Four Simple Steps
             </span>
           </h2>
-          <p className="text-base text-neutral-700 max-w-2xl mx-auto leading-relaxed mb-8">
+          <p className="text-[15px] sm:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed mb-8">
             Whether you write or read, QuillTip makes it simple
           </p>
 
@@ -153,20 +153,20 @@ export default function HowItWorksSection() {
           <div className="inline-flex items-center bg-neutral-100 rounded-lg p-1">
             <button
               onClick={() => setActiveTab('writers')}
-              className={`px-5 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`px-5 py-2 rounded-md text-[13px] font-medium transition-all duration-200 ${
                 activeTab === 'writers'
                   ? 'bg-white text-neutral-900 shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-900'
+                  : 'text-neutral-500 hover:text-neutral-900'
               }`}
             >
               For Writers
             </button>
             <button
               onClick={() => setActiveTab('readers')}
-              className={`px-5 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+              className={`px-5 py-2 rounded-md text-[13px] font-medium transition-all duration-200 ${
                 activeTab === 'readers'
                   ? 'bg-white text-neutral-900 shadow-sm'
-                  : 'text-neutral-600 hover:text-neutral-900'
+                  : 'text-neutral-500 hover:text-neutral-900'
               }`}
             >
               For Readers
@@ -210,10 +210,10 @@ export default function HowItWorksSection() {
                   </motion.div>
 
                   {/* Content */}
-                  <h3 className="text-lg font-bold text-neutral-900 mb-3">
+                  <h3 className="text-[15px] font-semibold text-neutral-900 mb-2">
                     {step.title}
                   </h3>
-                  <p className="text-neutral-700 text-sm leading-relaxed">
+                  <p className="text-neutral-500 text-[13px] leading-relaxed">
                     {step.description}
                   </p>
 
@@ -253,10 +253,10 @@ export default function HowItWorksSection() {
         >
           <Link
             href="/register"
-            className="group inline-flex items-center justify-center gap-3 bg-neutral-900 text-white px-10 py-5 rounded-xl text-base font-medium tracking-wide hover:bg-neutral-800 hover:shadow-2xl transition-all duration-500 hover:scale-105"
+            className="group inline-flex items-center justify-center gap-2 bg-neutral-900 text-white px-6 py-2.5 rounded-lg text-[13px] font-medium hover:bg-neutral-800 hover:shadow-lg transition-all duration-200"
           >
             Start Writing & Earning Today
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+            <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform duration-200" />
           </Link>
         </motion.div>
       </div>

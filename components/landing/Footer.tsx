@@ -29,9 +29,9 @@ export default function Footer() {
               <div className="w-9 h-9 bg-gradient-to-br from-white to-neutral-400 rounded-lg flex items-center justify-center shadow-lg">
                 <PenTool className="w-5 h-5 text-neutral-900" />
               </div>
-              <h3 className="text-2xl font-semibold">QuillTip</h3>
+              <h3 className="text-2xl font-display font-medium tracking-[-0.01em]">QuillTip</h3>
             </div>
-            <p className="text-neutral-400 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-neutral-400 text-[15px] leading-relaxed max-w-2xl mx-auto">
               Empowering writers with blockchain-powered micro-tipping and content monetization.
             </p>
           </motion.div>
@@ -45,7 +45,7 @@ export default function Footer() {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <div className="flex items-center justify-center gap-2 text-neutral-400 text-sm">
+          <div className="flex items-center justify-center gap-2 text-neutral-400 text-[13px]">
             <span>© {currentYear} QuillTip. Built with</span>
             <Heart className="w-4 h-4 text-red-500 fill-current animate-pulse" />
             <span>for writers everywhere</span>

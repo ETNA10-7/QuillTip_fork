@@ -74,18 +74,18 @@ export default function FAQSection() {
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             transition={{ duration: 0.5 }}
           >
-            <HelpCircle className="w-4 h-4 text-neutral-700" />
-            <span className="text-sm font-medium text-neutral-700 tracking-wide">
-              FREQUENTLY ASKED QUESTIONS
+            <HelpCircle className="w-3.5 h-3.5 text-neutral-400" />
+            <span className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider">
+              Frequently Asked Questions
             </span>
           </motion.div>
 
-          <h2 className="text-4xl lg:text-5xl font-bold tracking-tight mb-6 leading-tight">
+          <h2 className="font-display text-4xl lg:text-5xl font-medium tracking-[-0.01em] mb-6 leading-[1.2]">
             <span className="text-neutral-900">
               FAQs
             </span>
           </h2>
-          <p className="text-base text-neutral-700 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-[15px] sm:text-base text-neutral-400 max-w-2xl mx-auto leading-relaxed">
             Everything you need to know about QuillTip
           </p>
         </motion.div>
@@ -104,7 +104,7 @@ export default function FAQSection() {
                 onClick={() => toggleFAQ(index)}
                 className="w-full px-8 py-6 flex items-center justify-between text-left hover:bg-neutral-50/50 transition-colors duration-200"
               >
-                <h3 className="text-lg font-semibold text-neutral-900 pr-8">
+                <h3 className="text-[15px] font-medium text-neutral-900 pr-8">
                   {faq.question}
                 </h3>
                 <motion.div
@@ -112,7 +112,7 @@ export default function FAQSection() {
                   transition={{ duration: 0.3 }}
                   className="flex-shrink-0"
                 >
-                  <ChevronDown className="w-5 h-5 text-neutral-600" />
+                  <ChevronDown className="w-4 h-4 text-neutral-400" />
                 </motion.div>
               </button>
 
@@ -124,7 +124,7 @@ export default function FAQSection() {
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3 }}
                   >
-                    <div className="px-8 pb-6 text-neutral-700 leading-relaxed">
+                    <div className="px-8 pb-6 text-[14px] text-neutral-500 leading-relaxed">
                       {faq.answer}
                     </div>
                   </motion.div>
