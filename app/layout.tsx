@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Inter, Caveat } from 'next/font/google'
+import { Inter, Caveat, Fraunces } from 'next/font/google'
 import './globals.css'
 import './highlights.css'
 import Providers from '@/components/providers/Providers'
@@ -13,6 +13,11 @@ const inter = Inter({
 const caveat = Caveat({
   subsets: ['latin'],
   variable: '--font-handwritten',
+})
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-display',
 })
 
 export const metadata: Metadata = {
@@ -29,7 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${caveat.variable} font-sans antialiased bg-brand-cream`}
+        className={`${inter.variable} ${caveat.variable} ${fraunces.variable} font-sans antialiased bg-brand-cream`}
       >
         <Providers>{children}</Providers>
         <Analytics />

@@ -5,6 +5,7 @@
 /* Tailwind v4 Theme Configuration */
 @theme {
   --font-sans: Inter, sans-serif;
+  --font-display: 'Fraunces', Georgia, serif;
   --font-handwritten: Caveat, cursive;
 
   --color-brand-blue: #1a365d;
