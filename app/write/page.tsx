@@ -13,6 +13,7 @@ import { ResizableImage } from '@/components/editor/extensions/ResizableImage'
 import { EditorToolbar } from '@/components/editor/EditorToolbar'
 import { useAuth } from '@/components/providers/AuthContext'
 import AppNavigation from '@/components/layout/AppNavigation'
+import { ArrowLeft, Plus, Settings, Search, DollarSign, Globe, LayoutGrid, Sparkles } from 'lucide-react'
 import { useAutoSave } from '@/hooks/useAutoSave'
 import { useQuery, useMutation, useConvex } from 'convex/react'
 import { api } from '@/convex/_generated/api'
@@ -277,7 +278,50 @@ export default function WritePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <AppNavigation />
-      <div className="max-w-5xl mx-auto pt-24 pb-8 px-4">
+      <div className="flex pt-16">
+        {/* Left sidebar - editor tools (design reference) - lean/narrow */}
+        <aside className="w-24 shrink-0 bg-white border-r border-gray-200 shadow-sm min-h-[calc(100vh-4rem)] flex flex-col py-4 px-2">
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="flex items-center justify-center text-gray-700 hover:text-gray-900 mb-4 p-2 rounded-md hover:bg-gray-100"
+            title="Back"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+          <nav className="flex flex-col gap-0.5">
+            {[
+              { icon: Plus, label: 'Add' },
+              { icon: Settings, label: 'Settings' },
+              { icon: Search, label: 'SEO' },
+              { icon: DollarSign, label: 'Monetize' },
+              { icon: Globe, label: 'Translate' },
+              { icon: LayoutGrid, label: 'Apps' },
+              { icon: Sparkles, label: 'AI Tools', highlight: true },
+            ].map(({ icon: Icon, label, highlight }) => (
+              <button
+                key={label}
+                type="button"
+                title={label}
+                className={`flex flex-col items-center gap-1 py-2 px-1 rounded-md transition-colors ${
+                  highlight
+                    ? 'bg-gradient-to-br from-blue-100 to-violet-100 text-blue-700'
+                    : 'hover:bg-gray-100 text-gray-700'
+                }`}
+              >
+                <span
+                  className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 ${
+                    highlight ? 'bg-gradient-to-br from-blue-400 to-violet-400 text-white' : 'bg-gray-100'
+                  }`}
+                >
+                  <Icon className="h-4 w-4" />
+                </span>
+                <span className="text-[10px] font-medium leading-tight text-center">{label}</span>
+              </button>
+            ))}
+          </nav>
+        </aside>
+        <div className="flex-1 max-w-4xl mx-auto pt-8 pb-8 px-6">
         {/* Header with auto-save status */}
         <div className="flex justify-between items-center mb-8">
           <div>
@@ -482,6 +526,7 @@ export default function WritePage() {
             <li>• Your draft will be saved even if you close the browser</li>
             <li>• Use the &quot;Publish&quot; button when you&apos;re ready to make your article public</li>
           </ul>
+        </div>
         </div>
       </div>
     </div>
