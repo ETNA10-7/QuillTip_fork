@@ -11,9 +11,10 @@ import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
 import { common, createLowlight } from 'lowlight'
 import { ResizableImage } from '@/components/editor/extensions/ResizableImage'
 import { EditorToolbar } from '@/components/editor/EditorToolbar'
+import { EditorActionBar } from '@/components/editor/EditorActionBar'
 import { useAuth } from '@/components/providers/AuthContext'
 import AppNavigation from '@/components/layout/AppNavigation'
-import { ArrowLeft, Plus, Settings, Search, DollarSign, Globe, LayoutGrid, Sparkles } from 'lucide-react'
+import { Plus, Settings, Search, DollarSign, Globe, LayoutGrid, Sparkles } from 'lucide-react'
 import { useAutoSave } from '@/hooks/useAutoSave'
 import { useQuery, useMutation, useConvex } from 'convex/react'
 import { api } from '@/convex/_generated/api'
@@ -115,6 +116,13 @@ export default function WritePage() {
       console.error('Auto-save error:', error)
     }
   })
+
+  // Log article ID for development (F12 console)
+  useEffect(() => {
+    if (articleId && process.env.NODE_ENV === 'development') {
+      console.log('[QuillTip] Article ID:', articleId)
+    }
+  }, [articleId])
 
   // Get draft ID from URL params
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
@@ -278,17 +286,27 @@ export default function WritePage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <AppNavigation />
-      <div className="flex pt-16">
-        {/* Left sidebar - editor tools (design reference) - lean/narrow */}
-        <aside className="w-24 shrink-0 bg-white border-r border-gray-200 shadow-sm min-h-[calc(100vh-4rem)] flex flex-col py-4 px-2">
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="flex items-center justify-center text-gray-700 hover:text-gray-900 mb-4 p-2 rounded-md hover:bg-gray-100"
-            title="Back"
-          >
-            <ArrowLeft className="h-4 w-4" />
-          </button>
+      <div className="flex flex-col pt-16">
+        {/* Action bar - full width, Back | Undo | Redo | Save | Preview | Publish */}
+        <EditorActionBar
+          editor={editor}
+          onBack={() => router.back()}
+          onSave={() => {
+            saveNow()
+            setHasUnsavedChanges(false)
+          }}
+          onPreview={() => toast.info('Preview coming soon')}
+          onPublish={handlePublish}
+          isSaving={isSaving}
+          error={error}
+          isPublished={publishStatus.published}
+          isPublishing={isPublishing}
+          hasUnsavedChanges={hasUnsavedChanges}
+          canPublish={!!(title && editorContent)}
+        />
+        <div className="flex flex-1 min-h-0">
+        {/* Left sidebar - starts after action bar */}
+        <aside className="w-24 shrink-0 bg-white border-r border-gray-200 shadow-sm flex flex-col py-4 px-2 self-stretch">
           <nav className="flex flex-col gap-0.5">
             {[
               { icon: Plus, label: 'Add' },
@@ -310,101 +328,51 @@ export default function WritePage() {
                 }`}
               >
                 <span
-                  className={`flex items-center justify-center w-8 h-8 rounded-full shrink-0 ${
+                  className={`flex items-center justify-center w-10 h-10 rounded-full shrink-0 ${
                     highlight ? 'bg-gradient-to-br from-blue-400 to-violet-400 text-white' : 'bg-gray-100'
                   }`}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-5 w-5" />
                 </span>
-                <span className="text-[10px] font-medium leading-tight text-center">{label}</span>
+                <span className="text-xs font-medium leading-tight text-center">{label}</span>
               </button>
             ))}
           </nav>
         </aside>
-        <div className="flex-1 max-w-4xl mx-auto pt-8 pb-8 px-6">
-        {/* Header with auto-save status */}
-        <div className="flex justify-between items-center mb-8">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Write Your Story</h1>
-            {articleId && (
-              <div className="text-sm mt-1">
-                <p className="text-gray-500">
-                  Article ID: {articleId}
-                </p>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-sm font-medium">Status:</span>
-                  {publishStatus.published ? (
-                    <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                      <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                      Published
-                    </span>
-                  ) : (
+        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 max-w-4xl w-full mx-auto pt-6 pb-8 px-6">
+        {/* Page title and status */}
+        <div className="mb-6">
+          <h1 className="text-2xl font-bold text-gray-900">Write Your Story</h1>
+          {articleId && (
+            <div className="text-sm mt-1">
+              <div className="flex items-center gap-2 mt-1">
+                {publishStatus.published ? (
+                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+                    <span className="w-2 h-2 bg-green-400 rounded-full"></span>
+                    Published
+                    {publishStatus.publishedAt && (
+                      <span className="text-green-600">
+                        {publishStatus.publishedAt.toLocaleDateString()}
+                      </span>
+                    )}
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-2">
                     <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
                       <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
                       Draft
                     </span>
-                  )}
-                  {publishStatus.published && publishStatus.publishedAt && (
-                    <span className="text-xs text-gray-500">
-                      • Published {publishStatus.publishedAt.toLocaleDateString()}
-                    </span>
-                  )}
-                </div>
+                    {lastSavedAt && (
+                      <span className="text-xs text-gray-500">
+                        Saved {lastSavedAt.toLocaleTimeString()}
+                      </span>
+                    )}
+                  </span>
+                )}
               </div>
-            )}
-          </div>
-          <div className="flex items-center gap-4">
-            {/* Auto-save status */}
-            <div className="text-sm text-gray-500">
-              {isSaving && (
-                <span className="flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
-                  Saving...
-                </span>
-              )}
-              {!isSaving && lastSavedAt && (
-                <span className="flex items-center gap-2">
-                  <span className="inline-block w-2 h-2 bg-green-400 rounded-full"></span>
-                  Saved {lastSavedAt.toLocaleTimeString()}
-                </span>
-              )}
-              {error && (
-                <span className="flex items-center gap-2 text-red-500">
-                  <span className="inline-block w-2 h-2 bg-red-400 rounded-full"></span>
-                  Save failed
-                </span>
-              )}
             </div>
-            
-            {/* Manual save button */}
-            <button
-              onClick={() => {
-                saveNow()
-                setHasUnsavedChanges(false)
-              }}
-              disabled={isSaving || !hasUnsavedChanges}
-              className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              title="Save now (auto-saves every 30 seconds)"
-            >
-              {isSaving ? 'Saving...' : 'Save Now'}
-            </button>
-            
-            {/* Publish button */}
-            {publishStatus.published ? (
-              <span className="inline-flex items-center gap-1 px-4 py-2 bg-green-100 text-green-800 text-sm font-medium rounded-lg">
-                Published
-              </span>
-            ) : (
-              <button
-                onClick={handlePublish}
-                disabled={isPublishing || !title || !editorContent}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                title="Make this article public (permanent — stored on Arweave)"
-              >
-                {isPublishing ? 'Publishing...' : 'Publish'}
-              </button>
-            )}
-          </div>
+          )}
         </div>
 
         {/* Title Input */}
@@ -528,6 +496,8 @@ export default function WritePage() {
           </ul>
         </div>
         </div>
+        </div>
+      </div>
       </div>
     </div>
   )
