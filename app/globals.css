@@ -113,6 +113,43 @@ mark[data-highlight-id] mark[data-highlight-id] {
   background-color: rgba(99, 178, 255, 0.3);
 }
 
+/* Write page: fill red box left–right; text wraps to new line at right line, never truncated */
+.write-page-editor-wrap .write-page-editor-content {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+.write-page-editor-wrap .write-page-editor-content .ProseMirror {
+  overflow-x: hidden !important;
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  white-space: normal !important;
+}
+.write-page-editor-wrap .write-page-editor-content .ProseMirror p,
+.write-page-editor-wrap .write-page-editor-content .ProseMirror li,
+.write-page-editor-wrap .write-page-editor-content .ProseMirror h1,
+.write-page-editor-wrap .write-page-editor-content .ProseMirror h2,
+.write-page-editor-wrap .write-page-editor-content .ProseMirror h3,
+.write-page-editor-wrap .write-page-editor-content .ProseMirror div[contenteditable] {
+  overflow-wrap: anywhere !important;
+  word-break: break-word !important;
+  white-space: normal !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  max-width: 100% !important;
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
 /* Highlight creation feedback */
 .highlight-creating {
   animation: highlight-fade-in 0.4s ease-out;

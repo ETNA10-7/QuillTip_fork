@@ -137,9 +137,9 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="border-b border-gray-200 bg-white px-3 py-2 flex items-center min-h-[44px] w-full" data-editor-toolbar>
+    <div className="border-b border-gray-200 bg-white w-full min-w-full px-4 sm:px-6 lg:px-8 py-2 flex items-center min-h-[44px]">
       <div className="flex-1 min-w-0 shrink-0" aria-hidden />
-      <div className="flex items-center gap-0.5 flex-wrap justify-center" data-toolbar-icon-group>
+      <div className="flex items-center gap-0.5 flex-wrap justify-center">
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -401,7 +401,7 @@ export function EditorToolbar({
         <Info className="w-4 h-4" />
       </ToolbarButton>
       </div>
-      <div className="flex-1 flex items-center justify-end min-w-0 shrink-0">
+      <div className="flex-1 flex items-center justify-end min-w-0 shrink-0 pl-3">
         <button
           type="button"
           className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"

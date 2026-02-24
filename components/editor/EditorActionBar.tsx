@@ -15,6 +15,7 @@ interface EditorActionBarProps {
   isPublishing: boolean
   hasUnsavedChanges: boolean
   canPublish: boolean
+  lastSavedAt?: Date | null
 }
 
 export function EditorActionBar({
@@ -29,9 +30,13 @@ export function EditorActionBar({
   isPublishing,
   hasUnsavedChanges,
   canPublish,
+  lastSavedAt,
 }: EditorActionBarProps) {
   const canUndo = editor?.can().undo ?? false
   const canRedo = editor?.can().redo ?? false
+  const savedAtText = lastSavedAt
+    ? lastSavedAt.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', second: '2-digit' })
+    : null
 
   return (
     <div className="flex items-center justify-between w-full gap-4 py-3 px-4 bg-white border-b border-gray-200 shadow-sm">
@@ -66,6 +71,16 @@ export function EditorActionBar({
         >
           <Redo2 className="h-4 w-4" />
         </button>
+
+        <div className="w-px h-6 bg-gray-200 mx-1" />
+
+        {/* Draft + Saved at */}
+        <span className="flex items-center gap-2 text-sm text-gray-500">
+          <span className="px-2 py-1 rounded bg-amber-100 text-amber-800 font-medium border border-amber-200">Draft</span>
+          {savedAtText != null && (
+            <span>Saved at {savedAtText}</span>
+          )}
+        </span>
 
         <div className="w-px h-6 bg-gray-200 mx-1" />
 

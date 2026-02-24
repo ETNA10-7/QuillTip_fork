@@ -87,7 +87,8 @@ export default function WritePage() {
     content: '',
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none focus:outline-none min-h-[400px] py-6'
+        // No horizontal padding/margin so text starts at left red line, ends at right; wrap there
+        class: 'prose prose-lg max-w-full w-full focus:outline-none min-h-[400px] py-6 px-0 mx-0 break-words'
       }
     },
     onCreate: ({ editor }) => {
@@ -127,17 +128,37 @@ export default function WritePage() {
     }
   }, [articleId])
 
-  // Sync editor content width to toolbar icon group so text aligns with icons
+  // Constrain content width to toolbar icon group (red box) – measure by DOM position, no toolbar changes
   useEffect(() => {
     const el = editorLayoutRef.current
     if (!el) return
-    const iconGroup = el.querySelector<HTMLElement>('[data-toolbar-icon-group]')
-    if (!iconGroup) return
-    const setWidth = () => setEditorContentWidth(iconGroup.offsetWidth)
-    setWidth()
+    const toolbar = el.firstElementChild
+    if (!toolbar) return
+    const iconGroup = toolbar.children[1]
+    if (!iconGroup || !(iconGroup instanceof HTMLElement)) return
+    const setWidth = () => {
+      const w = iconGroup.offsetWidth
+      if (w > 0) setEditorContentWidth(w)
+    }
+    let cancelled = false
+    const t1 = requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        if (!cancelled) setWidth()
+      })
+    })
+    const t2 = setTimeout(() => { if (!cancelled) setWidth() }, 150)
+    const t3 = setTimeout(() => { if (!cancelled) setWidth() }, 400)
+    const t4 = setTimeout(() => { if (!cancelled) setWidth() }, 800)
     const ro = new ResizeObserver(setWidth)
     ro.observe(iconGroup)
-    return () => ro.disconnect()
+    return () => {
+      cancelled = true
+      cancelAnimationFrame(t1)
+      clearTimeout(t2)
+      clearTimeout(t3)
+      clearTimeout(t4)
+      ro.disconnect()
+    }
   }, [editor])
 
   // Get draft ID from URL params
@@ -319,6 +340,7 @@ export default function WritePage() {
           isPublishing={isPublishing}
           hasUnsavedChanges={hasUnsavedChanges}
           canPublish={!!(title && editorContent)}
+          lastSavedAt={lastSavedAt ?? undefined}
         />
         <div className="flex-1 flex flex-col min-w-0">
         <div className="flex-1 w-full pt-6 pb-8 px-4 sm:px-6 lg:px-8">
@@ -392,8 +414,8 @@ export default function WritePage() {
           )}
         </div>
 
-        {/* Editor with Toolbar - content width matches toolbar icon group (same flex row below) */}
-        <div className="mb-6 flex flex-col w-full" ref={editorLayoutRef}>
+        {/* Editor with Toolbar - full width so content row aligns with icon row; text from icon start to icon end */}
+        <div className="mb-6 flex flex-col w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
           <EditorToolbar
             editor={editor}
             onFocusTitle={() => {
@@ -420,12 +442,15 @@ export default function WritePage() {
           <div className="flex w-full">
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div
-              className="min-w-0 shrink-0 editor-content-width"
-              style={{ width: editorContentWidth ?? undefined }}
+              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0"
+              style={{
+                width: editorContentWidth ?? 720,
+                minHeight: 400,
+              }}
             >
               <EditorContent
                 editor={editor}
-                className="editor-content"
+                className="editor-content write-page-editor-content h-full min-h-[400px] w-full max-w-full p-0 m-0"
               />
             </div>
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
