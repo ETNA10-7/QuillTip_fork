@@ -304,44 +304,9 @@ export default function WritePage() {
           isPublishing={isPublishing}
           hasUnsavedChanges={hasUnsavedChanges}
           canPublish={!!(title && editorContent)}
-          lastSavedAt={lastSavedAt}
         />
         <div className="flex-1 flex flex-col min-w-0">
         <div className="flex-1 w-full pt-6 pb-8 px-4 sm:px-6 lg:px-8">
-        {/* Page title and status - "Write Your Story" then Draft + Saved at below */}
-        <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Write Your Story</h1>
-          <div className="text-sm mt-1">
-            <div className="flex items-center gap-2 mt-1">
-              {publishStatus.published ? (
-                <span className="inline-flex items-center gap-1 px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                  <span className="w-2 h-2 bg-green-400 rounded-full"></span>
-                  Published
-                  {publishStatus.publishedAt && (
-                    <span className="text-green-600">
-                      {publishStatus.publishedAt.toLocaleDateString()}
-                    </span>
-                  )}
-                </span>
-              ) : (
-                <span className="inline-flex items-center gap-2">
-                  <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-                    <span className="w-2 h-2 bg-yellow-400 rounded-full"></span>
-                    Draft
-                  </span>
-                  {lastSavedAt ? (
-                    <span className="text-xs text-gray-500">
-                      Saved {lastSavedAt.toLocaleTimeString()}
-                    </span>
-                  ) : (
-                    <span className="text-xs text-gray-400">Not saved yet</span>
-                  )}
-                </span>
-              )}
-            </div>
-          </div>
-        </div>
-
         {/* Title Input */}
         <div className="mb-6" id="field-article-title">
           <input

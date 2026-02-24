@@ -15,7 +15,6 @@ interface EditorActionBarProps {
   isPublishing: boolean
   hasUnsavedChanges: boolean
   canPublish: boolean
-  lastSavedAt: Date | null
 }
 
 export function EditorActionBar({
@@ -30,7 +29,6 @@ export function EditorActionBar({
   isPublishing,
   hasUnsavedChanges,
   canPublish,
-  lastSavedAt,
 }: EditorActionBarProps) {
   const canUndo = editor?.can().undo ?? false
   const canRedo = editor?.can().redo ?? false
@@ -68,29 +66,6 @@ export function EditorActionBar({
         >
           <Redo2 className="h-4 w-4" />
         </button>
-
-        <div className="w-px h-6 bg-gray-200 mx-1" />
-
-        {/* Draft status + Saved at */}
-        <div className="flex items-center gap-2 px-2">
-          {isPublished ? (
-            <span className="text-xs font-medium text-green-700">Published</span>
-          ) : (
-            <>
-              <span className="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs font-medium rounded-full">
-                <span className="w-1.5 h-1.5 bg-yellow-500 rounded-full shrink-0" />
-                Draft
-              </span>
-              {lastSavedAt ? (
-                <span className="text-xs text-gray-500">
-                  Saved {lastSavedAt.toLocaleTimeString()}
-                </span>
-              ) : (
-                <span className="text-xs text-gray-400">Not saved yet</span>
-              )}
-            </>
-          )}
-        </div>
 
         <div className="w-px h-6 bg-gray-200 mx-1" />
 
