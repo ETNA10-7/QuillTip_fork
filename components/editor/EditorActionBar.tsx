@@ -74,11 +74,16 @@ export function EditorActionBar({
 
         <div className="w-px h-6 bg-gray-200 mx-1" />
 
-        {/* Draft + Saved at */}
-        <span className="flex items-center gap-2 text-sm text-gray-500">
-          <span className="px-2 py-1 rounded bg-amber-100 text-amber-800 font-medium border border-amber-200">Draft</span>
-          {savedAtText != null && (
-            <span>Saved at {savedAtText}</span>
+        {/* Draft pill (light yellow, dot indicator) + Not saved yet / Saved at */}
+        <span className="flex items-center gap-2 text-sm">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-yellow-100 text-amber-800 font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0" aria-hidden />
+            Draft
+          </span>
+          {savedAtText != null ? (
+            <span className="text-gray-500">Saved at {savedAtText}</span>
+          ) : (
+            <span className="text-gray-400">Not saved yet</span>
           )}
         </span>
 
