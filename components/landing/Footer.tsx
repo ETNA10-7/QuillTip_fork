@@ -1,10 +1,8 @@
 'use client';
 
-import {
-  Heart,
-  PenTool
-} from 'lucide-react';
+import { Heart } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { Logo } from '@/components/ui/Logo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -25,11 +23,8 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 mb-4 justify-center">
-              <div className="w-9 h-9 bg-gradient-to-br from-white to-neutral-400 rounded-lg flex items-center justify-center shadow-lg">
-                <PenTool className="w-5 h-5 text-neutral-900" />
-              </div>
-              <h3 className="text-2xl font-display font-medium tracking-[-0.01em]">QuillTip</h3>
+            <div className="flex justify-center mb-4">
+              <Logo href="/" variant="light" iconSize="md" />
             </div>
             <p className="text-neutral-400 text-[15px] leading-relaxed max-w-2xl mx-auto">
               Empowering writers with blockchain-powered micro-tipping and content monetization.

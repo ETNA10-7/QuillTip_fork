@@ -159,18 +159,7 @@ export default function Navigation() {
       <div className="container mx-auto max-w-7xl px-6">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <motion.div
-              className="w-9 h-9 bg-gradient-to-br from-neutral-900 to-neutral-700 rounded-xl flex items-center justify-center shadow-sm"
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
-            >
-              <PenTool className="w-[18px] h-[18px] text-white" />
-            </motion.div>
-            <span className="text-[22px] font-semibold text-neutral-900 tracking-tight">
-              QuillTip
-            </span>
-          </Link>
+          <Logo href="/" variant="dark" iconSize="md" />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1" ref={navRef}>
