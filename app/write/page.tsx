@@ -85,7 +85,7 @@ export default function WritePage() {
     content: '',
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none focus:outline-none min-h-[400px] px-8 py-4'
+        class: 'prose prose-lg max-w-none focus:outline-none min-h-[400px] py-6'
       }
     },
     onCreate: ({ editor }) => {
@@ -377,8 +377,8 @@ export default function WritePage() {
           )}
         </div>
 
-        {/* Editor with Toolbar */}
-        <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+        {/* Editor with Toolbar - no box, endless feel */}
+        <div className="mb-6">
           <EditorToolbar
             editor={editor}
             onFocusTitle={() => {
