@@ -27,7 +27,7 @@
 
 ## 🚀 Overview
 
-QuillTip is a decentralized publishing platform where writers can earn money through reader tips. Built with Next.js 15, Convex backend, Stellar blockchain for payments, and Arweave for permanent content storage. QuillTip enables writers to earn direct income from readers while providing an interactive, engaging reading experience with content that lasts forever.
+QuillTip is a decentralized publishing platform where writers can earn money through reader tips. Built with Next.js 16, Convex backend, Stellar blockchain for payments, and Arweave for permanent content storage. QuillTip enables writers to earn direct income from readers while providing an interactive, engaging reading experience with content that lasts forever.
 
 ## 🎯 Key Features
 
@@ -36,13 +36,13 @@ QuillTip is a decentralized publishing platform where writers can earn money thr
 - **Free Access**: No subscription required to read or write
 - **Real-time Features**: Live tips and text highlights
 - **NFT Support**: Articles can be minted as NFTs
-- **Instant Payouts**: No minimum withdrawal amounts
+- **Microtipping**: Tip highlights for as low as $0.01
 
 ## 🏗️ Technical Stack
 
 ### Frontend
 
-- **Next.js 15.4.5**: React framework with App Router
+- **Next.js 16**: React framework with App Router
 - **TypeScript 5**: Type safety
 - **Tailwind CSS 4**: Styling
 - **Radix UI**: UI components
@@ -52,7 +52,7 @@ QuillTip is a decentralized publishing platform where writers can earn money thr
 
 ### Backend
 
-- **Convex 1.26**: Real-time backend
+- **Convex 1.31**: Real-time backend
   - Type-safe APIs
   - Real-time subscriptions
   - Authentication (@convex-dev/auth)
@@ -63,9 +63,9 @@ QuillTip is a decentralized publishing platform where writers can earn money thr
 
 - **Stellar Network**: Payment processing
 - **Soroban Smart Contracts**: Rust contracts for:
-  - Tip distribution and fees (unified tipping contract)
+  - Unified article + highlight tipping with fee distribution
   - NFT minting with Arweave metadata
-  - Peer-to-peer transfers
+  - NFT ownership transfers
 - **Arweave Network**: Permanent content storage via Turbo SDK
   - FREE uploads for articles under 100 KiB
   - Immutable, censorship-resistant storage
@@ -151,7 +151,8 @@ QuillTip/
 
 - **Microtipping**
   - Support authors with $0.01 - $100
-  - Preset amounts ($1, $5, $10)
+  - Article tip presets ($1, $5, $10)
+  - Highlight tip presets (10¢, 50¢, $1)
   - Instant Stellar transactions
   - Transaction history
 
@@ -182,8 +183,8 @@ QuillTip/
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/yourusername/quilltip.git
-cd quilltip
+git clone https://github.com/pragya-shar/QuillTip.git
+cd QuillTip
 ```
 
 1. **Install dependencies**
@@ -292,7 +293,7 @@ npx convex logs          # View function logs
 
 ## 🔐 Security Features
 
-- **Authentication**: Secure password hashing with Argon2
+- **Authentication**: Secure password hashing with Scrypt (via Convex Auth)
 - **Authorization**: Role-based access control
 - **Data Validation**: Zod schemas for all inputs
 - **XSS Protection**: Content sanitization
@@ -326,14 +327,14 @@ Powered by Convex subscriptions:
 
 - **Immediate Settlement**: Direct XLM transfers
 - **Fee Distribution**: 97.5% author, 2.5% platform
-- **Minimum Tip**: 0.01 XLM (~$0.001)
-- **Event Logging**: On-chain transaction history
+- **Minimum Tip**: $0.01 USD
+- **Transaction Records**: On-chain tip storage and Arweave-linked events
 
 ### NFT Contract
 
 - **Threshold Minting**: Requires minimum tip amount
 - **Unique Tokens**: One NFT per article
-- **Transfer Support**: Full ERC-721 compatibility
+- **Transfer Support**: Transferable ownership on Soroban
 - **Arweave Metadata**: Permanent on-chain article reference
 
 ## 🗄️ Arweave Integration
@@ -363,7 +364,6 @@ QuillTip uses [Arweave](https://arweave.org) via the [Turbo SDK](https://docs.ar
 ### View on Blockchain
 
 - **Arweave Gateway**: `https://arweave.net/{txId}`
-- **ViewBlock Explorer**: `https://viewblock.io/arweave/tx/{txId}`
 
 ### Article Status Flow
 
@@ -392,12 +392,6 @@ pending → uploaded → verified
 ```bash
 # Unit Tests
 npm test
-
-# Integration Tests
-npm run test:integration
-
-# E2E Tests
-npm run test:e2e
 
 # Coverage Report
 npm run test:coverage
@@ -430,19 +424,7 @@ npm run test:coverage
 
 ## 🤝 Contributing
 
-We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
-
-### Development Workflow
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see [LICENSE](LICENSE) for details.
+Contributions are welcome! Fork the repo, create a feature branch, and open a pull request.
 
 ## 🙏 Acknowledgments
 
@@ -454,10 +436,9 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) for deta
 
 ## 📞 Support
 
-- **Documentation**: [docs.quilltip.io](https://docs.quilltip.io)
-- **Discord**: [discord.gg/quilltip](https://discord.gg/quilltip)
-- **Email**: <support@quilltip.io>
-- **Twitter**: [@quilltip](https://twitter.com/quilltip)
+- **Twitter/X**: [@QuillTip_me](https://x.com/QuillTip_me)
+- **Issues**: [github.com/pragya-shar/QuillTip/issues](https://github.com/pragya-shar/QuillTip/issues)
+- **Repository**: [github.com/pragya-shar/QuillTip](https://github.com/pragya-shar/QuillTip)
 
 ## 🚦 Status
 
