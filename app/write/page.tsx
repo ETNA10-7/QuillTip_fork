@@ -8,6 +8,7 @@ import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
 import Placeholder from '@tiptap/extension-placeholder'
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight'
+import TextAlign from '@tiptap/extension-text-align'
 import { common, createLowlight } from 'lowlight'
 import { ResizableImage } from '@/components/editor/extensions/ResizableImage'
 import { EditorToolbar } from '@/components/editor/EditorToolbar'
@@ -78,7 +79,8 @@ export default function WritePage() {
         HTMLAttributes: {
           class: 'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto'
         }
-      })
+      }),
+      TextAlign.configure({ types: ['heading', 'paragraph'] })
     ],
     content: '',
     editorProps: {
