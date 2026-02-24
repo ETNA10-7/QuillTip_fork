@@ -440,17 +440,6 @@ export default function WritePage() {
             className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-blue-500 outline-none placeholder-gray-400"
           />
         </div>
-
-        {/* Help text */}
-        <div className="text-sm text-gray-500 bg-blue-50 p-4 rounded-lg">
-          <p className="font-semibold mb-2">ℹ️ Auto-save is enabled</p>
-          <ul className="space-y-1">
-            <li>• Your work is automatically saved every 30 seconds</li>
-            <li>• The green indicator shows when your work was last saved</li>
-            <li>• Your draft will be saved even if you close the browser</li>
-            <li>• Use the &quot;Publish&quot; button when you&apos;re ready to make your article public</li>
-          </ul>
-        </div>
         </div>
       </div>
       </div>

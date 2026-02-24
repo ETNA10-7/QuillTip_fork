@@ -137,7 +137,9 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="border-b border-gray-200 bg-white px-3 py-2 flex items-center gap-0.5 flex-wrap min-h-[44px]">
+    <div className="border-b border-gray-200 bg-white px-3 py-2 flex items-center min-h-[44px] w-full">
+      <div className="flex-1 min-w-0 shrink-0" aria-hidden />
+      <div className="flex items-center gap-0.5 flex-wrap justify-center">
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -398,20 +400,18 @@ export function EditorToolbar({
       <ToolbarButton onClick={() => toast.info('Help')} title="Info">
         <Info className="w-4 h-4" />
       </ToolbarButton>
-
-      {/* Spacer */}
-      <div className="flex-1 min-w-4" />
-
-      {/* Notes - right side */}
-      <button
-        type="button"
-        className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"
-        title="Notes"
-        onClick={() => toast.info('Notes coming soon')}
-      >
-        <FileText className="w-4 h-4" />
-        Notes
-      </button>
+      </div>
+      <div className="flex-1 flex items-center justify-end min-w-0 shrink-0">
+        <button
+          type="button"
+          className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"
+          title="Notes"
+          onClick={() => toast.info('Notes coming soon')}
+        >
+          <FileText className="w-4 h-4" />
+          Notes
+        </button>
+      </div>
 
       <ImageUploadDialog
         isOpen={showImageDialog}
