@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -40,7 +40,9 @@ export default function WritePage() {
     published: false,
     publishedAt: null
   })
-  
+  const [editorContentWidth, setEditorContentWidth] = useState<number | null>(null)
+  const editorLayoutRef = useRef<HTMLDivElement>(null)
+
   const router = useRouter()
   const { isAuthenticated, isLoading } = useAuth()
   const convex = useConvex()
@@ -124,6 +126,19 @@ export default function WritePage() {
       console.log('[QuillTip] Article ID:', articleId)
     }
   }, [articleId])
+
+  // Sync editor content width to toolbar icon group so text aligns with icons
+  useEffect(() => {
+    const el = editorLayoutRef.current
+    if (!el) return
+    const iconGroup = el.querySelector<HTMLElement>('[data-toolbar-icon-group]')
+    if (!iconGroup) return
+    const setWidth = () => setEditorContentWidth(iconGroup.offsetWidth)
+    setWidth()
+    const ro = new ResizeObserver(setWidth)
+    ro.observe(iconGroup)
+    return () => ro.disconnect()
+  }, [editor])
 
   // Get draft ID from URL params
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
@@ -377,8 +392,8 @@ export default function WritePage() {
           )}
         </div>
 
-        {/* Editor with Toolbar - no box, endless feel */}
-        <div className="mb-6">
+        {/* Editor with Toolbar - content width matches toolbar icon group (same flex row below) */}
+        <div className="mb-6 flex flex-col w-full" ref={editorLayoutRef}>
           <EditorToolbar
             editor={editor}
             onFocusTitle={() => {
@@ -402,10 +417,19 @@ export default function WritePage() {
               el?.focus()
             }}
           />
-          <EditorContent 
-            editor={editor} 
-            className="editor-content"
-          />
+          <div className="flex w-full">
+            <div className="flex-1 min-w-0 shrink-0" aria-hidden />
+            <div
+              className="min-w-0 shrink-0 editor-content-width"
+              style={{ width: editorContentWidth ?? undefined }}
+            >
+              <EditorContent
+                editor={editor}
+                className="editor-content"
+              />
+            </div>
+            <div className="flex-1 min-w-0 shrink-0" aria-hidden />
+          </div>
         </div>
 
         {/* Excerpt */}
