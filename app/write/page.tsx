@@ -342,8 +342,9 @@ export default function WritePage() {
         </div>
 
         {/* Title Input */}
-        <div className="mb-6">
+        <div className="mb-6" id="field-article-title">
           <input
+            id="article-title"
             type="text"
             placeholder="Article Title"
             value={title}
@@ -356,9 +357,10 @@ export default function WritePage() {
         </div>
 
         {/* Cover Image URL */}
-        <div className="mb-6">
+        <div className="mb-6" id="field-cover-image">
           <div className="relative">
             <input
+              id="cover-image-url"
               type="url"
               placeholder="Cover Image URL (optional - will be uploaded to storage)"
               value={coverImageInput}
@@ -411,7 +413,29 @@ export default function WritePage() {
 
         {/* Editor with Toolbar */}
         <div className="mb-6 bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-          <EditorToolbar editor={editor} />
+          <EditorToolbar
+            editor={editor}
+            onFocusTitle={() => {
+              const el = document.getElementById('article-title') as HTMLInputElement | null
+              document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              el?.focus()
+            }}
+            onFocusCoverImage={() => {
+              const el = document.getElementById('cover-image-url') as HTMLInputElement | null
+              document.getElementById('field-cover-image')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              el?.focus()
+            }}
+            onFocusExcerpt={() => {
+              const el = document.getElementById('article-excerpt') as HTMLTextAreaElement | null
+              document.getElementById('field-excerpt')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              el?.focus()
+            }}
+            onFocusTags={() => {
+              const el = document.getElementById('article-tags') as HTMLInputElement | null
+              document.getElementById('field-tags')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+              el?.focus()
+            }}
+          />
           <EditorContent 
             editor={editor} 
             className="editor-content"
@@ -419,7 +443,7 @@ export default function WritePage() {
         </div>
 
         {/* Excerpt */}
-        <div className="mb-6">
+        <div className="mb-6" id="field-excerpt">
           <label htmlFor="article-excerpt" className="block text-sm font-medium text-gray-700 mb-2">
             Article Excerpt
           </label>
@@ -437,7 +461,7 @@ export default function WritePage() {
         </div>
 
         {/* Tags */}
-        <div className="mb-6">
+        <div className="mb-6" id="field-tags">
           <label htmlFor="article-tags" className="block text-sm font-medium text-gray-700 mb-2">
             Tags
           </label>

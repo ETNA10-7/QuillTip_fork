@@ -24,6 +24,7 @@ import {
   Palette,
   FileText,
   Info,
+  Tag,
 } from 'lucide-react'
 import { useState } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
@@ -32,6 +33,11 @@ import { toast } from 'sonner'
 
 interface EditorToolbarProps {
   editor: Editor | null
+  /** When Add icon is used to jump to a field */
+  onFocusTitle?: () => void
+  onFocusCoverImage?: () => void
+  onFocusExcerpt?: () => void
+  onFocusTags?: () => void
 }
 
 interface ToolbarButtonProps {
@@ -73,7 +79,13 @@ function ToolbarDivider() {
   return <div className="w-px h-5 bg-gray-200 mx-0.5 shrink-0" aria-hidden />
 }
 
-export function EditorToolbar({ editor }: EditorToolbarProps) {
+export function EditorToolbar({
+  editor,
+  onFocusTitle,
+  onFocusCoverImage,
+  onFocusExcerpt,
+  onFocusTags,
+}: EditorToolbarProps) {
   const [linkUrl, setLinkUrl] = useState('')
   const [showLinkInput, setShowLinkInput] = useState(false)
   const [showImageDialog, setShowImageDialog] = useState(false)
@@ -126,13 +138,6 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
 
   return (
     <div className="border-b border-gray-200 bg-white px-3 py-2 flex items-center gap-0.5 flex-wrap min-h-[44px]">
-      {/* Add */}
-      <ToolbarButton onClick={() => toast.info('Add block or content')} title="Add">
-        <Plus className="w-4 h-4" />
-      </ToolbarButton>
-
-      <ToolbarDivider />
-
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -295,6 +300,56 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
       </ToolbarButton>
 
       <ToolbarDivider />
+
+      {/* Add - dropdown: Article Title, Cover Image URL, Excerpt, Tags */}
+      <DropdownMenu.Root>
+        <DropdownMenu.Trigger asChild>
+          <button
+            type="button"
+            className="p-2 rounded hover:bg-gray-100 text-gray-700 transition-colors cursor-pointer"
+            title="Add"
+            aria-label="Add"
+          >
+            <Plus className="w-4 h-4" />
+          </button>
+        </DropdownMenu.Trigger>
+        <DropdownMenu.Portal>
+          <DropdownMenu.Content
+            className="bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50 min-w-[200px]"
+            sideOffset={4}
+            align="start"
+          >
+            <DropdownMenu.Item
+              onSelect={() => onFocusTitle?.()}
+              className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
+            >
+              <Type className="w-4 h-4 shrink-0" />
+              Article Title
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              onSelect={() => onFocusCoverImage?.()}
+              className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
+            >
+              <Image className="w-4 h-4 shrink-0" />
+              Cover Image URL
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              onSelect={() => onFocusExcerpt?.()}
+              className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
+            >
+              <FileText className="w-4 h-4 shrink-0" />
+              Article Excerpt
+            </DropdownMenu.Item>
+            <DropdownMenu.Item
+              onSelect={() => onFocusTags?.()}
+              className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
+            >
+              <Tag className="w-4 h-4 shrink-0" />
+              Tags
+            </DropdownMenu.Item>
+          </DropdownMenu.Content>
+        </DropdownMenu.Portal>
+      </DropdownMenu.Root>
 
       {/* Link */}
       <div className="relative">
