@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { Logo } from '@/components/ui/Logo'
 
 /**
  * Auth Layout
@@ -20,7 +19,13 @@ export default function AuthLayout({
       {/* Navigation Header */}
       <header className="absolute top-0 left-0 right-0 z-10">
         <nav className="container mx-auto px-6 py-6">
-          <Logo href="/" variant="dark" iconSize="md" />
+          <Link 
+            href="/"
+            className="inline-flex items-center text-2xl font-bold text-brand-blue hover:text-brand-accent transition-colors"
+          >
+            <span className="font-handwritten text-3xl mr-2">Q</span>
+            QuillTip
+          </Link>
         </nav>
       </header>
 
@@ -30,7 +35,7 @@ export default function AuthLayout({
           {/* Logo and Welcome Message */}
           <div className="text-center mb-8">
             <div className="inline-flex items-center justify-center mb-4">
-              <Logo href="/" variant="dark" iconSize="lg" />
+              <span className="text-5xl font-handwritten text-brand-blue">Q</span>
             </div>
             <h1 className="text-3xl font-bold text-quill-900">
               Welcome to QuillTip

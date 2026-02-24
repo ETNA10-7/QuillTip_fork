@@ -1,9 +1,9 @@
 'use client'
 
+import Link from 'next/link'
 import { useAuth } from '@/components/providers/AuthContext'
 import { PenSquare, Home, User, LogOut, FileText, BookOpen, HelpCircle } from 'lucide-react'
 import { usePathname } from 'next/navigation'
-import { Logo } from '@/components/ui/Logo'
 
 export default function AppNavigation() {
   const { user, isAuthenticated, signOut } = useAuth()
@@ -15,7 +15,9 @@ export default function AppNavigation() {
     <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-md z-50 border-b border-gray-200">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Logo href="/" variant="dark" iconSize="md" className="flex items-center" />
+          <Link href="/" className="flex items-center space-x-2">
+            <span className="text-3xl font-handwritten text-slate-900">QuillTip</span>
+          </Link>
           
           <div className="flex items-center space-x-6">
             {/* Common links for all users */}
