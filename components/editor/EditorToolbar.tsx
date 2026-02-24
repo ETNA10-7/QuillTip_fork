@@ -14,6 +14,7 @@ import {
   Image,
   Type,
   ChevronDown,
+  Plus,
   Sparkles,
   AlignLeft,
   AlignCenter,
@@ -125,6 +126,13 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
 
   return (
     <div className="border-b border-gray-200 bg-white px-3 py-2 flex items-center gap-0.5 flex-wrap min-h-[44px]">
+      {/* Add */}
+      <ToolbarButton onClick={() => toast.info('Add block or content')} title="Add">
+        <Plus className="w-4 h-4" />
+      </ToolbarButton>
+
+      <ToolbarDivider />
+
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
