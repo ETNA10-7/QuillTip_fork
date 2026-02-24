@@ -304,6 +304,7 @@ export default function WritePage() {
           isPublishing={isPublishing}
           hasUnsavedChanges={hasUnsavedChanges}
           canPublish={!!(title && editorContent)}
+          lastSavedAt={lastSavedAt}
         />
         <div className="flex-1 flex flex-col min-w-0">
         <div className="flex-1 w-full pt-6 pb-8 px-4 sm:px-6 lg:px-8">
