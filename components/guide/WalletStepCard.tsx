@@ -2,13 +2,13 @@
 
 import { motion } from 'framer-motion'
 import { LucideIcon } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
 
 interface WalletStepCardProps {
   step: number
   icon: LucideIcon
   title: string
   description: string
+  isLast?: boolean
   children?: React.ReactNode
 }
 
@@ -17,6 +17,7 @@ export function WalletStepCard({
   icon: Icon,
   title,
   description,
+  isLast = false,
   children,
 }: WalletStepCardProps) {
   return (
@@ -24,26 +25,25 @@ export function WalletStepCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: step * 0.1 }}
+      className="relative flex gap-6"
     >
-      <Card className="relative overflow-hidden hover:shadow-lg transition-shadow duration-300">
-        <div className="absolute -top-3 -left-3 w-12 h-12 bg-gradient-to-br from-neutral-900 to-neutral-700 rounded-xl flex items-center justify-center shadow-md">
-          <span className="text-lg font-light text-white">
-            {String(step).padStart(2, '0')}
-          </span>
+      {/* Timeline track */}
+      <div className="flex flex-col items-center pt-1.5">
+        <div className="w-2.5 h-2.5 rounded-full bg-neutral-800 shrink-0 ring-4 ring-neutral-100" />
+        {!isLast && (
+          <div className="w-px flex-1 bg-neutral-200 mt-1" />
+        )}
+      </div>
+
+      {/* Content */}
+      <div className={`flex-1 min-w-0 ${!isLast ? 'pb-8' : 'pb-2'}`}>
+        <div className="flex items-start gap-3 mb-1.5">
+          <Icon className="w-5 h-5 text-neutral-400 shrink-0 mt-0.5" />
+          <h3 className="text-lg font-semibold text-neutral-900 leading-snug">{title}</h3>
         </div>
-        <CardContent className="pt-8 pb-6 px-6">
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-neutral-100 rounded-xl flex items-center justify-center shrink-0">
-              <Icon className="w-6 h-6 text-neutral-700" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="text-lg font-semibold text-neutral-900 mb-1">{title}</h3>
-              <p className="text-sm text-neutral-600 leading-relaxed">{description}</p>
-            </div>
-          </div>
-          {children && <div className="mt-4">{children}</div>}
-        </CardContent>
-      </Card>
+        <p className="text-sm text-neutral-500 leading-relaxed pl-8">{description}</p>
+        {children && <div className="mt-3 pl-8">{children}</div>}
+      </div>
     </motion.div>
   )
 }

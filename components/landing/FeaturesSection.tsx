@@ -49,8 +49,8 @@ const features: Feature[] = [
   },
   {
     icon: Zap,
-    title: "No Minimums",
-    description: "Withdraw any amount instantly. No thresholds.",
+    title: "Instant Withdrawals",
+    description: "Withdraw your earnings instantly. No thresholds.",
   },
   {
     icon: Globe,

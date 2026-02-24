@@ -55,7 +55,7 @@ export default function HowItWorksSection() {
       icon: Coins,
       title: "Earn",
       description: "Receive instant tips from readers who value your work",
-      detail: "Tips settle in 3 seconds via Stellar. You keep 97.5% of every tip — no minimums, no waiting periods.",
+      detail: "Tips settle in 3 seconds via Stellar. You keep 97.5% of every tip — no waiting periods.",
     }
   ];
 

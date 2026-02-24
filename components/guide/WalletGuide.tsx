@@ -46,8 +46,8 @@ export function WalletGuide() {
         </TabsList>
 
         {/* Tab 1: What is a Wallet? */}
-        <TabsContent value="what-is-wallet" className="space-y-4">
-          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
+        <TabsContent value="what-is-wallet">
+          <div className="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-8">
             <h2 className="text-lg font-semibold text-blue-900 mb-2">
               No crypto experience? No problem.
             </h2>
@@ -75,12 +75,13 @@ export function WalletGuide() {
             icon={Coins}
             title="XLM is the currency"
             description="Stellar Lumens (XLM) is the currency used on QuillTip. Tips start at just $0.01 (about 0.026 XLM). On testnet, you get free XLM to practice with — no real money needed."
+            isLast
           />
         </TabsContent>
 
         {/* Tab 2: Set Up Freighter */}
-        <TabsContent value="setup" className="space-y-4">
-          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-6">
+        <TabsContent value="setup">
+          <div className="bg-amber-50 border border-amber-200 rounded-xl p-6 mb-8">
             <h2 className="text-lg font-semibold text-amber-900 mb-2">
               Freighter is the easiest Stellar wallet
             </h2>
@@ -119,6 +120,7 @@ export function WalletGuide() {
             icon={Droplets}
             title="Get free testnet XLM"
             description="Switch Freighter to 'Testnet' in its settings, then use the Stellar friendbot to get free test XLM. This lets you practice tipping without spending real money."
+            isLast
           >
             <a
               href="https://laboratory.stellar.org/#account-creator?network=test"
@@ -133,8 +135,8 @@ export function WalletGuide() {
         </TabsContent>
 
         {/* Tab 3: Connect to QuillTip */}
-        <TabsContent value="connect" className="space-y-4">
-          <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
+        <TabsContent value="connect">
+          <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
             <h2 className="text-lg font-semibold text-green-900 mb-2">
               Connect your wallet to QuillTip
             </h2>
@@ -160,6 +162,7 @@ export function WalletGuide() {
             icon={Wallet}
             title="Save your wallet on your profile"
             description="After connecting, visit your profile to save your wallet address for receiving tips. This is your 'receiving wallet' — when readers tip your articles, payments arrive here."
+            isLast
           >
             <Link
               href="/profile"
@@ -171,8 +174,8 @@ export function WalletGuide() {
         </TabsContent>
 
         {/* Tab 4: Your First Tip */}
-        <TabsContent value="first-tip" className="space-y-4">
-          <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 mb-6">
+        <TabsContent value="first-tip">
+          <div className="bg-purple-50 border border-purple-200 rounded-xl p-6 mb-8">
             <h2 className="text-lg font-semibold text-purple-900 mb-2">
               Tipping on QuillTip is simple
             </h2>
@@ -208,6 +211,7 @@ export function WalletGuide() {
             icon={Coins}
             title="Send a tip"
             description='Click "Tip Author" on any article or "Tip Highlight" on a passage you loved. Pick an amount (starting at $0.01), confirm in your wallet, and the writer receives it in 3 seconds.'
+            isLast
           />
         </TabsContent>
       </Tabs>
