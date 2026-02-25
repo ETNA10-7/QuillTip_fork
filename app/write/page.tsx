@@ -36,6 +36,7 @@ export default function WritePage() {
     publishedAt: null
   })
   const [editorContentWidth, setEditorContentWidth] = useState<number | null>(null)
+  const [notesSectionWidth, setNotesSectionWidth] = useState<number>(0)
   const editorLayoutRef = useRef<HTMLDivElement>(null)
 
   const router = useRouter()
@@ -131,10 +132,14 @@ export default function WritePage() {
     const toolbar = toolbarWrapper.children[0]
     if (!toolbar) return
     const iconGroup = toolbar.children[1]
+    const notesSection = toolbar.children[2]
     if (!iconGroup || !(iconGroup instanceof HTMLElement)) return
     const setWidth = () => {
       const w = iconGroup.offsetWidth
       if (w > 0) setEditorContentWidth(w)
+      if (notesSection instanceof HTMLElement && notesSection.offsetWidth > 0) {
+        setNotesSectionWidth(notesSection.offsetWidth)
+      }
     }
     let cancelled = false
     const t1 = requestAnimationFrame(() => {
@@ -147,6 +152,7 @@ export default function WritePage() {
     const t4 = setTimeout(() => { if (!cancelled) setWidth() }, 800)
     const ro = new ResizeObserver(setWidth)
     ro.observe(iconGroup)
+    if (notesSection instanceof HTMLElement) ro.observe(notesSection)
     return () => {
       cancelled = true
       cancelAnimationFrame(t1)
@@ -299,7 +305,7 @@ export default function WritePage() {
               aria-hidden
             />
           </div>
-          <div className="flex w-full">
+          <div className="flex w-full pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8">
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div
               className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0"
@@ -314,6 +320,7 @@ export default function WritePage() {
               />
             </div>
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
+            <div style={{ width: notesSectionWidth, minWidth: notesSectionWidth }} aria-hidden />
           </div>
         </div>
         </div>

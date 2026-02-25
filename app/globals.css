@@ -126,23 +126,11 @@ mark[data-highlight-id] mark[data-highlight-id] {
   min-width: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
-  padding-left: 1rem !important;
-  padding-right: 1rem !important;
+  padding-left: 1ch !important;
+  padding-right: 0 !important;
   margin-left: 0 !important;
   margin-right: 0 !important;
   white-space: normal !important;
-}
-@media (min-width: 640px) {
-  .write-page-editor-wrap .write-page-editor-content .ProseMirror {
-    padding-left: 1.5rem !important;
-    padding-right: 1.5rem !important;
-  }
-}
-@media (min-width: 1024px) {
-  .write-page-editor-wrap .write-page-editor-content .ProseMirror {
-    padding-left: 2rem !important;
-    padding-right: 2rem !important;
-  }
 }
 .write-page-editor-wrap .write-page-editor-content .ProseMirror p,
 .write-page-editor-wrap .write-page-editor-content .ProseMirror li,
