@@ -269,7 +269,7 @@ export default function WritePage() {
           lastSavedAt={lastSavedAt ?? undefined}
         />
         <div className="flex-1 flex flex-col min-w-0">
-        <div className="flex-1 w-full pt-6 pb-8 px-4 sm:px-6 lg:px-8">
+        <div className="flex-1 w-full pb-8 px-4 sm:px-6 lg:px-8">
         {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
         <div className="mb-6 flex flex-col w-full max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
           <div className="relative w-screen">
@@ -312,39 +312,6 @@ export default function WritePage() {
             </div>
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
           </div>
-        </div>
-
-        {/* Excerpt */}
-        <div className="mb-6" id="field-excerpt">
-          <label htmlFor="article-excerpt" className="block text-sm font-medium text-gray-700 mb-2">
-            Article Excerpt
-          </label>
-          <textarea
-            id="article-excerpt"
-            placeholder="Brief description of your article (optional)"
-            value={excerpt}
-            onChange={(e) => {
-              setExcerpt(e.target.value)
-              setHasUnsavedChanges(true)
-            }}
-            rows={3}
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-blue-500 outline-none resize-none placeholder-gray-400"
-          />
-        </div>
-
-        {/* Tags */}
-        <div className="mb-6" id="field-tags">
-          <label htmlFor="article-tags" className="block text-sm font-medium text-gray-700 mb-2">
-            Tags
-          </label>
-          <input
-            id="article-tags"
-            type="text"
-            placeholder="Add tags separated by commas (e.g., technology, programming, web)"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-            className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:border-blue-500 outline-none placeholder-gray-400"
-          />
         </div>
         </div>
       </div>
