@@ -279,7 +279,7 @@ export default function WritePage() {
         <div className="flex-1 flex flex-col min-w-0">
         <div className="flex-1 w-full pb-8 px-4 sm:px-6 lg:px-8">
         {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
-        <div className="mb-6 flex flex-col w-full max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
+        <div className="mb-6 flex flex-col w-screen max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
           <div className="relative w-screen">
             <EditorToolbar
             editor={editor}
@@ -306,9 +306,11 @@ export default function WritePage() {
             />
           </div>
           <div className="flex w-full pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8">
+            <div style={{ width: notesSectionWidth, minWidth: notesSectionWidth }} aria-hidden />
             <div
-              className="min-w-0 flex-1 overflow-x-hidden box-border overflow-hidden m-0"
+              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden m-0"
               style={{
+                width: editorContentWidth ?? 720,
                 minHeight: 400,
               }}
             >
