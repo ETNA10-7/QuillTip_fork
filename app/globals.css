@@ -114,6 +114,9 @@ mark[data-highlight-id] mark[data-highlight-id] {
 }
 
 /* Write page: content between red lines – text starts at left, wraps at right, no overflow */
+.write-page-editor-wrap .write-page-editor-content .prose {
+  max-width: none !important;
+}
 .write-page-editor-wrap .write-page-editor-content {
   padding: 0 !important;
   margin: 0 !important;
@@ -127,7 +130,7 @@ mark[data-highlight-id] mark[data-highlight-id] {
   overflow-x: hidden !important;
   overflow-wrap: anywhere !important;
   word-break: break-word !important;
-  max-width: 100% !important;
+  max-width: none !important;
   min-width: 0 !important;
   width: 100% !important;
   box-sizing: border-box !important;
@@ -150,7 +153,7 @@ mark[data-highlight-id] mark[data-highlight-id] {
   margin-right: 0 !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
-  max-width: 100% !important;
+  max-width: none !important;
   width: 100% !important;
   box-sizing: border-box !important;
 }

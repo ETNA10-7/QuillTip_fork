@@ -83,7 +83,7 @@ export default function WritePage() {
     editorProps: {
       attributes: {
         // No horizontal padding/margin so text starts at left red line, ends at right; wrap there
-        class: 'prose prose-lg max-w-full w-full focus:outline-none min-h-[400px] py-6 mx-0 break-words'
+        class: 'prose prose-lg max-w-none w-full focus:outline-none min-h-[400px] py-6 mx-0 break-words'
       }
     },
     onCreate: ({ editor }) => {
