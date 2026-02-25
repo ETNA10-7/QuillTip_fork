@@ -315,9 +315,8 @@ export default function WritePage() {
           <div className="flex w-full">
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div
-              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0"
+              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0 w-screen"
               style={{
-                width: editorContentWidth ?? 720,
                 minHeight: 400,
               }}
             >
