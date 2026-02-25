@@ -306,11 +306,9 @@ export default function WritePage() {
             />
           </div>
           <div className="flex w-full pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8">
-            <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div
-              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0"
+              className="min-w-0 flex-1 overflow-x-hidden box-border overflow-hidden m-0"
               style={{
-                width: editorContentWidth ?? 720,
                 minHeight: 400,
               }}
             >
@@ -319,7 +317,6 @@ export default function WritePage() {
                 className="editor-content write-page-editor-content h-full min-h-[400px] w-full max-w-full p-0 m-0"
               />
             </div>
-            <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div style={{ width: notesSectionWidth, minWidth: notesSectionWidth }} aria-hidden />
           </div>
         </div>
