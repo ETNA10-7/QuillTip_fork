@@ -122,11 +122,13 @@ export default function WritePage() {
     }
   }, [articleId])
 
-  // Constrain content width to toolbar icon group (red box) – measure by DOM position, no toolbar changes
+  // Constrain content width to toolbar icon group – measure by DOM position, no toolbar changes
   useEffect(() => {
     const el = editorLayoutRef.current
     if (!el) return
-    const toolbar = el.firstElementChild
+    const toolbarWrapper = el.firstElementChild
+    if (!toolbarWrapper) return
+    const toolbar = toolbarWrapper.children[0]
     if (!toolbar) return
     const iconGroup = toolbar.children[1]
     if (!iconGroup || !(iconGroup instanceof HTMLElement)) return
@@ -300,8 +302,9 @@ export default function WritePage() {
           <div className="flex w-full">
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div
-              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0 w-screen"
+              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden p-0 m-0"
               style={{
+                width: editorContentWidth ?? 720,
                 minHeight: 400,
               }}
             >
