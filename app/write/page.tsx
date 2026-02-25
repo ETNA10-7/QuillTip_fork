@@ -186,8 +186,8 @@ export default function WritePage() {
 
   // Handle publish
   const handlePublish = useCallback(async () => {
-    if (!title || !editorContent) {
-      toast.warning('Please add a title and content before publishing')
+    if (!editorContent) {
+      toast.warning('Please add content before publishing')
       return
     }
 
@@ -204,7 +204,7 @@ export default function WritePage() {
       } else {
         // Create and publish new article
         resultId = await createArticleMutation({
-          title,
+          title: title || 'Untitled',
           content: editorContent,
           excerpt: excerpt || undefined,
           tags: tags.split(',').map(t => t.trim()).filter(Boolean),
@@ -265,26 +265,11 @@ export default function WritePage() {
           isPublished={publishStatus.published}
           isPublishing={isPublishing}
           hasUnsavedChanges={hasUnsavedChanges}
-          canPublish={!!(title && editorContent)}
+          canPublish={!!editorContent}
           lastSavedAt={lastSavedAt ?? undefined}
         />
         <div className="flex-1 flex flex-col min-w-0">
         <div className="flex-1 w-full pt-6 pb-8 px-4 sm:px-6 lg:px-8">
-        {/* Title Input */}
-        <div className="mb-6" id="field-article-title">
-          <input
-            id="article-title"
-            type="text"
-            placeholder="Article Title"
-            value={title}
-            onChange={(e) => {
-              setTitle(e.target.value)
-              setHasUnsavedChanges(true)
-            }}
-            className="w-full text-3xl font-bold border-0 border-b-2 border-gray-200 focus:border-blue-500 outline-none pb-2 bg-transparent placeholder-gray-400"
-          />
-        </div>
-
         {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
         <div className="mb-6 flex flex-col w-full max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
           <div className="relative w-screen">
