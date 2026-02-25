@@ -305,7 +305,7 @@ export default function WritePage() {
               aria-hidden
             />
           </div>
-          <div className="flex w-full pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8">
+          <div className="flex w-full justify-center pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8">
             <div style={{ width: notesSectionWidth, minWidth: notesSectionWidth }} aria-hidden />
             <div
               className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden m-0"

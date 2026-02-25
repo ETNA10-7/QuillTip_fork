@@ -113,10 +113,15 @@ mark[data-highlight-id] mark[data-highlight-id] {
   background-color: rgba(99, 178, 255, 0.3);
 }
 
-/* Write page: fill red box left–right; text wraps to new line at right line, never truncated */
+/* Write page: content between red lines – text starts at left, wraps at right, no overflow */
 .write-page-editor-wrap .write-page-editor-content {
   padding: 0 !important;
   margin: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 .write-page-editor-wrap .write-page-editor-content .ProseMirror {
   overflow-x: hidden !important;
@@ -144,6 +149,7 @@ mark[data-highlight-id] mark[data-highlight-id] {
   margin-left: 0 !important;
   margin-right: 0 !important;
   padding-left: 0 !important;
+  padding-right: 0 !important;
   max-width: 100% !important;
   width: 100% !important;
   box-sizing: border-box !important;
