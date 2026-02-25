@@ -135,7 +135,7 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="bg-white w-full max-w-full min-w-0 pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8 py-2 flex items-center min-h-[44px] overflow-hidden">
+    <div className="bg-white w-full min-w-full flex items-center min-h-[44px] pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8 py-2">
       <div className="flex-1 min-w-0 shrink-0" aria-hidden />
       <div className="flex items-center gap-0.5 flex-wrap justify-center min-w-0 shrink-0">
       {/* AI / Magic */}

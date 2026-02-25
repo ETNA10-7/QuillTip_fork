@@ -287,7 +287,7 @@ export default function WritePage() {
 
         {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
         <div className="mb-6 flex flex-col w-full max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
-          <div className="relative w-full -mr-4 sm:-mr-6 lg:-mr-8">
+          <div className="relative w-screen">
             <EditorToolbar
             editor={editor}
             onFocusTitle={() => {
