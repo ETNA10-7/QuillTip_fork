@@ -35,7 +35,6 @@ interface EditorToolbarProps {
   editor: Editor | null
   /** When Add icon is used to jump to a field */
   onFocusTitle?: () => void
-  onFocusCoverImage?: () => void
   onFocusExcerpt?: () => void
   onFocusTags?: () => void
 }
@@ -76,13 +75,12 @@ function ToolbarButton({
 }
 
 function ToolbarDivider() {
-  return <div className="w-px h-5 bg-gray-200 mx-0.5 shrink-0" aria-hidden />
+  return <div className="w-px h-5 bg-sky-300 mx-0.5 shrink-0" aria-hidden />
 }
 
 export function EditorToolbar({
   editor,
   onFocusTitle,
-  onFocusCoverImage,
   onFocusExcerpt,
   onFocusTags,
 }: EditorToolbarProps) {
@@ -137,9 +135,9 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="border-b border-gray-200 bg-white w-full min-w-full px-4 sm:px-6 lg:px-8 py-2 flex items-center min-h-[44px]">
+    <div className="bg-white w-full max-w-full min-w-0 pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8 py-2 flex items-center min-h-[44px] overflow-hidden">
       <div className="flex-1 min-w-0 shrink-0" aria-hidden />
-      <div className="flex items-center gap-0.5 flex-wrap justify-center">
+      <div className="flex items-center gap-0.5 flex-wrap justify-center min-w-0 shrink-0">
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -329,13 +327,6 @@ export function EditorToolbar({
               Article Title
             </DropdownMenu.Item>
             <DropdownMenu.Item
-              onSelect={() => onFocusCoverImage?.()}
-              className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
-            >
-              <Image className="w-4 h-4 shrink-0" />
-              Cover Image URL
-            </DropdownMenu.Item>
-            <DropdownMenu.Item
               onSelect={() => onFocusExcerpt?.()}
               className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
             >
@@ -401,16 +392,18 @@ export function EditorToolbar({
         <Info className="w-4 h-4" />
       </ToolbarButton>
       </div>
-      <div className="flex-1 flex items-center justify-end min-w-0 shrink-0 pl-3">
+      <div className="flex-1 min-w-0 shrink-0 flex justify-end">
+        <div className="flex items-center shrink-0 pl-2">
         <button
           type="button"
-          className="flex items-center gap-2 px-3 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"
+          className="flex items-center gap-2 pl-3 pr-2 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"
           title="Notes"
           onClick={() => toast.info('Notes coming soon')}
         >
           <FileText className="w-4 h-4" />
           Notes
         </button>
+        </div>
       </div>
 
       <ImageUploadDialog

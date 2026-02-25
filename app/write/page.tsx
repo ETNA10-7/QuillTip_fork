@@ -16,10 +16,9 @@ import { EditorActionBar } from '@/components/editor/EditorActionBar'
 import { useAuth } from '@/components/providers/AuthContext'
 import AppNavigation from '@/components/layout/AppNavigation'
 import { useAutoSave } from '@/hooks/useAutoSave'
-import { useQuery, useMutation, useConvex } from 'convex/react'
+import { useQuery, useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
-import { uploadFile, compressImage } from '@/lib/upload'
 import { toast } from 'sonner'
 
 const lowlight = createLowlight(common)
@@ -27,10 +26,6 @@ const lowlight = createLowlight(common)
 export default function WritePage() {
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
-  const [coverImage, setCoverImage] = useState('')
-  const [coverImageInput, setCoverImageInput] = useState('')
-  const [isUploadingCover, setIsUploadingCover] = useState(false)
-  const [coverUploadError, setCoverUploadError] = useState('')
   const [tags, setTags] = useState('')
   const [isPublishing, setIsPublishing] = useState(false)
   const [articleId, setArticleId] = useState<string | undefined>()
@@ -45,7 +40,6 @@ export default function WritePage() {
 
   const router = useRouter()
   const { isAuthenticated, isLoading } = useAuth()
-  const convex = useConvex()
   
   // Convex mutations
   const createArticleMutation = useMutation(api.articles.createArticle)
@@ -190,73 +184,6 @@ export default function WritePage() {
     }
   }, [draft, editor])
 
-  // Handle cover image URL upload
-  const handleCoverImageUpload = useCallback(async (url: string) => {
-    if (!url.trim()) {
-      setCoverImage('')
-      return
-    }
-    
-    // Check if it's already a Convex URL
-    if (url.includes('convex.cloud') || url.includes('convex.site')) {
-      setCoverImage(url)
-      return
-    }
-    
-    setIsUploadingCover(true)
-    setCoverUploadError('')
-    
-    try {
-      // Fetch the image from the URL
-      const response = await fetch(url)
-      if (!response.ok) {
-        throw new Error('Failed to fetch image from URL')
-      }
-      
-      const blob = await response.blob()
-      
-      // Check if it's actually an image
-      if (!blob.type.startsWith('image/')) {
-        throw new Error('URL does not point to a valid image')
-      }
-      
-      // Convert blob to File
-      const file = new File([blob], 'cover-image', { type: blob.type })
-      
-      // Compress and upload to Convex storage
-      const compressedFile = await compressImage(file, 1200, 0.8)
-      const result = await uploadFile(
-        compressedFile, 
-        convex,
-        'cover_image',
-        undefined, // no specific article yet
-      )
-      
-      if (result.success && result.url) {
-        setCoverImage(result.url)
-        setCoverImageInput(result.url)
-        setCoverUploadError('')
-      } else {
-        throw new Error(result.error || 'Upload failed')
-      }
-    } catch (error) {
-      console.error('Cover image upload error:', error)
-      if (error instanceof Error) {
-        if (error.message.includes('Failed to fetch')) {
-          setCoverUploadError('Unable to fetch image. It may be protected by CORS.')
-        } else {
-          setCoverUploadError(error.message)
-        }
-      } else {
-        setCoverUploadError('Failed to upload image')
-      }
-      // Keep the original URL in the input
-      setCoverImage(url)
-    } finally {
-      setIsUploadingCover(false)
-    }
-  }, [convex])
-
   // Handle publish
   const handlePublish = useCallback(async () => {
     if (!title || !editorContent) {
@@ -281,7 +208,6 @@ export default function WritePage() {
           content: editorContent,
           excerpt: excerpt || undefined,
           tags: tags.split(',').map(t => t.trim()).filter(Boolean),
-          coverImage: coverImage || undefined,
           published: true, // Publishing immediately
         })
       }
@@ -304,7 +230,7 @@ export default function WritePage() {
     } finally {
       setIsPublishing(false)
     }
-  }, [title, editorContent, excerpt, tags, coverImage, saveNow, articleId, publishArticleMutation, createArticleMutation])
+  }, [title, editorContent, excerpt, tags, saveNow, articleId, publishArticleMutation, createArticleMutation])
 
   // Authentication checks
   if (isLoading) {
@@ -321,7 +247,7 @@ export default function WritePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <AppNavigation />
       <div className="flex flex-col pt-16">
         {/* Action bar - full width, Back | Undo | Redo | Save | Preview | Publish */}
@@ -359,73 +285,14 @@ export default function WritePage() {
           />
         </div>
 
-        {/* Cover Image URL */}
-        <div className="mb-6" id="field-cover-image">
-          <div className="relative">
-            <input
-              id="cover-image-url"
-              type="url"
-              placeholder="Cover Image URL (optional - will be uploaded to storage)"
-              value={coverImageInput}
-              onChange={(e) => {
-                setCoverImageInput(e.target.value)
-                setHasUnsavedChanges(true)
-              }}
-              onBlur={(e) => {
-                if (e.target.value && e.target.value !== coverImage) {
-                  handleCoverImageUpload(e.target.value)
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' && coverImageInput && coverImageInput !== coverImage) {
-                  e.preventDefault()
-                  handleCoverImageUpload(coverImageInput)
-                }
-              }}
-              disabled={isUploadingCover}
-              className="w-full px-4 py-2 pr-32 border border-gray-200 rounded-lg focus:border-blue-500 outline-none placeholder-gray-400 disabled:bg-gray-50"
-            />
-            {isUploadingCover && (
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 text-sm text-gray-500">
-                Uploading...
-              </div>
-            )}
-          </div>
-          
-          {coverUploadError && (
-            <p className="mt-1 text-sm text-red-600">{coverUploadError}</p>
-          )}
-          
-          {coverImage && (
-            <div className="mt-2">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={coverImage} 
-                alt="Cover preview" 
-                className="h-48 w-full object-cover rounded-lg"
-                onError={(e) => {
-                  e.currentTarget.style.display = 'none'
-                }}
-              />
-              {coverImage.includes('convex') && (
-                <p className="mt-1 text-xs text-green-600">✓ Image uploaded to storage</p>
-              )}
-            </div>
-          )}
-        </div>
-
-        {/* Editor with Toolbar - full width so content row aligns with icon row; text from icon start to icon end */}
-        <div className="mb-6 flex flex-col w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
-          <EditorToolbar
+        {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
+        <div className="mb-6 flex flex-col w-full max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
+          <div className="relative w-full -mr-4 sm:-mr-6 lg:-mr-8">
+            <EditorToolbar
             editor={editor}
             onFocusTitle={() => {
               const el = document.getElementById('article-title') as HTMLInputElement | null
               document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-              el?.focus()
-            }}
-            onFocusCoverImage={() => {
-              const el = document.getElementById('cover-image-url') as HTMLInputElement | null
-              document.getElementById('field-cover-image')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
               el?.focus()
             }}
             onFocusExcerpt={() => {
@@ -439,6 +306,12 @@ export default function WritePage() {
               el?.focus()
             }}
           />
+            {/* Full-width blue line - spans viewport */}
+            <div
+              className="absolute bottom-0 left-0 right-0 h-[2px] bg-sky-400 pointer-events-none"
+              aria-hidden
+            />
+          </div>
           <div className="flex w-full">
             <div className="flex-1 min-w-0 shrink-0" aria-hidden />
             <div
