@@ -22,21 +22,24 @@ export async function generateHighlightIdServer(
   endOffset: number
 ): Promise<string> {
   // Create deterministic data string (MUST match client format exactly)
-  const data = `${articleSlug}:${startOffset}:${endOffset}:${text.slice(0, 50)}`;
+  const data = `${articleSlug}:${startOffset}:${endOffset}:${text.slice(0, 50)}`
 
   // Convert string to Uint8Array
-  const encoder = new TextEncoder();
-  const dataBuffer = encoder.encode(data);
+  const encoder = new TextEncoder()
+  const dataBuffer = encoder.encode(data)
 
   // Generate SHA-256 hash using Web Crypto API (works in V8 isolate)
-  const hashBuffer = await crypto.subtle.digest('SHA-256', dataBuffer as BufferSource);
+  const hashBuffer = await crypto.subtle.digest(
+    'SHA-256',
+    dataBuffer as BufferSource
+  )
 
   // Convert hash to hex string
-  const hashArray = Array.from(new Uint8Array(hashBuffer));
-  const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+  const hashArray = Array.from(new Uint8Array(hashBuffer))
+  const hashHex = hashArray.map((b) => b.toString(16).padStart(2, '0')).join('')
 
   // Return first 28 chars for Stellar memo compatibility (max 28 bytes)
-  return hashHex.slice(0, 28);
+  return hashHex.slice(0, 28)
 }
 
 /**
@@ -47,5 +50,5 @@ export async function generateHighlightIdServer(
  */
 export function isValidHighlightId(highlightId: string): boolean {
   // Should be 28 characters, hexadecimal
-  return /^[a-f0-9]{28}$/.test(highlightId);
+  return /^[a-f0-9]{28}$/.test(highlightId)
 }
