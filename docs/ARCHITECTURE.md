@@ -4,17 +4,17 @@
 
 ### Frontend
 
-- **Next.js 16**: React framework with App Router + Turbopack
-- **React 19 / TypeScript 5**: Type-safe UI
-- **Tailwind CSS 4**: Styling
+- **Next.js**: React framework with App Router + Turbopack
+- **React / TypeScript**: Type-safe UI
+- **Tailwind CSS**: Styling
 - **Radix UI**: Accessible UI primitives (via shadcn/ui)
-- **TipTap 3**: Rich text editor
+- **TipTap**: Rich text editor
 - **Motion**: Animations
 - **Lucide React**: Icons
 
 ### Backend
 
-- **Convex 1.31**: Real-time backend — type-safe APIs, real-time subscriptions, file storage, caching
+- **Convex**: Real-time backend — type-safe APIs, real-time subscriptions, file storage, caching
 - **@convex-dev/auth**: Password-based authentication (Argon2 hashing)
 
 ### Blockchain
@@ -116,7 +116,7 @@ Phrase-level tipping — readers select text, tip specific highlights, authors s
 - **Heatmap**: Yellow → Orange → Red gradient based on tip totals per highlight
 
 **Status:** Implementation complete, pending user validation.
-See [docs/highlight-tipping.md](highlight-tipping.md) for contract history, DB schema, and component map.
+See [docs/planning/highlight-tipping.md](planning/highlight-tipping.md) for contract history, DB schema, and component map.
 
 ### Deliverable 2: Permanent Content Storage (Arweave)
 
@@ -129,7 +129,7 @@ Articles stored permanently on Arweave via Turbo SDK (FREE for < 100 KiB).
 - Status flow: `pending` → `uploaded` → `verified`
 
 **Status:** In progress — Turbo SDK migration pending (currently using raw `arweave` SDK).
-See [docs/arweave-integration.md](arweave-integration.md) for upload flow, key files, and remaining work.
+See [docs/planning/arweave-integration.md](planning/arweave-integration.md) for upload flow, key files, and remaining work.
 
 ## Arweave Integration
 

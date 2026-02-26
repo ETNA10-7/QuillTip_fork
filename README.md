@@ -56,19 +56,19 @@ QuillTip is a decentralized publishing platform where writers earn money through
 
 ```bash
 # 1. Install dependencies
-npm install
+bun install
 
 # 2. Copy env template
 cp .env.example .env.local
 
 # 3. Initialize Convex (auto-populates CONVEX_DEPLOYMENT + NEXT_PUBLIC_CONVEX_URL)
-npx convex dev --once
+bunx convex dev --once
 
 # 4. Set auth URL on Convex deployment
-npx convex env set SITE_URL http://localhost:3000
+bunx convex env set SITE_URL http://localhost:3000
 
 # 5. Start dev server (Next.js + Convex in parallel)
-npm run dev
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000). See [docs/SETUP.md](docs/SETUP.md) for full environment details.
@@ -85,7 +85,7 @@ Open [http://localhost:3000](http://localhost:3000). See [docs/SETUP.md](docs/SE
 
 ## Status
 
-- **Version**: 0.1.0 (Beta)
+- **Stage**: Beta
 - **Network**: Stellar Testnet
 - **Database**: Convex Cloud
 - **Hosting**: Vercel
