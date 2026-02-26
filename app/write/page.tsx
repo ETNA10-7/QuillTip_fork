@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useEditor, EditorContent, JSONContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
@@ -35,9 +35,6 @@ export default function WritePage() {
     published: false,
     publishedAt: null
   })
-  const [editorContentWidth, setEditorContentWidth] = useState<number | null>(null)
-  const [notesSectionWidth, setNotesSectionWidth] = useState<number>(0)
-  const editorLayoutRef = useRef<HTMLDivElement>(null)
 
   const router = useRouter()
   const { isAuthenticated, isLoading } = useAuth()
@@ -123,45 +120,6 @@ export default function WritePage() {
     }
   }, [articleId])
 
-  // Constrain content width to toolbar icon group – measure by DOM position, no toolbar changes
-  useEffect(() => {
-    const el = editorLayoutRef.current
-    if (!el) return
-    const toolbarWrapper = el.firstElementChild
-    if (!toolbarWrapper) return
-    const toolbar = toolbarWrapper.children[0]
-    if (!toolbar) return
-    const iconGroup = toolbar.children[1]
-    const notesSection = toolbar.children[2]
-    if (!iconGroup || !(iconGroup instanceof HTMLElement)) return
-    const setWidth = () => {
-      const w = iconGroup.offsetWidth
-      if (w > 0) setEditorContentWidth(w)
-      if (notesSection instanceof HTMLElement && notesSection.offsetWidth > 0) {
-        setNotesSectionWidth(notesSection.offsetWidth)
-      }
-    }
-    let cancelled = false
-    const t1 = requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        if (!cancelled) setWidth()
-      })
-    })
-    const t2 = setTimeout(() => { if (!cancelled) setWidth() }, 150)
-    const t3 = setTimeout(() => { if (!cancelled) setWidth() }, 400)
-    const t4 = setTimeout(() => { if (!cancelled) setWidth() }, 800)
-    const ro = new ResizeObserver(setWidth)
-    ro.observe(iconGroup)
-    if (notesSection instanceof HTMLElement) ro.observe(notesSection)
-    return () => {
-      cancelled = true
-      cancelAnimationFrame(t1)
-      clearTimeout(t2)
-      clearTimeout(t3)
-      clearTimeout(t4)
-      ro.disconnect()
-    }
-  }, [editor])
 
   // Get draft ID from URL params
   const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
@@ -279,7 +237,7 @@ export default function WritePage() {
         <div className="flex-1 flex flex-col min-w-0">
         <div className="flex-1 w-full pb-8 px-4 sm:px-6 lg:px-8">
         {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
-        <div className="mb-6 flex flex-col w-screen max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8" ref={editorLayoutRef}>
+        <div className="mb-6 flex flex-col w-screen max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8">
           <div className="relative w-screen">
             <EditorToolbar
             editor={editor}
@@ -305,21 +263,13 @@ export default function WritePage() {
               aria-hidden
             />
           </div>
-          <div className="flex w-full justify-center pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8">
-            <div style={{ width: notesSectionWidth, minWidth: notesSectionWidth }} aria-hidden />
-            <div
-              className="min-w-0 shrink-0 overflow-x-hidden box-border overflow-hidden m-0"
-              style={{
-                width: editorContentWidth ?? 720,
-                minHeight: 400,
-              }}
-            >
+          <div className="w-screen flex justify-center">
+            <div className="w-full max-w-3xl min-h-[400px] px-4 sm:px-0">
               <EditorContent
                 editor={editor}
                 className="editor-content write-page-editor-content h-full min-h-[400px] w-full max-w-full p-0 m-0"
               />
             </div>
-            <div style={{ width: notesSectionWidth, minWidth: notesSectionWidth }} aria-hidden />
           </div>
         </div>
         </div>
