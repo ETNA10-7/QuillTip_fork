@@ -3,25 +3,32 @@
 <div align="center">
 
 [![Live Demo](https://img.shields.io/badge/Live%20Demo-quilltip.me-blue?style=for-the-badge)](https://quilltip.me)
-[![Stellar Contract](https://img.shields.io/badge/Stellar%20Contract-View%20on%20Explorer-yellow?style=for-the-badge)](https://stellar.expert/explorer/testnet/contract/CASU4I45DVK3ZMXA3T34A3XF3BM4NBTFDW3QVCB3XA7PIWJSTN4HCVWG)
-[![Arweave Storage](https://img.shields.io/badge/Arweave-Permanent%20Storage-blue?style=for-the-badge)](https://arweave.net)
+[![CI](https://img.shields.io/github/actions/workflow/status/pragya-shar/QuillTip/ci.yml?branch=development&style=for-the-badge&label=CI)](https://github.com/pragya-shar/QuillTip/actions/workflows/ci.yml)
+[![Tipping Contract](https://img.shields.io/badge/Tipping%20Contract-Stellar%20Explorer-yellow?style=for-the-badge)](https://stellar.expert/explorer/testnet/contract/CASU4I45DVK3ZMXA3T34A3XF3BM4NBTFDW3QVCB3XA7PIWJSTN4HCVWG)
+[![NFT Contract](https://img.shields.io/badge/NFT%20Contract-Stellar%20Explorer-yellow?style=for-the-badge)](https://stellar.expert/explorer/testnet/contract/CAS44OQK7A6W5FDRAH3K3ZN7TTQTJ5ESRVG6MB2HBVFWZ5TVH26UUB4S)
+
+![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js)
+![Convex](https://img.shields.io/badge/Convex-ff6b35?style=flat-square)
+![Stellar](https://img.shields.io/badge/Stellar-7c3aed?style=flat-square&logo=stellar)
+![Arweave](https://img.shields.io/badge/Arweave-222326?style=flat-square)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
+![Tailwind](https://img.shields.io/badge/Tailwind-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)
 
 </div>
 
-**Live Application:** [https://quilltip.me](https://quilltip.me)
-**Tipping Contract:** [`CASU4I45DVK3ZMXA3T34A3XF3BM4NBTFDW3QVCB3XA7PIWJSTN4HCVWG`](https://stellar.expert/explorer/testnet/contract/CASU4I45DVK3ZMXA3T34A3XF3BM4NBTFDW3QVCB3XA7PIWJSTN4HCVWG)
-**NFT Contract:** [`CAS44OQK7A6W5FDRAH3K3ZN7TTQTJ5ESRVG6MB2HBVFWZ5TVH26UUB4S`](https://stellar.expert/explorer/testnet/contract/CAS44OQK7A6W5FDRAH3K3ZN7TTQTJ5ESRVG6MB2HBVFWZ5TVH26UUB4S)
-
 ## Demo
 
-| Field        | Value              |
-| ------------ | ------------------ |
-| **Email**    | `demo@example.com` |
-| **Password** | Stellar123         |
+<div align="center">
 
-[![QuillTip Demo Video](./public/images/quilltip-cover.jpg)](https://youtu.be/OqOkbAm9_T8?si=onogkL495LIzwaki)
+[![Watch Demo](https://img.youtube.com/vi/OqOkbAm9_T8/maxresdefault.jpg)](https://youtu.be/OqOkbAm9_T8?si=onogkL495LIzwaki)
 
-_Click the image above to watch the demo video_
+_Click to watch the demo_
+
+</div>
+
+| Email              | Password     |
+| ------------------ | ------------ |
+| `demo@example.com` | `Stellar123` |
 
 ## Overview
 
@@ -101,4 +108,4 @@ Open [http://localhost:3000](http://localhost:3000). See [docs/SETUP.md](docs/SE
 
 ---
 
-**QuillTip** — Empowering writers through decentralized monetization. Built for the creator economy on Stellar.
+**QuillTip** — Writers keep 97.5%. Readers tip what they want. Built on Stellar.
