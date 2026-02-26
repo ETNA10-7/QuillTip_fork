@@ -63,7 +63,7 @@ function ToolbarButton({
       title={title}
       aria-label={title}
       className={`
-        p-2 rounded hover:bg-gray-100 transition-colors
+        p-2 rounded hover:bg-gray-100 transition-colors shrink-0
         ${isActive ? 'bg-gray-100 text-blue-600' : 'text-gray-700'}
         ${disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
         ${className}
@@ -135,8 +135,8 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="bg-white w-full flex items-center min-h-[44px] px-4 py-2 overflow-x-auto">
-      <div className="flex items-center gap-0.5 flex-wrap min-w-0 flex-1">
+    <div className="bg-white w-full flex items-center min-h-[44px] px-4 py-2">
+      <div className="flex items-center gap-0.5 flex-nowrap min-w-0 flex-1 overflow-hidden">
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -147,7 +147,7 @@ export function EditorToolbar({
       {/* Paragraph / style dropdown */}
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <button className="flex items-center gap-1.5 px-2.5 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm">
+          <button className="flex items-center gap-1.5 px-2.5 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm shrink-0">
             <Type className="w-4 h-4 shrink-0" />
             <span>{getCurrentHeading()}</span>
             <ChevronDown className="w-3.5 h-3.5 opacity-70 shrink-0" />
@@ -171,7 +171,7 @@ export function EditorToolbar({
       {/* Font size */}
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <button className="flex items-center gap-1 px-2 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm min-w-[2.25rem]">
+          <button className="flex items-center gap-1 px-2 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm min-w-[2.25rem] shrink-0">
             <span>18</span>
             <ChevronDown className="w-3.5 h-3.5 opacity-70" />
           </button>
@@ -305,7 +305,7 @@ export function EditorToolbar({
         <DropdownMenu.Trigger asChild>
           <button
             type="button"
-            className="p-2 rounded hover:bg-gray-100 text-gray-700 transition-colors cursor-pointer"
+            className="p-2 rounded hover:bg-gray-100 text-gray-700 transition-colors cursor-pointer shrink-0"
             title="Add"
             aria-label="Add"
           >
@@ -344,7 +344,7 @@ export function EditorToolbar({
       </DropdownMenu.Root>
 
       {/* Link */}
-      <div className="relative">
+      <div className="relative shrink-0">
         {editor.isActive('link') ? (
           <ToolbarButton onClick={removeLink} isActive title="Remove link">
             <Link2 className="w-4 h-4" />
