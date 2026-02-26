@@ -233,32 +233,32 @@ export default function WritePage() {
           canPublish={!!editorContent}
           lastSavedAt={lastSavedAt ?? undefined}
         />
-        <div className="flex-1 flex flex-col items-center min-w-0 pb-8">
+        <div className="flex-1 flex flex-col min-w-0 pb-8">
+          <div className="relative w-full mb-6">
+            <EditorToolbar
+              editor={editor}
+              onFocusTitle={() => {
+                const el = document.getElementById('article-title') as HTMLInputElement | null
+                document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                el?.focus()
+              }}
+              onFocusExcerpt={() => {
+                const el = document.getElementById('article-excerpt') as HTMLTextAreaElement | null
+                document.getElementById('field-excerpt')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                el?.focus()
+              }}
+              onFocusTags={() => {
+                const el = document.getElementById('article-tags') as HTMLInputElement | null
+                document.getElementById('field-tags')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                el?.focus()
+              }}
+            />
+            <div
+              className="absolute bottom-0 left-0 right-0 h-[2px] bg-sky-400 pointer-events-none"
+              aria-hidden
+            />
+          </div>
           <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
-            <div className="relative mb-6">
-              <EditorToolbar
-                editor={editor}
-                onFocusTitle={() => {
-                  const el = document.getElementById('article-title') as HTMLInputElement | null
-                  document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                  el?.focus()
-                }}
-                onFocusExcerpt={() => {
-                  const el = document.getElementById('article-excerpt') as HTMLTextAreaElement | null
-                  document.getElementById('field-excerpt')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                  el?.focus()
-                }}
-                onFocusTags={() => {
-                  const el = document.getElementById('article-tags') as HTMLInputElement | null
-                  document.getElementById('field-tags')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                  el?.focus()
-                }}
-              />
-              <div
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-sky-400 pointer-events-none"
-                aria-hidden
-              />
-            </div>
             <EditorContent
               editor={editor}
               className="editor-content min-h-[400px]"

@@ -135,8 +135,8 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="bg-white w-full flex items-center min-h-[44px] px-4 py-2">
-      <div className="flex items-center gap-0.5 flex-nowrap min-w-0 flex-1 overflow-hidden">
+    <div className="bg-white w-full relative flex items-center justify-center min-h-[44px] px-6 py-2">
+      <div className="flex items-center gap-0.5 flex-nowrap min-w-0 justify-center">
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -391,8 +391,7 @@ export function EditorToolbar({
         <Info className="w-4 h-4" />
       </ToolbarButton>
       </div>
-      <div className="flex items-center justify-end shrink-0 ml-2">
-        <div className="flex items-center pl-2">
+      <div className="absolute right-6 flex items-center shrink-0">
         <button
           type="button"
           className="flex items-center gap-2 pl-3 pr-2 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"
@@ -402,7 +401,6 @@ export function EditorToolbar({
           <FileText className="w-4 h-4" />
           Notes
         </button>
-        </div>
       </div>
 
       <ImageUploadDialog
