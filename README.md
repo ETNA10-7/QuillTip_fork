@@ -2,17 +2,16 @@
 
 <div align="center">
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-quilltip.me-blue?style=for-the-badge)](https://quilltip.me)
-[![CI](https://img.shields.io/github/actions/workflow/status/pragya-shar/QuillTip/ci.yml?branch=development&style=for-the-badge&label=CI)](https://github.com/pragya-shar/QuillTip/actions/workflows/ci.yml)
-[![Tipping Contract](https://img.shields.io/badge/Tipping%20Contract-Stellar%20Explorer-yellow?style=for-the-badge)](https://stellar.expert/explorer/testnet/contract/CASU4I45DVK3ZMXA3T34A3XF3BM4NBTFDW3QVCB3XA7PIWJSTN4HCVWG)
-[![NFT Contract](https://img.shields.io/badge/NFT%20Contract-Stellar%20Explorer-yellow?style=for-the-badge)](https://stellar.expert/explorer/testnet/contract/CAS44OQK7A6W5FDRAH3K3ZN7TTQTJ5ESRVG6MB2HBVFWZ5TVH26UUB4S)
+[![quilltip.me](https://img.shields.io/badge/quilltip.me-blue?style=flat)](https://quilltip.me)
+[![CI](https://img.shields.io/github/actions/workflow/status/pragya-shar/QuillTip/ci.yml?branch=development&style=flat&label=CI)](https://github.com/pragya-shar/QuillTip/actions/workflows/ci.yml)
+[![Tipping Contract](https://img.shields.io/badge/Tipping_Contract-yellow?style=flat&logo=stellar)](https://stellar.expert/explorer/testnet/contract/CASU4I45DVK3ZMXA3T34A3XF3BM4NBTFDW3QVCB3XA7PIWJSTN4HCVWG) [![NFT Contract](https://img.shields.io/badge/NFT_Contract-yellow?style=flat&logo=stellar)](https://stellar.expert/explorer/testnet/contract/CAS44OQK7A6W5FDRAH3K3ZN7TTQTJ5ESRVG6MB2HBVFWZ5TVH26UUB4S)
 
-![Next.js](https://img.shields.io/badge/Next.js-black?style=flat-square&logo=next.js)
-![Convex](https://img.shields.io/badge/Convex-ff6b35?style=flat-square)
-![Stellar](https://img.shields.io/badge/Stellar-7c3aed?style=flat-square&logo=stellar)
-![Arweave](https://img.shields.io/badge/Arweave-222326?style=flat-square)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat-square&logo=typescript&logoColor=white)
-![Tailwind](https://img.shields.io/badge/Tailwind-06b6d4?style=flat-square&logo=tailwindcss&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-000?style=flat&logo=nextdotjs&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178c6?style=flat&logo=typescript&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-06b6d4?style=flat&logo=tailwindcss&logoColor=white)
+![Convex](https://img.shields.io/badge/Convex-ff6b35?style=flat&logo=convex&logoColor=white)
+![Stellar](https://img.shields.io/badge/Stellar-7c3aed?style=flat&logo=stellar&logoColor=white)
+![Rust](https://img.shields.io/badge/Rust-000?style=flat&logo=rust&logoColor=white)
 
 </div>
 
@@ -99,7 +98,6 @@ Open [http://localhost:3000](http://localhost:3000). See [docs/SETUP.md](docs/SE
 
 ## Support
 
-- **Twitter/X**: [@QuillTip_me](https://x.com/QuillTip_me)
 - **Issues**: [github.com/pragya-shar/QuillTip/issues](https://github.com/pragya-shar/QuillTip/issues)
 
 ## License
@@ -107,5 +105,7 @@ Open [http://localhost:3000](http://localhost:3000). See [docs/SETUP.md](docs/SE
 [MIT](LICENSE)
 
 ---
+
+[![Twitter](https://img.shields.io/badge/@QuillTip__me-000?style=flat&logo=x&logoColor=white)](https://x.com/QuillTip_me)
 
 **QuillTip** — Writers keep 97.5%. Readers tip what they want. Built on Stellar.
