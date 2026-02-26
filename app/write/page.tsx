@@ -79,8 +79,7 @@ export default function WritePage() {
     content: '',
     editorProps: {
       attributes: {
-        // No horizontal padding/margin so text starts at left red line, ends at right; wrap there
-        class: 'prose prose-lg max-w-none w-full focus:outline-none min-h-[400px] py-6 mx-0 break-words'
+        class: 'prose prose-lg focus:outline-none min-h-[400px] py-6 break-words'
       }
     },
     onCreate: ({ editor }) => {
@@ -234,46 +233,38 @@ export default function WritePage() {
           canPublish={!!editorContent}
           lastSavedAt={lastSavedAt ?? undefined}
         />
-        <div className="flex-1 flex flex-col min-w-0">
-        <div className="flex-1 w-full pb-8 px-4 sm:px-6 lg:px-8">
-        {/* Editor with Toolbar - full width, toolbar + blue line extend to viewport edges */}
-        <div className="mb-6 flex flex-col w-screen max-w-full write-page-editor-wrap -mx-4 sm:-mx-6 lg:-mx-8">
-          <div className="relative w-screen">
-            <EditorToolbar
-            editor={editor}
-            onFocusTitle={() => {
-              const el = document.getElementById('article-title') as HTMLInputElement | null
-              document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-              el?.focus()
-            }}
-            onFocusExcerpt={() => {
-              const el = document.getElementById('article-excerpt') as HTMLTextAreaElement | null
-              document.getElementById('field-excerpt')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-              el?.focus()
-            }}
-            onFocusTags={() => {
-              const el = document.getElementById('article-tags') as HTMLInputElement | null
-              document.getElementById('field-tags')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-              el?.focus()
-            }}
-          />
-            {/* Full-width blue line - spans viewport */}
-            <div
-              className="absolute bottom-0 left-0 right-0 h-[2px] bg-sky-400 pointer-events-none"
-              aria-hidden
-            />
-          </div>
-          <div className="w-screen flex justify-center">
-            <div className="w-full max-w-3xl min-h-[400px] px-4 sm:px-0">
-              <EditorContent
+        <div className="flex-1 flex flex-col items-center min-w-0 pb-8">
+          <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
+            <div className="relative mb-6">
+              <EditorToolbar
                 editor={editor}
-                className="editor-content write-page-editor-content h-full min-h-[400px] w-full max-w-full p-0 m-0"
+                onFocusTitle={() => {
+                  const el = document.getElementById('article-title') as HTMLInputElement | null
+                  document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  el?.focus()
+                }}
+                onFocusExcerpt={() => {
+                  const el = document.getElementById('article-excerpt') as HTMLTextAreaElement | null
+                  document.getElementById('field-excerpt')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  el?.focus()
+                }}
+                onFocusTags={() => {
+                  const el = document.getElementById('article-tags') as HTMLInputElement | null
+                  document.getElementById('field-tags')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                  el?.focus()
+                }}
+              />
+              <div
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-sky-400 pointer-events-none"
+                aria-hidden
               />
             </div>
+            <EditorContent
+              editor={editor}
+              className="editor-content min-h-[400px]"
+            />
           </div>
         </div>
-        </div>
-      </div>
       </div>
     </div>
   )

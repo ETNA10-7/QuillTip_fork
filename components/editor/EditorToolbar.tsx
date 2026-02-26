@@ -135,9 +135,8 @@ export function EditorToolbar({
   }
 
   return (
-    <div className="bg-white w-full min-w-full flex items-center min-h-[44px] pl-4 sm:pl-6 lg:pl-8 pr-4 sm:pr-6 lg:pr-8 py-2">
-      <div className="flex-1 min-w-0 shrink-0" aria-hidden />
-      <div className="flex items-center gap-0.5 flex-wrap justify-center min-w-0 shrink-0">
+    <div className="bg-white w-full flex items-center min-h-[44px] px-4 py-2 overflow-x-auto">
+      <div className="flex items-center gap-0.5 flex-wrap min-w-0 flex-1">
       {/* AI / Magic */}
       <ToolbarButton onClick={() => toast.info('AI tools coming soon')} title="AI tools" className="text-blue-600">
         <Sparkles className="w-4 h-4" />
@@ -392,8 +391,8 @@ export function EditorToolbar({
         <Info className="w-4 h-4" />
       </ToolbarButton>
       </div>
-      <div className="flex-1 min-w-0 shrink-0 flex justify-end">
-        <div className="flex items-center shrink-0 pl-2">
+      <div className="flex items-center justify-end shrink-0 ml-2">
+        <div className="flex items-center pl-2">
         <button
           type="button"
           className="flex items-center gap-2 pl-3 pr-2 py-2 rounded hover:bg-gray-100 text-gray-700 text-sm font-medium"
