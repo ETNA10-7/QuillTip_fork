@@ -238,7 +238,10 @@ const HighlightExtension = Mark.create<HighlightOptions>({
             if (highlightMark && highlightMark.attrs.id) {
               event.preventDefault()
               event.stopPropagation()
-              onHighlightClick(highlightMark.attrs as HighlightAttributes, event as MouseEvent)
+              onHighlightClick(
+                highlightMark.attrs as HighlightAttributes,
+                event as MouseEvent
+              )
               return true
             }
 
@@ -256,7 +259,10 @@ const HighlightExtension = Mark.create<HighlightOptions>({
               if (!touch) return false
 
               // Find the position in the document
-              const pos = view.posAtCoords({ left: touch.clientX, top: touch.clientY })
+              const pos = view.posAtCoords({
+                left: touch.clientX,
+                top: touch.clientY,
+              })
               if (!pos) return false
 
               const { schema, doc } = view.state
@@ -278,7 +284,10 @@ const HighlightExtension = Mark.create<HighlightOptions>({
               if (highlightMark && highlightMark.attrs.id) {
                 event.preventDefault()
                 event.stopPropagation()
-                onHighlightClick(highlightMark.attrs as HighlightAttributes, event as unknown as MouseEvent)
+                onHighlightClick(
+                  highlightMark.attrs as HighlightAttributes,
+                  event as unknown as MouseEvent
+                )
                 return true
               }
 

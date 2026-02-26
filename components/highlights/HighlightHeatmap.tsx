@@ -16,7 +16,7 @@ interface HighlightHeatmapProps {
 export function HighlightHeatmap({
   articleId,
   isAuthor = false,
-  className
+  className,
 }: HighlightHeatmapProps) {
   // Fetch highlight tip stats for this article
   const stats = useQuery(api.highlightTips.getArticleStats, { articleId })
@@ -24,7 +24,12 @@ export function HighlightHeatmap({
   // Loading state
   if (stats === undefined) {
     return (
-      <div className={cn("bg-white rounded-lg shadow-sm border border-gray-200 p-6", className)}>
+      <div
+        className={cn(
+          'bg-white rounded-lg shadow-sm border border-gray-200 p-6',
+          className
+        )}
+      >
         <div className="animate-pulse space-y-4">
           <div className="h-6 bg-gray-200 rounded w-1/2"></div>
           <div className="h-20 bg-gray-200 rounded"></div>
@@ -36,25 +41,28 @@ export function HighlightHeatmap({
   // Empty state - No tips yet
   if (!stats || stats.totalTips === 0) {
     return (
-      <div className={cn("bg-white rounded-lg shadow-sm border border-gray-200 p-6", className)}>
+      <div
+        className={cn(
+          'bg-white rounded-lg shadow-sm border border-gray-200 p-6',
+          className
+        )}
+      >
         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
           <Flame className="w-5 h-5 text-orange-500" />
           Highlight Heatmap
         </h3>
-        
+
         <div className="text-center py-8">
           <Sparkles className="w-12 h-12 mx-auto text-gray-300 mb-3" />
           <p className="text-gray-500 text-sm mb-2">
-            {isAuthor 
+            {isAuthor
               ? 'No highlight tips yet'
-              : 'Be the first to tip a highlight!'
-            }
+              : 'Be the first to tip a highlight!'}
           </p>
           <p className="text-gray-400 text-xs">
             {isAuthor
               ? 'Readers can highlight specific phrases and tip them directly'
-              : 'Select text to highlight and add a tip to your favorite phrases'
-            }
+              : 'Select text to highlight and add a tip to your favorite phrases'}
           </p>
         </div>
 
@@ -62,7 +70,8 @@ export function HighlightHeatmap({
         {!isAuthor && (
           <div className="mt-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
             <p className="text-sm text-yellow-800">
-              <strong>How it works:</strong> Select any text in the article, then click the tip button to support specific phrases you love!
+              <strong>How it works:</strong> Select any text in the article,
+              then click the tip button to support specific phrases you love!
             </p>
           </div>
         )}
@@ -71,10 +80,17 @@ export function HighlightHeatmap({
   }
 
   // Calculate max amount for color intensity
-  const maxAmount = Math.max(...stats.topHighlights.map((h) => h.totalAmountCents))
+  const maxAmount = Math.max(
+    ...stats.topHighlights.map((h) => h.totalAmountCents)
+  )
 
   return (
-    <div className={cn("bg-white rounded-lg shadow-sm border border-gray-200 p-6", className)}>
+    <div
+      className={cn(
+        'bg-white rounded-lg shadow-sm border border-gray-200 p-6',
+        className
+      )}
+    >
       <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
         <Flame className="w-5 h-5 text-orange-500" />
         Highlight Heatmap
@@ -83,15 +99,21 @@ export function HighlightHeatmap({
       {/* Summary Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
         <div className="text-center p-3 bg-green-50 rounded-lg">
-          <div className="text-2xl font-bold text-green-700">{stats.totalTips}</div>
+          <div className="text-2xl font-bold text-green-700">
+            {stats.totalTips}
+          </div>
           <div className="text-xs text-green-600">Total Tips</div>
         </div>
         <div className="text-center p-3 bg-blue-50 rounded-lg">
-          <div className="text-2xl font-bold text-blue-700">${(stats.totalAmountUsd || 0).toFixed(2)}</div>
+          <div className="text-2xl font-bold text-blue-700">
+            ${(stats.totalAmountUsd || 0).toFixed(2)}
+          </div>
           <div className="text-xs text-blue-600">Total Earned</div>
         </div>
         <div className="text-center p-3 bg-purple-50 rounded-lg">
-          <div className="text-2xl font-bold text-purple-700">{stats.uniqueTippers}</div>
+          <div className="text-2xl font-bold text-purple-700">
+            {stats.uniqueTippers}
+          </div>
           <div className="text-xs text-purple-600">Unique Tippers</div>
         </div>
       </div>
@@ -105,8 +127,12 @@ export function HighlightHeatmap({
 
         <div className="space-y-2 max-h-[400px] overflow-y-auto">
           {stats.topHighlights.map((highlight, index: number) => {
-            const intensity = maxAmount > 0 ? highlight.totalAmountCents / maxAmount : 0
-            const bgColor = getHeatmapColor(highlight.totalAmountCents, maxAmount)
+            const intensity =
+              maxAmount > 0 ? highlight.totalAmountCents / maxAmount : 0
+            const bgColor = getHeatmapColor(
+              highlight.totalAmountCents,
+              maxAmount
+            )
 
             return (
               <div
@@ -114,17 +140,20 @@ export function HighlightHeatmap({
                 className="p-3 rounded-lg border transition-all hover:shadow-md"
                 style={{
                   backgroundColor: `${bgColor}20`, // 20% opacity
-                  borderColor: bgColor
+                  borderColor: bgColor,
                 }}
               >
                 <div className="flex items-start justify-between gap-3 mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white"
-                      style={{ backgroundColor: bgColor }}>
+                    <span
+                      className="flex items-center justify-center w-6 h-6 rounded-full text-xs font-bold text-white"
+                      style={{ backgroundColor: bgColor }}
+                    >
                       {index + 1}
                     </span>
                     <span className="text-xs text-gray-600">
-                      {highlight.tipCount} tip{highlight.tipCount > 1 ? 's' : ''}
+                      {highlight.tipCount} tip
+                      {highlight.tipCount > 1 ? 's' : ''}
                     </span>
                   </div>
                   <span className="text-sm font-semibold text-gray-900">
@@ -142,7 +171,7 @@ export function HighlightHeatmap({
                     className="h-full rounded-full transition-all"
                     style={{
                       width: `${intensity * 100}%`,
-                      backgroundColor: bgColor
+                      backgroundColor: bgColor,
                     }}
                   />
                 </div>
@@ -154,12 +183,15 @@ export function HighlightHeatmap({
 
       {/* Color Legend */}
       <div className="mt-6 pt-4 border-t border-gray-200">
-        <p className="text-xs text-gray-600 mb-2 font-medium">Heat Intensity:</p>
+        <p className="text-xs text-gray-600 mb-2 font-medium">
+          Heat Intensity:
+        </p>
         <div className="flex items-center gap-2">
           <span className="text-xs text-gray-500">Low</span>
-          <div className="flex-1 h-3 rounded-full"
+          <div
+            className="flex-1 h-3 rounded-full"
             style={{
-              background: `linear-gradient(to right, ${getHeatmapColor(0, 100)}, ${getHeatmapColor(33, 100)}, ${getHeatmapColor(66, 100)}, ${getHeatmapColor(100, 100)})`
+              background: `linear-gradient(to right, ${getHeatmapColor(0, 100)}, ${getHeatmapColor(33, 100)}, ${getHeatmapColor(66, 100)}, ${getHeatmapColor(100, 100)})`,
             }}
           />
           <span className="text-xs text-gray-500">High</span>

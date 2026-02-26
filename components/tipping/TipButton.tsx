@@ -69,7 +69,9 @@ export function TipButton({
 
     // Require author to have Stellar address configured for real tips
     if (!authorStellarAddress) {
-      toast.error('Author has not set up their Stellar wallet for receiving tips')
+      toast.error(
+        'Author has not set up their Stellar wallet for receiving tips'
+      )
       return
     }
 
@@ -183,7 +185,10 @@ export function TipButton({
                 <p>Connect your Stellar wallet to send tips to {authorName}.</p>
                 <p className="mt-1">
                   New to crypto?{' '}
-                  <Link href="/guide" className="text-amber-700 underline font-medium hover:text-amber-900">
+                  <Link
+                    href="/guide"
+                    className="text-amber-700 underline font-medium hover:text-amber-900"
+                  >
                     Follow our setup guide
                   </Link>
                 </p>
@@ -217,7 +222,10 @@ export function TipButton({
 
             {/* Custom Amount */}
             <div className="mb-6">
-              <label htmlFor="tip-custom-amount" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="tip-custom-amount"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Or enter custom amount
               </label>
               <div className="relative">
@@ -303,7 +311,8 @@ export function TipButton({
 
             {/* Info */}
             <p className="text-xs text-gray-500 text-center mt-2 flex items-center justify-center gap-1">
-              Powered by Stellar <WalletTooltip concept="stellar" /> • Instant settlement • Low fees
+              Powered by Stellar <WalletTooltip concept="stellar" /> • Instant
+              settlement • Low fees
             </p>
           </div>
         </div>

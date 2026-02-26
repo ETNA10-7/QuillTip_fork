@@ -1,79 +1,84 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { ArrowRight, Zap } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useEffect, useState, useCallback, useRef } from 'react';
+import Link from 'next/link'
+import { ArrowRight, Zap } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useEffect, useState, useCallback, useRef } from 'react'
 
-const ARTICLE_TEXT = `Writers pour their hearts into stories that shape how we think — yet most see nothing in return. The quiet revolution of open knowledge deserves better. What if readers could reward the exact words that moved them?`;
+const ARTICLE_TEXT = `Writers pour their hearts into stories that shape how we think — yet most see nothing in return. The quiet revolution of open knowledge deserves better. What if readers could reward the exact words that moved them?`
 
 interface HighlightPhrase {
-  text: string;
-  tip: string;
+  text: string
+  tip: string
 }
 
 const HIGHLIGHT_PHRASES: HighlightPhrase[] = [
   { text: 'the quiet revolution of open knowledge', tip: '+0.50 XLM' },
   { text: 'reward the exact words that moved them', tip: '+1.00 XLM' },
   { text: 'stories that shape how we think', tip: '+0.25 XLM' },
-];
+]
 
-type AnimationStep = 'idle' | 'selecting' | 'highlighted' | 'tipped';
+type AnimationStep = 'idle' | 'selecting' | 'highlighted' | 'tipped'
 
 export default function HeroSection() {
-  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
-  const [animationStep, setAnimationStep] = useState<AnimationStep>('idle');
-  const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0)
+  const [animationStep, setAnimationStep] = useState<AnimationStep>('idle')
+  const timeoutRefs = useRef<ReturnType<typeof setTimeout>[]>([])
 
   const clearAllTimeouts = useCallback(() => {
-    timeoutRefs.current.forEach(clearTimeout);
-    timeoutRefs.current = [];
-  }, []);
+    timeoutRefs.current.forEach(clearTimeout)
+    timeoutRefs.current = []
+  }, [])
 
   const addTimeout = useCallback((fn: () => void, delay: number) => {
-    const id = setTimeout(fn, delay);
-    timeoutRefs.current.push(id);
-    return id;
-  }, []);
+    const id = setTimeout(fn, delay)
+    timeoutRefs.current.push(id)
+    return id
+  }, [])
 
   useEffect(() => {
     const runSequence = () => {
-      clearAllTimeouts();
-      setAnimationStep('idle');
+      clearAllTimeouts()
+      setAnimationStep('idle')
 
-      addTimeout(() => setAnimationStep('selecting'), 200);
-      addTimeout(() => setAnimationStep('highlighted'), 650);
-      addTimeout(() => setAnimationStep('tipped'), 900);
+      addTimeout(() => setAnimationStep('selecting'), 200)
+      addTimeout(() => setAnimationStep('highlighted'), 650)
+      addTimeout(() => setAnimationStep('tipped'), 900)
       addTimeout(() => {
-        setAnimationStep('idle');
+        setAnimationStep('idle')
         addTimeout(() => {
-          setCurrentPhraseIndex((prev) => (prev + 1) % HIGHLIGHT_PHRASES.length);
-        }, 150);
-      }, 1800);
-    };
+          setCurrentPhraseIndex((prev) => (prev + 1) % HIGHLIGHT_PHRASES.length)
+        }, 150)
+      }, 1800)
+    }
 
-    runSequence();
-    const interval = setInterval(runSequence, 2100);
+    runSequence()
+    const interval = setInterval(runSequence, 2100)
 
     return () => {
-      clearInterval(interval);
-      clearAllTimeouts();
-    };
-  }, [currentPhraseIndex, clearAllTimeouts, addTimeout]);
+      clearInterval(interval)
+      clearAllTimeouts()
+    }
+  }, [currentPhraseIndex, clearAllTimeouts, addTimeout])
 
-  const currentPhrase = HIGHLIGHT_PHRASES[currentPhraseIndex] ?? HIGHLIGHT_PHRASES[0];
+  const currentPhrase =
+    HIGHLIGHT_PHRASES[currentPhraseIndex] ?? HIGHLIGHT_PHRASES[0]
 
   const renderArticleText = () => {
-    if (!currentPhrase) return <span>{ARTICLE_TEXT}</span>;
-    const phraseStart = ARTICLE_TEXT.indexOf(currentPhrase.text);
-    if (phraseStart === -1) return <span>{ARTICLE_TEXT}</span>;
+    if (!currentPhrase) return <span>{ARTICLE_TEXT}</span>
+    const phraseStart = ARTICLE_TEXT.indexOf(currentPhrase.text)
+    if (phraseStart === -1) return <span>{ARTICLE_TEXT}</span>
 
-    const before = ARTICLE_TEXT.slice(0, phraseStart);
-    const phrase = ARTICLE_TEXT.slice(phraseStart, phraseStart + currentPhrase.text.length);
-    const after = ARTICLE_TEXT.slice(phraseStart + currentPhrase.text.length);
+    const before = ARTICLE_TEXT.slice(0, phraseStart)
+    const phrase = ARTICLE_TEXT.slice(
+      phraseStart,
+      phraseStart + currentPhrase.text.length
+    )
+    const after = ARTICLE_TEXT.slice(phraseStart + currentPhrase.text.length)
 
-    const isSelecting = animationStep === 'selecting';
-    const isHighlighted = animationStep === 'highlighted' || animationStep === 'tipped';
+    const isSelecting = animationStep === 'selecting'
+    const isHighlighted =
+      animationStep === 'highlighted' || animationStep === 'tipped'
 
     return (
       <>
@@ -116,8 +121,8 @@ export default function HeroSection() {
         </span>
         <span>{after}</span>
       </>
-    );
-  };
+    )
+  }
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
@@ -207,7 +212,9 @@ export default function HeroSection() {
                 </div>
                 <div className="flex-1 flex justify-center">
                   <div className="flex items-center gap-1.5 px-3 py-0.5 bg-white rounded-md border border-neutral-100">
-                    <span className="text-[10px] text-neutral-300 font-medium">quilltip.app/article/on-open-knowledge</span>
+                    <span className="text-[10px] text-neutral-300 font-medium">
+                      quilltip.app/article/on-open-knowledge
+                    </span>
                   </div>
                 </div>
                 <div className="w-10" />
@@ -231,22 +238,34 @@ export default function HeroSection() {
             transition={{ duration: 0.5, delay: 0.1 }}
           >
             <div className="text-center">
-              <p className="text-lg sm:text-xl font-semibold text-neutral-900 tabular-nums">97.5%</p>
-              <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-widest mt-0.5">To Authors</p>
+              <p className="text-lg sm:text-xl font-semibold text-neutral-900 tabular-nums">
+                97.5%
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-widest mt-0.5">
+                To Authors
+              </p>
             </div>
             <div className="w-px h-6 bg-neutral-150 bg-neutral-200/60" />
             <div className="text-center">
-              <p className="text-lg sm:text-xl font-semibold text-neutral-900 tabular-nums">3s</p>
-              <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-widest mt-0.5">Settlement</p>
+              <p className="text-lg sm:text-xl font-semibold text-neutral-900 tabular-nums">
+                3s
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-widest mt-0.5">
+                Settlement
+              </p>
             </div>
             <div className="w-px h-6 bg-neutral-200/60" />
             <div className="text-center">
-              <p className="text-lg sm:text-xl font-semibold text-neutral-900 tabular-nums">$0.01</p>
-              <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-widest mt-0.5">Min Tip</p>
+              <p className="text-lg sm:text-xl font-semibold text-neutral-900 tabular-nums">
+                $0.01
+              </p>
+              <p className="text-[10px] text-neutral-400 font-medium uppercase tracking-widest mt-0.5">
+                Min Tip
+              </p>
             </div>
           </motion.div>
         </motion.div>
       </div>
     </section>
-  );
+  )
 }

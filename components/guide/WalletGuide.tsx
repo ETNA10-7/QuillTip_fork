@@ -24,8 +24,8 @@ export function WalletGuide() {
           Getting Started with QuillTip
         </h1>
         <p className="text-neutral-600 max-w-xl mx-auto">
-          Everything you need to know to start reading, highlighting, and tipping
-          writers — even if you&apos;ve never used crypto before.
+          Everything you need to know to start reading, highlighting, and
+          tipping writers — even if you&apos;ve never used crypto before.
         </p>
       </div>
 
@@ -52,9 +52,9 @@ export function WalletGuide() {
               No crypto experience? No problem.
             </h2>
             <p className="text-sm text-blue-800 leading-relaxed">
-              Reading articles on QuillTip is completely free — no wallet needed.
-              You only need a wallet if you want to <strong>tip writers</strong> for
-              content you love.
+              Reading articles on QuillTip is completely free — no wallet
+              needed. You only need a wallet if you want to{' '}
+              <strong>tip writers</strong> for content you love.
             </p>
           </div>
 
@@ -86,8 +86,8 @@ export function WalletGuide() {
               Freighter is the easiest Stellar wallet
             </h2>
             <p className="text-sm text-amber-800 leading-relaxed">
-              It&apos;s a free browser extension that takes about 2 minutes to set up.
-              Works with Chrome, Firefox, and Brave.
+              It&apos;s a free browser extension that takes about 2 minutes to
+              set up. Works with Chrome, Firefox, and Brave.
             </p>
           </div>
 
@@ -141,8 +141,8 @@ export function WalletGuide() {
               Connect your wallet to QuillTip
             </h2>
             <p className="text-sm text-green-800 leading-relaxed">
-              Once Freighter is installed, connecting takes one click.
-              Try it right here!
+              Once Freighter is installed, connecting takes one click. Try it
+              right here!
             </p>
           </div>
 
@@ -180,8 +180,8 @@ export function WalletGuide() {
               Tipping on QuillTip is simple
             </h2>
             <p className="text-sm text-purple-800 leading-relaxed">
-              You can tip an entire article or a specific highlight.
-              97.5% goes directly to the writer — instantly.
+              You can tip an entire article or a specific highlight. 97.5% goes
+              directly to the writer — instantly.
             </p>
           </div>
 
@@ -189,7 +189,7 @@ export function WalletGuide() {
             step={1}
             icon={BookOpen}
             title="Browse and read articles"
-            description='Head to the Articles page to discover content. Reading is always free — no wallet or account required.'
+            description="Head to the Articles page to discover content. Reading is always free — no wallet or account required."
           >
             <Link
               href="/articles"

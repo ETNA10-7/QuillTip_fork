@@ -1,76 +1,87 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useQuery, useMutation } from 'convex/react';
-import { api } from '@/convex/_generated/api';
-import { Coins, TrendingUp, Clock, DollarSign, Loader2, Wallet, AlertCircle } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { toast } from 'sonner';
-import { useAuth } from '@/components/providers/AuthContext';
+import { useState } from 'react'
+import { useQuery, useMutation } from 'convex/react'
+import { api } from '@/convex/_generated/api'
+import {
+  Coins,
+  TrendingUp,
+  Clock,
+  DollarSign,
+  Loader2,
+  Wallet,
+  AlertCircle,
+} from 'lucide-react'
+import { Skeleton } from '@/components/ui/skeleton'
+import { toast } from 'sonner'
+import { useAuth } from '@/components/providers/AuthContext'
 
 export function EarningsDashboard() {
-  const [isWithdrawing, setIsWithdrawing] = useState(false);
-  const [withdrawAmount, setWithdrawAmount] = useState('');
-  const [stellarAddress, setStellarAddress] = useState('');
-  const [showWithdrawModal, setShowWithdrawModal] = useState(false);
+  const [isWithdrawing, setIsWithdrawing] = useState(false)
+  const [withdrawAmount, setWithdrawAmount] = useState('')
+  const [stellarAddress, setStellarAddress] = useState('')
+  const [showWithdrawModal, setShowWithdrawModal] = useState(false)
 
-  const { user: currentUser } = useAuth();
+  const { user: currentUser } = useAuth()
 
   // Fetch earnings data
-  const earnings = useQuery(api.tips.getAuthorEarnings, {});
-  const recentTips = useQuery(api.tips.getUserReceivedTips, {});
+  const earnings = useQuery(api.tips.getAuthorEarnings, {})
+  const recentTips = useQuery(api.tips.getUserReceivedTips, {})
 
   // Fetch user profile to get stored wallet address
   const userProfile = useQuery(
     api.users.getUserByUsername,
     currentUser?.username ? { username: currentUser.username } : 'skip'
-  );
+  )
 
   // Withdrawal mutations
-  const withdrawEarnings = useMutation(api.tips.withdrawEarnings);
+  const withdrawEarnings = useMutation(api.tips.withdrawEarnings)
 
   const handleWithdraw = async () => {
-    const amount = parseFloat(withdrawAmount);
-    
+    const amount = parseFloat(withdrawAmount)
+
     if (!amount || amount < 10) {
-      toast.error('Minimum withdrawal amount is $10.00');
-      return;
+      toast.error('Minimum withdrawal amount is $10.00')
+      return
     }
 
     if (!stellarAddress || !stellarAddress.startsWith('G')) {
-      toast.error('Please enter a valid Stellar address');
-      return;
+      toast.error('Please enter a valid Stellar address')
+      return
     }
 
     if (earnings && amount > earnings.availableBalanceUsd) {
-      toast.error('Insufficient balance');
-      return;
+      toast.error('Insufficient balance')
+      return
     }
 
-    setIsWithdrawing(true);
+    setIsWithdrawing(true)
     try {
       // Initiate withdrawal - this automatically schedules confirmation
       await withdrawEarnings({
         amountUsd: amount,
         stellarAddress: stellarAddress,
-      });
+      })
 
       // Show success
-      toast.success(`Withdrawal initiated! $${amount.toFixed(2)} will be sent to your Stellar wallet shortly.`);
-      setShowWithdrawModal(false);
-      setWithdrawAmount('');
-      setStellarAddress('');
-      
+      toast.success(
+        `Withdrawal initiated! $${amount.toFixed(2)} will be sent to your Stellar wallet shortly.`
+      )
+      setShowWithdrawModal(false)
+      setWithdrawAmount('')
+      setStellarAddress('')
+
       // Note: The confirmWithdrawal is automatically scheduled by the backend
       // In production, this would be triggered by a webhook from Stellar
-      
     } catch (error) {
-      console.error('Withdrawal error:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to process withdrawal');
+      console.error('Withdrawal error:', error)
+      toast.error(
+        error instanceof Error ? error.message : 'Failed to process withdrawal'
+      )
     } finally {
-      setIsWithdrawing(false);
+      setIsWithdrawing(false)
     }
-  };
+  }
 
   // Loading state
   if (earnings === undefined || recentTips === undefined) {
@@ -86,7 +97,7 @@ export function EarningsDashboard() {
           ))}
         </div>
       </div>
-    );
+    )
   }
 
   // No earnings yet
@@ -103,11 +114,11 @@ export function EarningsDashboard() {
           </p>
         </div>
       </div>
-    );
+    )
   }
 
   // Get last withdrawal date from earnings
-  const lastWithdrawal = earnings.lastWithdrawalAt;
+  const lastWithdrawal = earnings.lastWithdrawalAt
 
   return (
     <div className="space-y-6">
@@ -121,13 +132,16 @@ export function EarningsDashboard() {
                 Stellar Wallet Not Configured
               </h3>
               <p className="text-sm text-yellow-800 mb-3">
-                Please set up your Stellar wallet in the Wallet tab to enable withdrawals.
+                Please set up your Stellar wallet in the Wallet tab to enable
+                withdrawals.
               </p>
               <button
                 onClick={() => {
                   // Navigate to wallet tab
-                  const walletTab = document.querySelector('[data-tab="wallet"]') as HTMLButtonElement;
-                  if (walletTab) walletTab.click();
+                  const walletTab = document.querySelector(
+                    '[data-tab="wallet"]'
+                  ) as HTMLButtonElement
+                  if (walletTab) walletTab.click()
                 }}
                 className="text-sm font-medium text-yellow-900 hover:text-yellow-700 underline"
               >
@@ -165,11 +179,13 @@ export function EarningsDashboard() {
             onClick={() => {
               if (!userProfile?.stellarAddress) {
                 // Navigate to wallet tab
-                const walletTab = document.querySelector('[data-tab="wallet"]') as HTMLButtonElement;
-                if (walletTab) walletTab.click();
+                const walletTab = document.querySelector(
+                  '[data-tab="wallet"]'
+                ) as HTMLButtonElement
+                if (walletTab) walletTab.click()
               } else {
-                setStellarAddress(userProfile.stellarAddress);
-                setShowWithdrawModal(true);
+                setStellarAddress(userProfile.stellarAddress)
+                setShowWithdrawModal(true)
               }
             }}
             disabled={earnings.availableBalanceUsd < 10}
@@ -197,27 +213,28 @@ export function EarningsDashboard() {
       </div>
 
       {/* Monthly Earnings Chart */}
-      {earnings.monthlyEarnings && Object.keys(earnings.monthlyEarnings).length > 0 && (
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-lg font-semibold mb-4">Monthly Earnings</h3>
-          <div className="grid grid-cols-6 gap-2">
-            {Object.entries(earnings.monthlyEarnings)
-              .sort(([a], [b]) => b.localeCompare(a))
-              .slice(0, 6)
-              .reverse()
-              .map(([month, amount]) => (
-                <div key={month} className="text-center">
-                  <div className="text-xs text-gray-500 mb-1">{month}</div>
-                  <div className="bg-gradient-to-t from-yellow-400 to-orange-500 rounded-lg p-2">
-                    <p className="text-sm font-semibold text-white">
-                      ${(amount as number).toFixed(0)}
-                    </p>
+      {earnings.monthlyEarnings &&
+        Object.keys(earnings.monthlyEarnings).length > 0 && (
+          <div className="bg-white rounded-lg shadow p-6">
+            <h3 className="text-lg font-semibold mb-4">Monthly Earnings</h3>
+            <div className="grid grid-cols-6 gap-2">
+              {Object.entries(earnings.monthlyEarnings)
+                .sort(([a], [b]) => b.localeCompare(a))
+                .slice(0, 6)
+                .reverse()
+                .map(([month, amount]) => (
+                  <div key={month} className="text-center">
+                    <div className="text-xs text-gray-500 mb-1">{month}</div>
+                    <div className="bg-gradient-to-t from-yellow-400 to-orange-500 rounded-lg p-2">
+                      <p className="text-sm font-semibold text-white">
+                        ${(amount as number).toFixed(0)}
+                      </p>
+                    </div>
                   </div>
-                </div>
-              ))}
+                ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       {/* Top Articles */}
       {earnings.topArticles && earnings.topArticles.length > 0 && (
@@ -234,8 +251,12 @@ export function EarningsDashboard() {
                 <div className="flex items-center justify-between">
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-gray-500">#{index + 1}</span>
-                      <h4 className="font-medium text-gray-900">{article.title}</h4>
+                      <span className="text-sm font-medium text-gray-500">
+                        #{index + 1}
+                      </span>
+                      <h4 className="font-medium text-gray-900">
+                        {article.title}
+                      </h4>
                     </div>
                     <p className="text-sm text-gray-500 mt-1">
                       {article.tipCount} tips
@@ -296,14 +317,19 @@ export function EarningsDashboard() {
                 Withdraw to your Stellar wallet
               </p>
             </div>
-            
+
             <div className="p-6 space-y-4">
               <div>
-                <label htmlFor="withdraw-amount" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="withdraw-amount"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Amount (USD)
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    $
+                  </span>
                   <input
                     id="withdraw-amount"
                     type="number"
@@ -317,12 +343,16 @@ export function EarningsDashboard() {
                   />
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
-                  Available: ${earnings.availableBalanceUsd.toFixed(2)} | Min: $10.00
+                  Available: ${earnings.availableBalanceUsd.toFixed(2)} | Min:
+                  $10.00
                 </p>
               </div>
 
               <div>
-                <label htmlFor="stellar-address" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="stellar-address"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Stellar Address
                 </label>
                 <input
@@ -337,15 +367,14 @@ export function EarningsDashboard() {
                 <p className="text-xs text-gray-500 mt-1">
                   {userProfile?.stellarAddress
                     ? 'Using your saved wallet address from Wallet settings'
-                    : 'Enter your Stellar wallet address'
-                  }
+                    : 'Enter your Stellar wallet address'}
                 </p>
               </div>
 
               {/* Info Box */}
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
                 <p className="text-sm text-blue-800">
-                  Withdrawals are processed instantly on the Stellar network. 
+                  Withdrawals are processed instantly on the Stellar network.
                   Transaction fees are covered by QuillTip.
                 </p>
               </div>
@@ -380,5 +409,5 @@ export function EarningsDashboard() {
         </div>
       )}
     </div>
-  );
+  )
 }

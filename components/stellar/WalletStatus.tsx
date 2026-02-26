@@ -1,15 +1,22 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
-import { useWallet } from '@/components/providers/WalletProvider';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Copy, ExternalLink, Wallet, RefreshCw, Loader2, Power } from 'lucide-react';
-import { toast } from 'sonner';
+import { useState } from 'react'
+import { useWallet } from '@/components/providers/WalletProvider'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
+import {
+  Copy,
+  ExternalLink,
+  Wallet,
+  RefreshCw,
+  Loader2,
+  Power,
+} from 'lucide-react'
+import { toast } from 'sonner'
 
 interface WalletStatusProps {
-  className?: string;
+  className?: string
 }
 
 export function WalletStatus({ className }: WalletStatusProps) {
@@ -23,43 +30,44 @@ export function WalletStatus({ className }: WalletStatusProps) {
     error,
     connect,
     disconnect,
-    refreshConnection
-  } = useWallet();
-  const [isConnecting, setIsConnecting] = useState(false);
+    refreshConnection,
+  } = useWallet()
+  const [isConnecting, setIsConnecting] = useState(false)
 
   const handleConnect = async () => {
-    setIsConnecting(true);
+    setIsConnecting(true)
     try {
-      await connect();
-      toast.success('Wallet connected successfully!');
+      await connect()
+      toast.success('Wallet connected successfully!')
     } catch (error) {
-      console.error('Failed to connect wallet:', error);
-      toast.error('Failed to connect wallet');
+      console.error('Failed to connect wallet:', error)
+      toast.error('Failed to connect wallet')
     } finally {
-      setIsConnecting(false);
+      setIsConnecting(false)
     }
-  };
+  }
 
   const handleDisconnect = () => {
-    disconnect();
-    toast.success('Wallet disconnected');
-  };
+    disconnect()
+    toast.success('Wallet disconnected')
+  }
 
   const copyToClipboard = async (text: string) => {
     try {
-      await navigator.clipboard.writeText(text);
-      toast.success('Copied to clipboard!');
+      await navigator.clipboard.writeText(text)
+      toast.success('Copied to clipboard!')
     } catch {
-      toast.error('Failed to copy');
+      toast.error('Failed to copy')
     }
-  };
+  }
 
   const openInExplorer = (address: string) => {
-    const explorerUrl = network === 'TESTNET'
-      ? `https://stellar.expert/explorer/testnet/account/${address}`
-      : `https://stellar.expert/explorer/public/account/${address}`;
-    window.open(explorerUrl, '_blank');
-  };
+    const explorerUrl =
+      network === 'TESTNET'
+        ? `https://stellar.expert/explorer/testnet/account/${address}`
+        : `https://stellar.expert/explorer/public/account/${address}`
+    window.open(explorerUrl, '_blank')
+  }
 
   // Wallet selection will happen via modal
 
@@ -72,7 +80,9 @@ export function WalletStatus({ className }: WalletStatusProps) {
               <Wallet className="w-6 h-6 text-red-600" />
             </div>
             <div>
-              <h3 className="font-semibold text-red-900">Wallet Connection Error</h3>
+              <h3 className="font-semibold text-red-900">
+                Wallet Connection Error
+              </h3>
               <p className="text-sm text-red-600">{error}</p>
             </div>
             <Button variant="outline" onClick={refreshConnection}>
@@ -82,7 +92,7 @@ export function WalletStatus({ className }: WalletStatusProps) {
           </div>
         </CardContent>
       </Card>
-    );
+    )
   }
 
   if (!isConnected) {
@@ -120,7 +130,7 @@ export function WalletStatus({ className }: WalletStatusProps) {
           </div>
         </CardContent>
       </Card>
-    );
+    )
   }
 
   return (
@@ -143,7 +153,9 @@ export function WalletStatus({ className }: WalletStatusProps) {
       <CardContent className="space-y-4">
         <div className="space-y-3">
           <div>
-            <span className="text-sm font-medium text-muted-foreground">Address</span>
+            <span className="text-sm font-medium text-muted-foreground">
+              Address
+            </span>
             <div className="flex items-center gap-2 mt-1">
               <code className="flex-1 text-sm bg-muted px-2 py-1 rounded truncate">
                 {publicKey}
@@ -167,7 +179,9 @@ export function WalletStatus({ className }: WalletStatusProps) {
 
           {network && (
             <div>
-              <span className="text-sm font-medium text-muted-foreground">Network</span>
+              <span className="text-sm font-medium text-muted-foreground">
+                Network
+              </span>
               <div className="mt-1">
                 <Badge
                   variant={network === 'TESTNET' ? 'secondary' : 'default'}
@@ -181,7 +195,9 @@ export function WalletStatus({ className }: WalletStatusProps) {
 
           {networkPassphrase && (
             <div>
-              <span className="text-sm font-medium text-muted-foreground">Network Passphrase</span>
+              <span className="text-sm font-medium text-muted-foreground">
+                Network Passphrase
+              </span>
               <div className="flex items-center gap-2 mt-1">
                 <code className="flex-1 text-xs bg-muted px-2 py-1 rounded truncate">
                   {networkPassphrase}
@@ -199,16 +215,26 @@ export function WalletStatus({ className }: WalletStatusProps) {
         </div>
 
         <div className="flex gap-2">
-          <Button variant="outline" size="sm" onClick={refreshConnection} className="flex-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={refreshConnection}
+            className="flex-1"
+          >
             <RefreshCw className="w-4 h-4 mr-2" />
             Refresh Connection
           </Button>
-          <Button variant="outline" size="sm" onClick={handleDisconnect} className="flex-1">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleDisconnect}
+            className="flex-1"
+          >
             <Power className="w-4 h-4 mr-2" />
             Disconnect
           </Button>
         </div>
       </CardContent>
     </Card>
-  );
+  )
 }

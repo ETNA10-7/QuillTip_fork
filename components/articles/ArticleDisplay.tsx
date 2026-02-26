@@ -45,7 +45,10 @@ interface ArticleDisplayProps {
   showHighlights?: boolean
 }
 
-export default function ArticleDisplay({ article, showHighlights = true }: ArticleDisplayProps) {
+export default function ArticleDisplay({
+  article,
+  showHighlights = true,
+}: ArticleDisplayProps) {
   const [currentUrl, setCurrentUrl] = useState('')
   const { isAuthenticated } = useAuth()
   const [useHighlightable, setUseHighlightable] = useState(false)
@@ -79,7 +82,7 @@ export default function ArticleDisplay({ article, showHighlights = true }: Artic
     },
   })
 
-  const publishedDate = article.publishedAt 
+  const publishedDate = article.publishedAt
     ? formatDistanceToNow(new Date(article.publishedAt), { addSuffix: true })
     : null
 
@@ -90,7 +93,7 @@ export default function ArticleDisplay({ article, showHighlights = true }: Artic
         <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 leading-tight">
           {article.title}
         </h1>
-        
+
         {/* Author Info */}
         <div className="flex items-center gap-4 mb-6">
           <div className="flex items-center gap-3">
@@ -104,7 +107,9 @@ export default function ArticleDisplay({ article, showHighlights = true }: Artic
               />
             ) : (
               <div className="w-12 h-12 rounded-full bg-brand-blue text-white flex items-center justify-center font-semibold">
-                {(article.author.name || article.author.username).charAt(0).toUpperCase()}
+                {(article.author.name || article.author.username)
+                  .charAt(0)
+                  .toUpperCase()}
               </div>
             )}
             <div>

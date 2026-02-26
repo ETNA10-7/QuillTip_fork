@@ -10,7 +10,10 @@ import { Coins, Heart, Loader2, Wallet } from 'lucide-react'
 import { api } from '@/convex/_generated/api'
 import { Id } from '@/convex/_generated/dataModel'
 import { stellarClient } from '@/lib/stellar/client'
-import { generateHighlightId, formatTipAmount } from '@/lib/stellar/highlight-utils'
+import {
+  generateHighlightId,
+  formatTipAmount,
+} from '@/lib/stellar/highlight-utils'
 
 interface HighlightTipButtonProps {
   articleId: Id<'articles'>
@@ -204,9 +207,10 @@ export function HighlightTipButton({
   }
 
   // Truncate long text for display
-  const displayText = highlightText.length > 60
-    ? highlightText.slice(0, 60) + '...'
-    : highlightText
+  const displayText =
+    highlightText.length > 60
+      ? highlightText.slice(0, 60) + '...'
+      : highlightText
 
   return (
     <>
@@ -231,13 +235,17 @@ export function HighlightTipButton({
           {/* Backdrop — interactive button so a11y rules are satisfied */}
           <button
             className="absolute inset-0 bg-black/50"
-            onClick={() => { if (!isLoading) setIsOpen(false) }}
+            onClick={() => {
+              if (!isLoading) setIsOpen(false)
+            }}
             aria-label="Close dialog"
             tabIndex={-1}
           />
           <div className="relative bg-white rounded-xl shadow-xl max-w-md w-full p-6 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-4">
-              <h3 id="highlight-tip-dialog-title" className="text-xl font-bold">Tip Highlight</h3>
+              <h3 id="highlight-tip-dialog-title" className="text-xl font-bold">
+                Tip Highlight
+              </h3>
               <button
                 onClick={() => setIsOpen(false)}
                 className="text-gray-400 hover:text-gray-600 text-2xl leading-none"
@@ -248,7 +256,9 @@ export function HighlightTipButton({
 
             {/* Highlight Preview */}
             <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-              <p className="text-sm text-gray-700 italic">&ldquo;{displayText}&rdquo;</p>
+              <p className="text-sm text-gray-700 italic">
+                &ldquo;{displayText}&rdquo;
+              </p>
             </div>
 
             <p className="text-gray-600 mb-4">
@@ -290,7 +300,10 @@ export function HighlightTipButton({
 
             {/* Custom Amount */}
             <div className="mb-6">
-              <label htmlFor="highlight-tip-custom-amount" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="highlight-tip-custom-amount"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Or enter custom amount
               </label>
               <div className="relative">

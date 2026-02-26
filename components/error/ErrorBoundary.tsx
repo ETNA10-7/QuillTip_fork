@@ -27,16 +27,18 @@ export class ErrorBoundary extends Component<Props, State> {
 
   override render() {
     if (this.state.hasError) {
-      return this.props.fallback || (
-        <div className="p-4 border border-red-200 bg-red-50 rounded-lg">
-          <p className="text-red-800">Something went wrong.</p>
-          <button
-            onClick={() => this.setState({ hasError: false, error: null })}
-            className="mt-2 text-sm text-red-600 underline"
-          >
-            Try again
-          </button>
-        </div>
+      return (
+        this.props.fallback || (
+          <div className="p-4 border border-red-200 bg-red-50 rounded-lg">
+            <p className="text-red-800">Something went wrong.</p>
+            <button
+              onClick={() => this.setState({ hasError: false, error: null })}
+              className="mt-2 text-sm text-red-600 underline"
+            >
+              Try again
+            </button>
+          </div>
+        )
       )
     }
     return this.props.children

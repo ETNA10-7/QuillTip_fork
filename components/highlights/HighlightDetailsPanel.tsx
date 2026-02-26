@@ -14,7 +14,7 @@ import {
   Edit,
   Trash2,
   Loader2,
-  TrendingUp
+  TrendingUp,
 } from 'lucide-react'
 import { HighlightTipButton } from './HighlightTipButton'
 import { formatTipAmount } from '@/lib/stellar/highlight-utils'
@@ -79,7 +79,10 @@ export function HighlightDetailsPanel({
   const tipStats = useMemo(() => {
     if (!highlightTips) return { count: 0, totalCents: 0, totalUsd: 0 }
 
-    const totalCents = highlightTips.reduce((sum, tip) => sum + tip.amountCents, 0)
+    const totalCents = highlightTips.reduce(
+      (sum, tip) => sum + tip.amountCents,
+      0
+    )
 
     return {
       count: highlightTips.length,
@@ -120,9 +123,10 @@ export function HighlightDetailsPanel({
   }
 
   // Truncate text for display
-  const displayText = highlight.text.length > 150
-    ? highlight.text.slice(0, 150) + '...'
-    : highlight.text
+  const displayText =
+    highlight.text.length > 150
+      ? highlight.text.slice(0, 150) + '...'
+      : highlight.text
 
   return (
     <motion.div
@@ -260,7 +264,9 @@ export function HighlightDetailsPanel({
         <div className="px-4 py-3 border-b border-gray-100 bg-gradient-to-r from-yellow-50 to-orange-50">
           <div className="flex items-center gap-2 mb-2">
             <TrendingUp className="w-4 h-4 text-orange-500" />
-            <span className="text-xs font-medium text-gray-700">Tip Statistics</span>
+            <span className="text-xs font-medium text-gray-700">
+              Tip Statistics
+            </span>
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
@@ -297,10 +303,10 @@ export function HighlightDetailsPanel({
                   onClick={handleDelete}
                   disabled={isDeleting}
                   className={cn(
-                    "w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium",
+                    'w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg transition-colors text-sm font-medium',
                     isDeleting
-                      ? "bg-gray-100 text-gray-400 cursor-not-allowed"
-                      : "bg-red-50 text-red-700 hover:bg-red-100"
+                      ? 'bg-gray-100 text-gray-400 cursor-not-allowed'
+                      : 'bg-red-50 text-red-700 hover:bg-red-100'
                   )}
                 >
                   {isDeleting ? (
@@ -320,7 +326,9 @@ export function HighlightDetailsPanel({
           </div>
         ) : (
           // Non-owner action: Tip
-          articleId && articleSlug && authorStellarAddress && (
+          articleId &&
+          articleSlug &&
+          authorStellarAddress && (
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-xs text-gray-600 mb-2">
                 <Coins className="w-3 h-3" />
@@ -355,8 +363,8 @@ export function HighlightDetailsPanel({
       {/* Footer hint */}
       {!isOwner && tipStats.count > 0 && (
         <div className="px-4 pb-3 text-xs text-center text-gray-400">
-          {tipStats.count} {tipStats.count === 1 ? 'person has' : 'people have'} tipped
-          this highlight
+          {tipStats.count} {tipStats.count === 1 ? 'person has' : 'people have'}{' '}
+          tipped this highlight
         </div>
       )}
     </motion.div>

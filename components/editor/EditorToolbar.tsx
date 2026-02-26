@@ -1,10 +1,10 @@
 'use client'
 
 import { Editor } from '@tiptap/react'
-import { 
-  Bold, 
-  Italic, 
-  Underline, 
+import {
+  Bold,
+  Italic,
+  Underline,
   Strikethrough,
   List,
   ListOrdered,
@@ -16,7 +16,7 @@ import {
   ChevronDown,
   Undo,
   Redo,
-  Youtube
+  Youtube,
 } from 'lucide-react'
 import { useState } from 'react'
 import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
@@ -36,7 +36,13 @@ interface ToolbarButtonProps {
   title?: string
 }
 
-function ToolbarButton({ onClick, isActive = false, disabled = false, children, title }: ToolbarButtonProps) {
+function ToolbarButton({
+  onClick,
+  isActive = false,
+  disabled = false,
+  children,
+  title,
+}: ToolbarButtonProps) {
   return (
     <button
       onClick={onClick}
@@ -86,25 +92,55 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
 
   const handleVideoEmbed = (url: string, width?: number, height?: number) => {
     if ('setYoutubeVideo' in editor.commands) {
-      editor.commands.setYoutubeVideo({ 
+      editor.commands.setYoutubeVideo({
         src: url,
         width: width || 640,
-        height: height || 480
+        height: height || 480,
       })
     } else {
       console.error('setYoutubeVideo command not available')
-      toast.error('YouTube extension not properly loaded. Please refresh the page.')
+      toast.error(
+        'YouTube extension not properly loaded. Please refresh the page.'
+      )
     }
   }
 
   const headingOptions = [
-    { level: 0, label: 'Normal Text', command: () => editor.chain().focus().setParagraph().run() },
-    { level: 1, label: 'Heading 1', command: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
-    { level: 2, label: 'Heading 2', command: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
-    { level: 3, label: 'Heading 3', command: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
-    { level: 4, label: 'Heading 4', command: () => editor.chain().focus().toggleHeading({ level: 4 }).run() },
-    { level: 5, label: 'Heading 5', command: () => editor.chain().focus().toggleHeading({ level: 5 }).run() },
-    { level: 6, label: 'Heading 6', command: () => editor.chain().focus().toggleHeading({ level: 6 }).run() },
+    {
+      level: 0,
+      label: 'Normal Text',
+      command: () => editor.chain().focus().setParagraph().run(),
+    },
+    {
+      level: 1,
+      label: 'Heading 1',
+      command: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    },
+    {
+      level: 2,
+      label: 'Heading 2',
+      command: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    },
+    {
+      level: 3,
+      label: 'Heading 3',
+      command: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+    },
+    {
+      level: 4,
+      label: 'Heading 4',
+      command: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
+    },
+    {
+      level: 5,
+      label: 'Heading 5',
+      command: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
+    },
+    {
+      level: 6,
+      label: 'Heading 6',
+      command: () => editor.chain().focus().toggleHeading({ level: 6 }).run(),
+    },
   ]
 
   const getCurrentHeading = () => {
@@ -147,7 +183,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
         </DropdownMenu.Trigger>
         <DropdownMenu.Portal>
           <DropdownMenu.Content className="bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-50">
-            {headingOptions.map(option => (
+            {headingOptions.map((option) => (
               <DropdownMenu.Item
                 key={option.level}
                 onSelect={option.command}
@@ -281,10 +317,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
       </div>
 
       {/* Image */}
-      <ToolbarButton
-        onClick={() => setShowImageDialog(true)}
-        title="Add Image"
-      >
+      <ToolbarButton onClick={() => setShowImageDialog(true)} title="Add Image">
         <Image className="w-4 h-4" />
       </ToolbarButton>
 
@@ -295,7 +328,7 @@ export function EditorToolbar({ editor }: EditorToolbarProps) {
       >
         <Youtube className="w-4 h-4" />
       </ToolbarButton>
-      
+
       <ImageUploadDialog
         isOpen={showImageDialog}
         onClose={() => setShowImageDialog(false)}

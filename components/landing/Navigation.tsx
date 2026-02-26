@@ -1,149 +1,219 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { useState, useEffect, useRef, useCallback } from 'react';
-import { Menu, X, PenTool, Zap, Highlighter, HelpCircle, FileText, Shield, ChevronDown, BookOpen, Coins, Globe, Sparkles } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { LucideIcon } from 'lucide-react';
+import Link from 'next/link'
+import { useState, useEffect, useRef, useCallback } from 'react'
+import {
+  Menu,
+  X,
+  PenTool,
+  Zap,
+  Highlighter,
+  HelpCircle,
+  FileText,
+  Shield,
+  ChevronDown,
+  BookOpen,
+  Coins,
+  Globe,
+  Sparkles,
+} from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { LucideIcon } from 'lucide-react'
 
 interface NavDropdownItem {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  href: string;
-  badge?: string;
+  icon: LucideIcon
+  title: string
+  description: string
+  href: string
+  badge?: string
 }
 
 interface NavDropdownColumn {
-  heading: string;
-  items: NavDropdownItem[];
+  heading: string
+  items: NavDropdownItem[]
 }
 
 interface NavFeatured {
-  title: string;
-  description: string;
-  href: string;
-  bgClass: string;
-  icon: LucideIcon;
+  title: string
+  description: string
+  href: string
+  bgClass: string
+  icon: LucideIcon
 }
 
 interface NavDropdown {
-  label: string;
-  featured: NavFeatured;
-  columns: NavDropdownColumn[];
+  label: string
+  featured: NavFeatured
+  columns: NavDropdownColumn[]
 }
 
 const navDropdowns: NavDropdown[] = [
   {
-    label: "Product",
+    label: 'Product',
     featured: {
-      title: "QuillTip Platform",
-      description: "Write, publish, and earn — all in one decentralized platform built on Stellar.",
-      href: "#features",
-      bgClass: "bg-gradient-to-br from-blue-50 to-indigo-100",
+      title: 'QuillTip Platform',
+      description:
+        'Write, publish, and earn — all in one decentralized platform built on Stellar.',
+      href: '#features',
+      bgClass: 'bg-gradient-to-br from-blue-50 to-indigo-100',
       icon: PenTool,
     },
     columns: [
       {
-        heading: "Features",
+        heading: 'Features',
         items: [
-          { icon: PenTool, title: "Rich Editor", description: "Write with markdown & media", href: "#features" },
-          { icon: Highlighter, title: "Highlights", description: "Readers tip specific passages", href: "#features" },
-          { icon: Sparkles, title: "NFT Minting", description: "Mint articles as collectibles", href: "#features" },
+          {
+            icon: PenTool,
+            title: 'Rich Editor',
+            description: 'Write with markdown & media',
+            href: '#features',
+          },
+          {
+            icon: Highlighter,
+            title: 'Highlights',
+            description: 'Readers tip specific passages',
+            href: '#features',
+          },
+          {
+            icon: Sparkles,
+            title: 'NFT Minting',
+            description: 'Mint articles as collectibles',
+            href: '#features',
+          },
         ],
       },
       {
-        heading: "Earn",
+        heading: 'Earn',
         items: [
-          { icon: Zap, title: "Instant Tips", description: "Get paid via Stellar network", href: "#how-it-works" },
-          { icon: Coins, title: "Low Fees", description: "97.5% goes directly to you", href: "#how-it-works" },
-          { icon: Globe, title: "Permanent Storage", description: "Articles stored on Arweave", href: "#how-it-works" },
+          {
+            icon: Zap,
+            title: 'Instant Tips',
+            description: 'Get paid via Stellar network',
+            href: '#how-it-works',
+          },
+          {
+            icon: Coins,
+            title: 'Low Fees',
+            description: '97.5% goes directly to you',
+            href: '#how-it-works',
+          },
+          {
+            icon: Globe,
+            title: 'Permanent Storage',
+            description: 'Articles stored on Arweave',
+            href: '#how-it-works',
+          },
         ],
       },
     ],
   },
   {
-    label: "Resources",
+    label: 'Resources',
     featured: {
-      title: "Getting Started",
-      description: "Set up your wallet and start earning tips in under 5 minutes.",
-      href: "/guide",
-      bgClass: "bg-gradient-to-br from-amber-50 to-orange-100",
+      title: 'Getting Started',
+      description:
+        'Set up your wallet and start earning tips in under 5 minutes.',
+      href: '/guide',
+      bgClass: 'bg-gradient-to-br from-amber-50 to-orange-100',
       icon: BookOpen,
     },
     columns: [
       {
-        heading: "Learn",
+        heading: 'Learn',
         items: [
-          { icon: FileText, title: "Wallet Guide", description: "Set up Freighter wallet", href: "/guide" },
-          { icon: HelpCircle, title: "FAQ", description: "Common questions answered", href: "#faq" },
+          {
+            icon: FileText,
+            title: 'Wallet Guide',
+            description: 'Set up Freighter wallet',
+            href: '/guide',
+          },
+          {
+            icon: HelpCircle,
+            title: 'FAQ',
+            description: 'Common questions answered',
+            href: '#faq',
+          },
         ],
       },
       {
-        heading: "Trust & Safety",
+        heading: 'Trust & Safety',
         items: [
-          { icon: Shield, title: "Security", description: "Blockchain security overview", href: "#faq" },
-          { icon: Globe, title: "Arweave Storage", description: "How permanent storage works", href: "#faq" },
+          {
+            icon: Shield,
+            title: 'Security',
+            description: 'Blockchain security overview',
+            href: '#faq',
+          },
+          {
+            icon: Globe,
+            title: 'Arweave Storage',
+            description: 'How permanent storage works',
+            href: '#faq',
+          },
         ],
       },
     ],
   },
-];
+]
 
 export default function Navigation() {
-  const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [isOpen, setIsOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null)
+  const navRef = useRef<HTMLDivElement>(null)
+  const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      setScrolled(window.scrollY > 20)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (navRef.current && !navRef.current.contains(event.target as Node)) {
-        setOpenDropdown(null);
+        setOpenDropdown(null)
       }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const handleMouseEnter = useCallback((label: string) => {
     if (closeTimeoutRef.current) {
-      clearTimeout(closeTimeoutRef.current);
-      closeTimeoutRef.current = null;
+      clearTimeout(closeTimeoutRef.current)
+      closeTimeoutRef.current = null
     }
-    setOpenDropdown(label);
-  }, []);
+    setOpenDropdown(label)
+  }, [])
 
   const handleMouseLeave = useCallback(() => {
     closeTimeoutRef.current = setTimeout(() => {
-      setOpenDropdown(null);
-    }, 150);
-  }, []);
+      setOpenDropdown(null)
+    }, 150)
+  }, [])
 
-  const handleSmoothScroll = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
     if (href.startsWith('#')) {
-      e.preventDefault();
-      const element = document.querySelector(href);
+      e.preventDefault()
+      const element = document.querySelector(href)
       if (element) {
-        const offsetTop = element.getBoundingClientRect().top + window.pageYOffset - 80;
+        const offsetTop =
+          element.getBoundingClientRect().top + window.pageYOffset - 80
         window.scrollTo({
           top: offsetTop,
-          behavior: 'smooth'
-        });
+          behavior: 'smooth',
+        })
       }
-      setIsOpen(false);
-      setOpenDropdown(null);
+      setIsOpen(false)
+      setOpenDropdown(null)
     }
-  };
+  }
 
   return (
     <motion.nav
@@ -163,7 +233,7 @@ export default function Navigation() {
             <motion.div
               className="w-9 h-9 bg-gradient-to-br from-neutral-900 to-neutral-700 rounded-xl flex items-center justify-center shadow-sm"
               whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              transition={{ type: 'spring', stiffness: 400, damping: 10 }}
             >
               <PenTool className="w-[18px] h-[18px] text-white" />
             </motion.div>
@@ -211,15 +281,22 @@ export default function Navigation() {
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.18, ease: "easeOut" }}
+                        transition={{ duration: 0.18, ease: 'easeOut' }}
                         className="absolute top-[calc(100%+8px)] right-0 w-[560px] bg-white rounded-2xl shadow-xl shadow-neutral-900/8 border border-neutral-200/60 overflow-hidden"
-                        style={{ transform: dropdown.label === "Product" ? "translateX(10%)" : "translateX(30%)" }}
+                        style={{
+                          transform:
+                            dropdown.label === 'Product'
+                              ? 'translateX(10%)'
+                              : 'translateX(30%)',
+                        }}
                       >
                         <div className="flex">
                           {/* Featured card */}
                           <Link
                             href={dropdown.featured.href}
-                            onClick={(e) => handleSmoothScroll(e, dropdown.featured.href)}
+                            onClick={(e) =>
+                              handleSmoothScroll(e, dropdown.featured.href)
+                            }
                             className={`w-[200px] shrink-0 p-5 ${dropdown.featured.bgClass} flex flex-col justify-between group/featured`}
                           >
                             <div>
@@ -235,7 +312,9 @@ export default function Navigation() {
                             </div>
                             <span className="text-[12px] font-medium text-neutral-500 group-hover/featured:text-neutral-800 transition-colors mt-4 inline-flex items-center gap-1">
                               Learn more
-                              <span className="transition-transform group-hover/featured:translate-x-0.5">→</span>
+                              <span className="transition-transform group-hover/featured:translate-x-0.5">
+                                →
+                              </span>
                             </span>
                           </Link>
 
@@ -252,8 +331,8 @@ export default function Navigation() {
                                       key={item.title}
                                       href={item.href}
                                       onClick={(e) => {
-                                        handleSmoothScroll(e, item.href);
-                                        setOpenDropdown(null);
+                                        handleSmoothScroll(e, item.href)
+                                        setOpenDropdown(null)
                                       }}
                                       className="flex items-start gap-2.5 px-2.5 py-2 rounded-xl hover:bg-neutral-50 transition-colors duration-150 group/item"
                                     >
@@ -269,7 +348,9 @@ export default function Navigation() {
                                             </span>
                                           )}
                                         </p>
-                                        <p className="text-[11px] text-neutral-400 leading-snug">{item.description}</p>
+                                        <p className="text-[11px] text-neutral-400 leading-snug">
+                                          {item.description}
+                                        </p>
                                       </div>
                                     </Link>
                                   ))}
@@ -353,14 +434,16 @@ export default function Navigation() {
                             href={item.href}
                             className="flex items-center gap-2.5 py-1.5 text-neutral-600 hover:text-neutral-900 transition-colors"
                             onClick={(e) => {
-                              handleSmoothScroll(e, item.href);
-                              setIsOpen(false);
+                              handleSmoothScroll(e, item.href)
+                              setIsOpen(false)
                             }}
                           >
                             <div className="w-7 h-7 bg-neutral-100 rounded-lg flex items-center justify-center">
                               <item.icon className="w-3.5 h-3.5 text-neutral-500" />
                             </div>
-                            <span className="text-sm font-medium">{item.title}</span>
+                            <span className="text-sm font-medium">
+                              {item.title}
+                            </span>
                           </Link>
                         ))
                       )}
@@ -371,7 +454,10 @@ export default function Navigation() {
                 <motion.div
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3, delay: navDropdowns.length * 0.1 }}
+                  transition={{
+                    duration: 0.3,
+                    delay: navDropdowns.length * 0.1,
+                  }}
                   className="pt-3 space-y-2 border-t border-neutral-200/60"
                 >
                   <Link
@@ -395,5 +481,5 @@ export default function Navigation() {
         </AnimatePresence>
       </div>
     </motion.nav>
-  );
+  )
 }

@@ -73,9 +73,12 @@ export function OnboardingDialog() {
   const StepIcon = step.icon
 
   return (
-    <Dialog open={open} onOpenChange={(isOpen) => {
-      if (!isOpen) handleComplete()
-    }}>
+    <Dialog
+      open={open}
+      onOpenChange={(isOpen) => {
+        if (!isOpen) handleComplete()
+      }}
+    >
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle className="sr-only">Welcome to QuillTip</DialogTitle>
@@ -121,17 +124,17 @@ export function OnboardingDialog() {
         <div className="flex flex-col gap-2 mt-2">
           {currentStep === 1 && (
             <div className="flex gap-2">
-              <Link href="/guide" onClick={() => handleComplete()} className="flex-1">
+              <Link
+                href="/guide"
+                onClick={() => handleComplete()}
+                className="flex-1"
+              >
                 <Button className="w-full" variant="default">
                   <HelpCircle className="w-4 h-4 mr-2" />
                   Set Up Now
                 </Button>
               </Link>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={handleNext}
-              >
+              <Button variant="outline" className="flex-1" onClick={handleNext}>
                 I&apos;ll do this later
               </Button>
             </div>

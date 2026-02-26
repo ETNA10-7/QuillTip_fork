@@ -12,27 +12,33 @@ export default function ResizableImageComponent({
   const [isResizing, setIsResizing] = useState(false)
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 })
   const [originalSize, setOriginalSize] = useState({ width: 0, height: 0 })
-  const [currentSize, setCurrentSize] = useState({ width: width || 400, height: height || 300 })
+  const [currentSize, setCurrentSize] = useState({
+    width: width || 400,
+    height: height || 300,
+  })
   const imageRef = useRef<HTMLImageElement>(null)
 
   useEffect(() => {
     setCurrentSize({ width: width || 400, height: height || 300 })
   }, [width, height])
 
-  const handleImageLoad = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
-    const img = e.target as HTMLImageElement
-    setOriginalSize({ width: img.naturalWidth, height: img.naturalHeight })
-    
-    if (!width && !height) {
-      // Set initial size constraints
-      const maxWidth = Math.min(img.naturalWidth, 600) // Max 600px width
-      const aspectRatio = img.naturalHeight / img.naturalWidth
-      const newHeight = Math.round(maxWidth * aspectRatio)
-      
-      setCurrentSize({ width: maxWidth, height: newHeight })
-      updateAttributes({ width: maxWidth, height: newHeight })
-    }
-  }, [width, height, updateAttributes])
+  const handleImageLoad = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement>) => {
+      const img = e.target as HTMLImageElement
+      setOriginalSize({ width: img.naturalWidth, height: img.naturalHeight })
+
+      if (!width && !height) {
+        // Set initial size constraints
+        const maxWidth = Math.min(img.naturalWidth, 600) // Max 600px width
+        const aspectRatio = img.naturalHeight / img.naturalWidth
+        const newHeight = Math.round(maxWidth * aspectRatio)
+
+        setCurrentSize({ width: maxWidth, height: newHeight })
+        updateAttributes({ width: maxWidth, height: newHeight })
+      }
+    },
+    [width, height, updateAttributes]
+  )
 
   const handleMouseDown = useCallback((e: React.MouseEvent) => {
     e.preventDefault()
@@ -40,26 +46,36 @@ export default function ResizableImageComponent({
     setDragStart({ x: e.clientX, y: e.clientY })
   }, [])
 
-  const handleMouseMove = useCallback((e: MouseEvent) => {
-    if (!isResizing) return
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      if (!isResizing) return
 
-    const deltaX = e.clientX - dragStart.x
-    const currentWidth = typeof currentSize.width === 'number' ? currentSize.width : 400
-    const newWidth = Math.max(100, Math.min(1200, currentWidth + deltaX)) // Min 100px, max 1200px
-    
-    // Maintain aspect ratio
-    const aspectRatio = originalSize.height / originalSize.width
-    const newHeight = newWidth * aspectRatio
+      const deltaX = e.clientX - dragStart.x
+      const currentWidth =
+        typeof currentSize.width === 'number' ? currentSize.width : 400
+      const newWidth = Math.max(100, Math.min(1200, currentWidth + deltaX)) // Min 100px, max 1200px
 
-    setCurrentSize({ width: newWidth, height: newHeight })
-  }, [isResizing, dragStart.x, currentSize.width, originalSize])
+      // Maintain aspect ratio
+      const aspectRatio = originalSize.height / originalSize.width
+      const newHeight = newWidth * aspectRatio
+
+      setCurrentSize({ width: newWidth, height: newHeight })
+    },
+    [isResizing, dragStart.x, currentSize.width, originalSize]
+  )
 
   const handleMouseUp = useCallback(() => {
     if (isResizing) {
       setIsResizing(false)
       updateAttributes({
-        width: typeof currentSize.width === 'number' ? Math.round(currentSize.width) : null,
-        height: typeof currentSize.height === 'number' ? Math.round(currentSize.height) : null,
+        width:
+          typeof currentSize.width === 'number'
+            ? Math.round(currentSize.width)
+            : null,
+        height:
+          typeof currentSize.height === 'number'
+            ? Math.round(currentSize.height)
+            : null,
       })
     }
   }, [isResizing, currentSize, updateAttributes])
@@ -75,7 +91,9 @@ export default function ResizableImageComponent({
     }
   }, [isResizing, handleMouseMove, handleMouseUp])
 
-  const handleSizeChange = (newSize: 'small' | 'medium' | 'large' | 'original') => {
+  const handleSizeChange = (
+    newSize: 'small' | 'medium' | 'large' | 'original'
+  ) => {
     let newWidth: number
 
     switch (newSize) {
@@ -124,7 +142,7 @@ export default function ResizableImageComponent({
           className="rounded-lg"
           draggable={false}
         />
-        
+
         {selected && (
           <>
             {/* Resize Handle - mouse-only interaction for drag resizing */}
@@ -134,7 +152,7 @@ export default function ResizableImageComponent({
               onMouseDown={handleMouseDown}
               style={{ transform: 'translate(50%, 50%)' }}
             />
-            
+
             {/* Size Controls */}
             <div className="absolute top-0 left-0 transform -translate-y-full mb-2 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="flex gap-1 bg-white rounded-lg shadow-lg border p-1">
@@ -168,7 +186,12 @@ export default function ResizableImageComponent({
             {/* Dimensions Display */}
             <div className="absolute bottom-0 left-0 transform translate-y-full mt-1 opacity-0 group-hover:opacity-100 transition-opacity">
               <div className="bg-black/75 text-white text-xs px-2 py-1 rounded">
-                {Math.round(currentSize.width)} × {Math.round(currentSize.height * (originalSize.height / originalSize.width))}px
+                {Math.round(currentSize.width)} ×{' '}
+                {Math.round(
+                  currentSize.height *
+                    (originalSize.height / originalSize.width)
+                )}
+                px
               </div>
             </div>
           </>

@@ -32,14 +32,16 @@ export function HighlightNotes({
   currentUserId,
   onNoteClick,
   className,
-  tipsByHighlight
+  tipsByHighlight,
 }: HighlightNotesProps) {
   // Filter only highlights with notes
-  const highlightsWithNotes = highlights.filter(h => h.note && h.note.trim().length > 0)
-  
+  const highlightsWithNotes = highlights.filter(
+    (h) => h.note && h.note.trim().length > 0
+  )
+
   if (highlightsWithNotes.length === 0) {
     return (
-      <div className={cn("p-6 text-center", className)}>
+      <div className={cn('p-6 text-center', className)}>
         <MessageSquare className="w-12 h-12 mx-auto text-gray-300 mb-3" />
         <p className="text-gray-500 text-sm">
           No notes yet. Highlight text and add a note to see it here.
@@ -47,9 +49,9 @@ export function HighlightNotes({
       </div>
     )
   }
-  
+
   return (
-    <div className={cn("divide-y divide-gray-100", className)}>
+    <div className={cn('divide-y divide-gray-100', className)}>
       {highlightsWithNotes.map((highlight) => (
         <div
           key={highlight._id}
@@ -88,16 +90,18 @@ export function HighlightNotes({
               )}
             </div>
             <span className="text-xs text-gray-500">
-              {formatDistanceToNow(new Date(highlight.createdAt), { addSuffix: true })}
+              {formatDistanceToNow(new Date(highlight.createdAt), {
+                addSuffix: true,
+              })}
             </span>
           </div>
-          
+
           {/* Highlighted text snippet */}
           <div
             className="mb-2 px-2 py-1 rounded text-sm text-gray-700 line-clamp-2"
             style={{
               backgroundColor: `${highlight.color || '#FFEB3B'}40`,
-              borderLeft: `3px solid ${highlight.color || '#FFEB3B'}`
+              borderLeft: `3px solid ${highlight.color || '#FFEB3B'}`,
             }}
           >
             &ldquo;{highlight.text}&rdquo;
@@ -105,25 +109,24 @@ export function HighlightNotes({
 
           {/* Tip badge */}
           {(() => {
-            const tipData = highlight.highlightId ? tipsByHighlight?.[highlight.highlightId] : undefined
+            const tipData = highlight.highlightId
+              ? tipsByHighlight?.[highlight.highlightId]
+              : undefined
             if (!tipData?.count) return null
             return (
               <div className="mb-2">
                 <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-yellow-100 text-yellow-800 text-xs rounded-full">
                   <Coins className="w-3 h-3" />
                   {tipData.count} tip{tipData.count > 1 ? 's' : ''}
-                  {' · '}
-                  ${tipData.totalUsd.toFixed(2)}
+                  {' · '}${tipData.totalUsd.toFixed(2)}
                 </span>
               </div>
             )
           })()}
 
           {/* Note content */}
-          <div className="text-sm text-gray-600 italic">
-            {highlight.note}
-          </div>
-          
+          <div className="text-sm text-gray-600 italic">{highlight.note}</div>
+
           {/* Visibility indicator */}
           {!highlight.isPublic && (
             <div className="mt-2">

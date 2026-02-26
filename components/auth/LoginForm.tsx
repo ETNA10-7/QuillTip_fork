@@ -10,7 +10,7 @@ import { Eye, EyeOff, Loader2 } from 'lucide-react'
 
 /**
  * Login Form Component
- * 
+ *
  * Handles user authentication with Convex Auth.
  * Includes form validation, error handling, and loading states.
  */
@@ -19,27 +19,27 @@ export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   const router = useRouter()
   const { signIn } = useAuthActions()
-  
+
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema)
+    resolver: zodResolver(loginSchema),
   })
 
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
     setError(null)
-    
+
     try {
       await signIn('password', {
         email: data.email,
         password: data.password,
-        flow: 'signIn'
+        flow: 'signIn',
       })
 
       // If we reach here, sign-in was successful
@@ -60,10 +60,13 @@ export default function LoginForm() {
           <p className="text-sm text-red-700">{error}</p>
         </div>
       )}
-      
+
       {/* Email Field */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Email address
         </label>
         <input
@@ -81,7 +84,10 @@ export default function LoginForm() {
 
       {/* Password Field */}
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Password
         </label>
         <div className="relative">

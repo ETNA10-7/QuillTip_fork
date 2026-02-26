@@ -12,7 +12,6 @@ import { useEffect } from 'react'
 import { EditorToolbar } from './EditorToolbar'
 import { ResizableImage } from './extensions/ResizableImage'
 
-
 const lowlight = createLowlight(common)
 
 interface EditorWithToolbarProps {
@@ -30,25 +29,25 @@ export function EditorWithToolbar({
   placeholder = 'Start writing your story...',
   editable = true,
   className = '',
-  showToolbar = true
+  showToolbar = true,
 }: EditorWithToolbarProps) {
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2, 3, 4, 5, 6]
+          levels: [1, 2, 3, 4, 5, 6],
         },
         codeBlock: false,
         // Disable Link from StarterKit since we're adding it separately
-        link: false
+        link: false,
       }),
       // Add Link separately with our configuration
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'text-blue-600 underline cursor-pointer hover:text-blue-800'
-        }
+          class: 'text-blue-600 underline cursor-pointer hover:text-blue-800',
+        },
       }),
       // Add Underline extension
       Underline,
@@ -60,35 +59,37 @@ export function EditorWithToolbar({
         nocookie: true,
         allowFullscreen: true,
         HTMLAttributes: {
-          class: 'youtube-embed rounded-lg my-4'
-        }
+          class: 'youtube-embed rounded-lg my-4',
+        },
       }),
       ResizableImage.configure({
         HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg my-4'
-        }
+          class: 'max-w-full h-auto rounded-lg my-4',
+        },
       }),
       Placeholder.configure({
-        placeholder
+        placeholder,
       }),
       CodeBlockLowlight.configure({
         lowlight,
         HTMLAttributes: {
-          class: 'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto'
-        }
-      })
+          class:
+            'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto',
+        },
+      }),
     ],
     content,
     editable,
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none focus:outline-none min-h-[400px] px-8 py-4'
-      }
+        class:
+          'prose prose-lg max-w-none focus:outline-none min-h-[400px] px-8 py-4',
+      },
     },
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
       onChange?.(html)
-    }
+    },
   })
 
   useEffect(() => {
@@ -104,12 +105,11 @@ export function EditorWithToolbar({
   }, [editable, editor])
 
   return (
-    <div className={`editor-wrapper bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}>
+    <div
+      className={`editor-wrapper bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}
+    >
       {showToolbar && editable && <EditorToolbar editor={editor} />}
-      <EditorContent 
-        editor={editor} 
-        className="editor-content"
-      />
+      <EditorContent editor={editor} className="editor-content" />
     </div>
   )
 }

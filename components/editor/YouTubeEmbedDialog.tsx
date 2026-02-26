@@ -10,7 +10,11 @@ interface YouTubeEmbedDialogProps {
   isOpen: boolean
 }
 
-export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmbedDialogProps) {
+export function YouTubeEmbedDialog({
+  onVideoEmbed,
+  onClose,
+  isOpen,
+}: YouTubeEmbedDialogProps) {
   const [videoUrl, setVideoUrl] = useState('')
   const [customDimensions, setCustomDimensions] = useState(false)
   const [width, setWidth] = useState(640)
@@ -24,9 +28,9 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
   const extractYouTubeId = (url: string): string | null => {
     const patterns = [
       /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\n?#]+)/,
-      /youtube\.com\/watch\?.*v=([^&\n?#]+)/
+      /youtube\.com\/watch\?.*v=([^&\n?#]+)/,
     ]
-    
+
     for (const pattern of patterns) {
       const match = url.match(pattern)
       if (match && match[1]) {
@@ -50,7 +54,7 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
 
   const handleSubmit = () => {
     setError('')
-    
+
     if (!videoUrl.trim()) {
       setError('Please enter a YouTube URL')
       return
@@ -67,7 +71,7 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
       customDimensions ? width : undefined,
       customDimensions ? height : undefined
     )
-    
+
     handleClose()
   }
 
@@ -108,7 +112,10 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
         <div className="p-4 space-y-4">
           {/* URL Input */}
           <div className="space-y-2">
-            <label htmlFor="youtube-url" className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="youtube-url"
+              className="block text-sm font-medium text-gray-700"
+            >
               YouTube URL
             </label>
             <div className="relative">
@@ -186,7 +193,10 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
                 onChange={(e) => setCustomDimensions(e.target.checked)}
                 className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
               />
-              <label htmlFor="customDimensions" className="ml-2 text-sm font-medium text-gray-700">
+              <label
+                htmlFor="customDimensions"
+                className="ml-2 text-sm font-medium text-gray-700"
+              >
                 Custom dimensions
               </label>
             </div>
@@ -194,7 +204,10 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
             {customDimensions && (
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label htmlFor="youtube-width" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="youtube-width"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Width (px)
                   </label>
                   <input
@@ -208,7 +221,10 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
                   />
                 </div>
                 <div>
-                  <label htmlFor="youtube-height" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="youtube-height"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Height (px)
                   </label>
                   <input
@@ -223,7 +239,7 @@ export function YouTubeEmbedDialog({ onVideoEmbed, onClose, isOpen }: YouTubeEmb
                 </div>
               </div>
             )}
-            
+
             {!customDimensions && (
               <p className="text-xs text-gray-500">
                 Default size: 640 × 480 pixels
