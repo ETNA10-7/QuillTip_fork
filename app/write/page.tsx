@@ -141,7 +141,9 @@ export default function WritePage() {
         publishedAt: draft.publishedAt ? new Date(draft.publishedAt) : null
       })
       if (draft.content) {
-        editor.commands.setContent(draft.content)
+        queueMicrotask(() => {
+          editor.commands.setContent(draft.content)
+        })
         setEditorContent(draft.content)
       }
       // Reset unsaved changes flag after loading draft
@@ -270,10 +272,12 @@ export default function WritePage() {
                 className="w-full resize-none overflow-hidden bg-transparent text-4xl font-bold text-gray-900 placeholder:text-gray-300 focus:outline-none leading-tight py-2"
               />
             </div>
-            <EditorContent
-              editor={editor}
-              className="editor-content min-h-[400px]"
-            />
+            {editor && (
+              <EditorContent
+                editor={editor}
+                className="editor-content min-h-[400px]"
+              />
+            )}
           </div>
         </div>
       </div>
