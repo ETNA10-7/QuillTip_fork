@@ -259,6 +259,17 @@ export default function WritePage() {
             />
           </div>
           <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
+            <div id="field-article-title" className="mb-2">
+              <textarea
+                id="article-title"
+                value={title}
+                onChange={(e) => { setTitle(e.target.value); setHasUnsavedChanges(true) }}
+                onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); editor?.commands.focus() } }}
+                placeholder="Untitled"
+                rows={1}
+                className="w-full resize-none overflow-hidden bg-transparent text-4xl font-bold text-gray-900 placeholder:text-gray-300 focus:outline-none leading-tight py-2"
+              />
+            </div>
             <EditorContent
               editor={editor}
               className="editor-content min-h-[400px]"
