@@ -13,6 +13,7 @@ import { common, createLowlight } from 'lowlight'
 import { ResizableImage } from '@/components/editor/extensions/ResizableImage'
 import { EditorToolbar } from '@/components/editor/EditorToolbar'
 import { EditorActionBar } from '@/components/editor/EditorActionBar'
+import { ImageUploadDialog } from '@/components/editor/ImageUploadDialog'
 import { useAuth } from '@/components/providers/AuthContext'
 import AppNavigation from '@/components/layout/AppNavigation'
 import { useAutoSave } from '@/hooks/useAutoSave'
@@ -27,6 +28,8 @@ export default function WritePage() {
   const [title, setTitle] = useState('')
   const [excerpt, setExcerpt] = useState('')
   const [tags, setTags] = useState('')
+  const [coverImage, setCoverImage] = useState('')
+  const [showCoverImageDialog, setShowCoverImageDialog] = useState(false)
   const [isPublishing, setIsPublishing] = useState(false)
   const [articleId, setArticleId] = useState<string | undefined>()
   const [editorContent, setEditorContent] = useState<JSONContent | null>(null)
@@ -100,6 +103,7 @@ export default function WritePage() {
     articleId,
     title: title || 'Untitled',
     excerpt,
+    coverImage: coverImage || undefined,
     enabled: isAuthenticated && (hasUnsavedChanges || !!title),
     onSaveSuccess: (response) => {
       if (!articleId && response.id) {
@@ -136,6 +140,7 @@ export default function WritePage() {
       setArticleId(draft._id)
       setTitle(draft.title)
       setExcerpt(draft.excerpt || '')
+      setCoverImage(draft.coverImage || '')
       setPublishStatus({
         published: draft.published,
         publishedAt: draft.publishedAt ? new Date(draft.publishedAt) : null
@@ -174,6 +179,7 @@ export default function WritePage() {
           title: title || 'Untitled',
           content: editorContent,
           excerpt: excerpt || undefined,
+          coverImage: coverImage || undefined,
           tags: tags.split(',').map(t => t.trim()).filter(Boolean),
           published: true, // Publishing immediately
         })
@@ -197,7 +203,7 @@ export default function WritePage() {
     } finally {
       setIsPublishing(false)
     }
-  }, [title, editorContent, excerpt, tags, saveNow, articleId, publishArticleMutation, createArticleMutation])
+  }, [title, editorContent, excerpt, coverImage, tags, saveNow, articleId, publishArticleMutation, createArticleMutation])
 
   // Authentication checks
   if (isLoading) {
@@ -239,6 +245,10 @@ export default function WritePage() {
           <div className="relative w-full mb-6">
             <EditorToolbar
               editor={editor}
+              onFocusCoverImage={() => {
+                document.getElementById('field-cover-image')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                if (!coverImage) setShowCoverImageDialog(true)
+              }}
               onFocusTitle={() => {
                 const el = document.getElementById('article-title') as HTMLInputElement | null
                 document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
@@ -261,6 +271,46 @@ export default function WritePage() {
             />
           </div>
           <div className="w-full max-w-4xl mx-auto px-4 sm:px-6">
+            {/* Cover Image */}
+            <div id="field-cover-image" className="mb-4">
+              {coverImage ? (
+                <div className="relative w-full h-56 sm:h-72 rounded-xl overflow-hidden group">
+                  <img
+                    src={coverImage}
+                    alt="Cover image"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors flex items-center justify-center gap-3 opacity-0 group-hover:opacity-100">
+                    <button
+                      type="button"
+                      onClick={() => setShowCoverImageDialog(true)}
+                      className="px-4 py-2 bg-white text-gray-800 text-sm font-medium rounded-lg hover:bg-gray-100 transition-colors shadow"
+                    >
+                      Change
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => { setCoverImage(''); setHasUnsavedChanges(true) }}
+                      className="px-4 py-2 bg-white text-red-600 text-sm font-medium rounded-lg hover:bg-red-50 transition-colors shadow"
+                    >
+                      Remove
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => setShowCoverImageDialog(true)}
+                  className="w-full h-28 border-2 border-dashed border-gray-200 rounded-xl flex items-center justify-center gap-2 text-gray-400 hover:border-sky-400 hover:text-sky-500 transition-colors group"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <span className="text-sm font-medium">Add cover image</span>
+                </button>
+              )}
+            </div>
+
             <div id="field-article-title" className="mb-2">
               <textarea
                 id="article-title"
@@ -281,6 +331,17 @@ export default function WritePage() {
           </div>
         </div>
       </div>
+
+      <ImageUploadDialog
+        isOpen={showCoverImageDialog}
+        title="Add Cover Image"
+        onImageSelect={(url) => {
+          setCoverImage(url)
+          setHasUnsavedChanges(true)
+          setShowCoverImageDialog(false)
+        }}
+        onClose={() => setShowCoverImageDialog(false)}
+      />
     </div>
   )
 }

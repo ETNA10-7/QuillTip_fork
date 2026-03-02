@@ -19,6 +19,7 @@ interface UseAutoSaveOptions {
   articleId?: string;
   title?: string;
   excerpt?: string;
+  coverImage?: string;
   enabled?: boolean;
   onSaveSuccess?: (response: DraftResponse) => void;
   onSaveError?: (error: Error) => void;
@@ -35,6 +36,7 @@ export function useAutoSave({
   articleId,
   title,
   excerpt,
+  coverImage,
   enabled = true,
   onSaveSuccess,
   onSaveError,
@@ -67,6 +69,7 @@ export function useAutoSave({
         title: title || 'Untitled',
         content,
         excerpt,
+        coverImage: coverImage || undefined,
       });
       
       setState(prev => ({
@@ -99,7 +102,7 @@ export function useAutoSave({
 
       onSaveError?.(err);
     }
-  }, [content, articleId, title, excerpt, onSaveSuccess, onSaveError, saveDraftMutation]);
+  }, [content, articleId, title, excerpt, coverImage, onSaveSuccess, onSaveError, saveDraftMutation]);
 
   const debouncedSave = useCallback(() => {
     if (timeoutRef.current) {
@@ -164,6 +167,7 @@ export function useAutoSave({
             title: title || 'Untitled',
             content,
             excerpt,
+            coverImage,
             articleId,
             savedAt: Date.now(),
           }));
@@ -178,7 +182,7 @@ export function useAutoSave({
     return () => {
       window.removeEventListener('beforeunload', handleBeforeUnload);
     };
-  }, [enabled, content, title, excerpt, articleId]);
+  }, [enabled, content, title, excerpt, coverImage, articleId]);
 
   return {
     ...state,

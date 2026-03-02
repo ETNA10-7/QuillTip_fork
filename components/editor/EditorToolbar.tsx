@@ -37,6 +37,7 @@ interface EditorToolbarProps {
   onFocusTitle?: () => void
   onFocusExcerpt?: () => void
   onFocusTags?: () => void
+  onFocusCoverImage?: () => void
 }
 
 interface ToolbarButtonProps {
@@ -83,6 +84,7 @@ export function EditorToolbar({
   onFocusTitle,
   onFocusExcerpt,
   onFocusTags,
+  onFocusCoverImage,
 }: EditorToolbarProps) {
   const [linkUrl, setLinkUrl] = useState('')
   const [showLinkInput, setShowLinkInput] = useState(false)
@@ -318,6 +320,13 @@ export function EditorToolbar({
             sideOffset={4}
             align="start"
           >
+            <DropdownMenu.Item
+              onSelect={() => onFocusCoverImage?.()}
+              className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
+            >
+              <Image className="w-4 h-4 shrink-0" />
+              Cover Image
+            </DropdownMenu.Item>
             <DropdownMenu.Item
               onSelect={() => onFocusTitle?.()}
               className="px-4 py-2.5 text-sm hover:bg-gray-100 cursor-pointer outline-none flex items-center gap-2"
