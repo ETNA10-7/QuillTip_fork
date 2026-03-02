@@ -127,11 +127,9 @@ export default function ArticleDisplay({ article, showHighlights = true }: Artic
         {/* Cover Image */}
         {article.coverImage && (
           <div className="mb-8">
-            <Image
+            <img
               src={article.coverImage}
               alt={article.title}
-              width={1200}
-              height={384}
               className="w-full h-64 md:h-96 object-cover rounded-lg"
             />
           </div>
