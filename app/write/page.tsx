@@ -275,16 +275,6 @@ export default function WritePage() {
                 document.getElementById('field-article-title')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
                 el?.focus()
               }}
-              onFocusExcerpt={() => {
-                const el = document.getElementById('article-excerpt') as HTMLTextAreaElement | null
-                document.getElementById('field-excerpt')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                el?.focus()
-              }}
-              onFocusTags={() => {
-                const el = document.getElementById('article-tags') as HTMLInputElement | null
-                document.getElementById('field-tags')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
-                el?.focus()
-              }}
             />
             <div
               className="absolute bottom-0 left-0 right-0 h-[2px] bg-sky-400 pointer-events-none"
@@ -343,35 +333,6 @@ export default function WritePage() {
                 className="w-full resize-none overflow-hidden bg-transparent text-3xl font-semibold text-gray-900 placeholder:text-gray-300 focus:outline-none leading-snug py-2"
               />
             </div>
-            {/* Excerpt */}
-            <div id="field-excerpt" className="mb-4">
-              <label htmlFor="article-excerpt" className="block text-sm font-medium text-gray-700 mb-1">
-                Excerpt
-              </label>
-              <textarea
-                id="article-excerpt"
-                value={excerpt}
-                onChange={(e) => { setExcerpt(e.target.value); setHasUnsavedChanges(true) }}
-                placeholder="Brief description (optional)"
-                rows={2}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-sky-500 outline-none resize-none placeholder-gray-400 text-sm"
-              />
-            </div>
-
-            {/* Tags */}
-            <div id="field-tags" className="mb-4">
-              <label htmlFor="article-tags" className="block text-sm font-medium text-gray-700 mb-1">
-                Tags
-              </label>
-              <input
-                id="article-tags"
-                type="text"
-                value={tags}
-                onChange={(e) => setTags(e.target.value)}
-                placeholder="Add tags separated by commas"
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-sky-500 outline-none placeholder-gray-400 text-sm"
-              />
-            </div>
 
             {editor && (
               <EditorContent
@@ -380,6 +341,7 @@ export default function WritePage() {
               />
             )}
           </div>
+        </div>
       </div>
 
       <ImageUploadDialog
