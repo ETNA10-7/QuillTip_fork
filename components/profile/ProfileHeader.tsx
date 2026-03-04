@@ -15,8 +15,10 @@ interface ProfileHeaderProps {
 }
 
 export default function ProfileHeader({ user }: ProfileHeaderProps) {
-  const memberSince = formatDistanceToNow(new Date(user.createdAt), { addSuffix: true })
-  
+  const memberSince = formatDistanceToNow(new Date(user.createdAt), {
+    addSuffix: true,
+  })
+
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
       <div className="flex flex-col sm:flex-row gap-6">
@@ -48,9 +50,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
 
           {/* Bio */}
           {user.bio && (
-            <p className="text-gray-700 mb-4 max-w-2xl">
-              {user.bio}
-            </p>
+            <p className="text-gray-700 mb-4 max-w-2xl">{user.bio}</p>
           )}
 
           {/* Stats */}
@@ -60,7 +60,9 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
                 <User className="w-4 h-4 text-brand-blue" />
               </div>
               <div>
-                <p className="font-semibold text-gray-900">{user.articleCount}</p>
+                <p className="font-semibold text-gray-900">
+                  {user.articleCount}
+                </p>
                 <p className="text-gray-600">
                   {user.articleCount === 1 ? 'Article' : 'Articles'}
                 </p>
@@ -72,9 +74,7 @@ export default function ProfileHeader({ user }: ProfileHeaderProps) {
                 <Calendar className="w-4 h-4 text-brand-blue" />
               </div>
               <div>
-                <p className="text-gray-600">
-                  Member {memberSince}
-                </p>
+                <p className="text-gray-600">Member {memberSince}</p>
               </div>
             </div>
           </div>

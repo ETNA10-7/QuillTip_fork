@@ -23,7 +23,9 @@ interface ProvidersProps {
 const WalletErrorFallback = (
   <div className="p-4 border border-yellow-200 bg-yellow-50 rounded-lg text-center">
     <p className="text-yellow-800">Wallet connection unavailable.</p>
-    <p className="text-sm text-yellow-600 mt-1">You can still browse content.</p>
+    <p className="text-sm text-yellow-600 mt-1">
+      You can still browse content.
+    </p>
   </div>
 )
 

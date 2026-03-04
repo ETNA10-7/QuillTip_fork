@@ -12,7 +12,12 @@ interface ImageUploadDialogProps {
   title?: string
 }
 
-export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add Image' }: ImageUploadDialogProps) {
+export function ImageUploadDialog({
+  onImageSelect,
+  onClose,
+  isOpen,
+  title = 'Add Image',
+}: ImageUploadDialogProps) {
   const [uploadMethod, setUploadMethod] = useState<'file' | 'url'>('file')
   const [imageUrl, setImageUrl] = useState('')
   const [isUploading, setIsUploading] = useState(false)
@@ -20,7 +25,7 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
   const [dragActive, setDragActive] = useState(false)
   const [error, setError] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
-  
+
   // Get Convex client for uploads
   const convex = useConvex()
 
@@ -35,7 +40,7 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
       // Compress image before upload for better performance
       const compressedFile = await compressImage(file, 1200, 0.8)
       const result = await uploadFile(
-        compressedFile, 
+        compressedFile,
         convex,
         'article_image',
         undefined, // no specific article
@@ -43,7 +48,7 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
           setUploadProgress(progress.percentage)
         }
       )
-      
+
       if (result.success && result.url) {
         onImageSelect(result.url)
         onClose()
@@ -90,38 +95,38 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
 
   const handleUrlSubmit = async () => {
     if (!imageUrl.trim()) return
-    
+
     setError('')
     setIsUploading(true)
     setUploadProgress(0)
-    
+
     try {
       // Fetch the image from the URL
       setUploadProgress(20)
       const response = await fetch(imageUrl)
-      
+
       if (!response.ok) {
         throw new Error('Failed to fetch image from URL')
       }
-      
+
       const blob = await response.blob()
       setUploadProgress(40)
-      
+
       // Check if it's actually an image
       if (!blob.type.startsWith('image/')) {
         throw new Error('URL does not point to a valid image')
       }
-      
+
       // Convert blob to File
       const file = new File([blob], 'image-from-url', { type: blob.type })
       setUploadProgress(60)
-      
+
       // Compress and upload to Convex storage
       const compressedFile = await compressImage(file, 1200, 0.8)
       setUploadProgress(80)
-      
+
       const result = await uploadFile(
-        compressedFile, 
+        compressedFile,
         convex,
         'article_image',
         undefined, // no specific article
@@ -130,7 +135,7 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
           setUploadProgress(80 + Math.floor(progress.percentage * 0.2))
         }
       )
-      
+
       if (result.success && result.url) {
         onImageSelect(result.url)
         onClose()
@@ -142,7 +147,9 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
       if (error instanceof Error) {
         // Check for CORS errors
         if (error.message.includes('Failed to fetch')) {
-          setError('Unable to fetch image from URL. The image may be protected by CORS policy.')
+          setError(
+            'Unable to fetch image from URL. The image may be protected by CORS policy.'
+          )
         } else {
           setError(error.message)
         }
@@ -228,7 +235,9 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
                       <Upload className="w-6 h-6 text-blue-600 animate-pulse" />
                     </div>
                     <div>
-                      <p className="text-sm text-gray-600">Optimizing and uploading...</p>
+                      <p className="text-sm text-gray-600">
+                        Optimizing and uploading...
+                      </p>
                       <div className="mt-2">
                         <div className="bg-gray-200 rounded-full h-2">
                           <div
@@ -236,7 +245,9 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
                             style={{ width: `${uploadProgress}%` }}
                           />
                         </div>
-                        <p className="text-xs text-gray-500 mt-1">{uploadProgress}%</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {uploadProgress}%
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -282,7 +293,9 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
                     <Upload className="w-6 h-6 text-blue-600 animate-pulse" />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-600 text-center">Processing image from URL...</p>
+                    <p className="text-sm text-gray-600 text-center">
+                      Processing image from URL...
+                    </p>
                     <div className="mt-2">
                       <div className="bg-gray-200 rounded-full h-2">
                         <div
@@ -290,7 +303,9 @@ export function ImageUploadDialog({ onImageSelect, onClose, isOpen, title = 'Add
                           style={{ width: `${uploadProgress}%` }}
                         />
                       </div>
-                      <p className="text-xs text-gray-500 mt-1 text-center">{uploadProgress}%</p>
+                      <p className="text-xs text-gray-500 mt-1 text-center">
+                        {uploadProgress}%
+                      </p>
                     </div>
                   </div>
                 </div>

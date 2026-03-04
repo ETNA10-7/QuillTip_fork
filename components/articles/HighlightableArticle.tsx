@@ -55,14 +55,17 @@ export function HighlightableArticle({
   editable = false,
   showHighlights = true,
   onHighlightClick,
-  className
+  className,
 }: HighlightableArticleProps) {
   const [selectedText, setSelectedText] = useState<{
     text: string
     from: number
     to: number
   } | null>(null)
-  const [popoverPosition, setPopoverPosition] = useState<{ top: number; left: number } | null>(null)
+  const [popoverPosition, setPopoverPosition] = useState<{
+    top: number
+    left: number
+  } | null>(null)
   const [highlightTooltip, setHighlightTooltip] = useState<{
     highlight: HighlightData
     position: { top: number; left: number }
@@ -78,7 +81,7 @@ export function HighlightableArticle({
 
   // Fetch highlights for the article
   const highlights = useQuery(api.highlights.getArticleHighlights, {
-    articleId
+    articleId,
   })
 
   // Use ref to avoid stale closure in onHighlightClick callback
@@ -89,7 +92,7 @@ export function HighlightableArticle({
 
   // Mutation to create a highlight
   const createHighlight = useMutation(api.highlights.createHighlight)
-  
+
   // Initialize TipTap editor with highlight extension
   const editor = useEditor({
     extensions: [
@@ -104,26 +107,31 @@ export function HighlightableArticle({
       ResizableImage,
       HighlightExtension.configure({
         multicolor: true,
-        highlights: highlights?.map(h => ({
-          id: h._id,
-          color: h.color || '#FFEB3B',
-          userId: h.userId,
-          userName: h.userName,
-          userAvatar: h.userAvatar,
-          note: h.note,
-          createdAt: h.createdAt
-        })) || [],
+        highlights:
+          highlights?.map((h) => ({
+            id: h._id,
+            color: h.color || '#FFEB3B',
+            userId: h.userId,
+            userName: h.userName,
+            userAvatar: h.userAvatar,
+            note: h.note,
+            createdAt: h.createdAt,
+          })) || [],
         onHighlightClick: (highlightAttrs, event) => {
           // Use ref to get current highlights (avoids stale closure)
           const currentHighlights = highlightsRef.current
 
           // Find the full highlight data with defensive lookup
           // Try matching by _id first (correct way)
-          let fullHighlight = currentHighlights?.find(h => h._id === highlightAttrs.id)
+          let fullHighlight = currentHighlights?.find(
+            (h) => h._id === highlightAttrs.id
+          )
 
           // Fallback: try matching by highlightId for backwards compatibility
           if (!fullHighlight && highlightAttrs.id) {
-            fullHighlight = currentHighlights?.find(h => h.highlightId === highlightAttrs.id)
+            fullHighlight = currentHighlights?.find(
+              (h) => h.highlightId === highlightAttrs.id
+            )
           }
 
           if (fullHighlight) {
@@ -138,12 +146,12 @@ export function HighlightableArticle({
                 highlight: fullHighlight,
                 position: {
                   top: rect.top - 10,
-                  left: rect.left + rect.width / 2
-                }
+                  left: rect.left + rect.width / 2,
+                },
               })
             }
           }
-        }
+        },
       }),
     ],
     content,
@@ -156,22 +164,22 @@ export function HighlightableArticle({
     },
     onSelectionUpdate: ({ editor }) => {
       if (editable || isApplyingHighlightsRef.current) return
-      
+
       const { selection } = editor.state
       const { from, to } = selection
       const text = editor.state.doc.textBetween(from, to, ' ')
-      
+
       if (text.trim().length >= 3) {
         // Get the DOM selection for positioning
         const domSelection = window.getSelection()
         if (domSelection && domSelection.rangeCount > 0) {
           const range = domSelection.getRangeAt(0)
           const rect = range.getBoundingClientRect()
-          
+
           setSelectedText({ text, from, to })
           setPopoverPosition({
             top: rect.top + window.scrollY - 60,
-            left: rect.left + rect.width / 2
+            left: rect.left + rect.width / 2,
           })
         }
       } else {
@@ -180,11 +188,11 @@ export function HighlightableArticle({
       }
     },
   })
-  
+
   // Apply highlights when they change
   useEffect(() => {
     if (!editor || !highlights || !showHighlights) return
-    
+
     // Flag to suppress popover during programmatic highlight application
     isApplyingHighlightsRef.current = true
     HighlightConverter.applyHighlightsToEditor(editor, highlights)
@@ -193,62 +201,71 @@ export function HighlightableArticle({
       isApplyingHighlightsRef.current = false
     })
   }, [editor, highlights, showHighlights])
-  
+
   // Handle highlight creation
-  const handleCreateHighlight = useCallback(async (color: string, note?: string, isPublic: boolean = true) => {
-    if (!selectedText || !editor) return
+  const handleCreateHighlight = useCallback(
+    async (color: string, note?: string, isPublic: boolean = true) => {
+      if (!selectedText || !editor) return
 
-    try {
-      // Create highlight data from selection
-      const highlightData = HighlightConverter.createHighlightFromSelection(editor, {
-        color,
-        note,
-        isPublic
-      })
+      try {
+        // Create highlight data from selection
+        const highlightData = HighlightConverter.createHighlightFromSelection(
+          editor,
+          {
+            color,
+            note,
+            isPublic,
+          }
+        )
 
-      if (highlightData) {
-        // Save to database and get the new highlight ID
-        await createHighlight({
-          articleId,
-          ...highlightData
+        if (highlightData) {
+          // Save to database and get the new highlight ID
+          await createHighlight({
+            articleId,
+            ...highlightData,
+          })
+
+          // Clear selection immediately for better UX
+          setSelectedText(null)
+          setPopoverPosition(null)
+          window.getSelection()?.removeAllRanges()
+
+          // Note: The highlight will be applied automatically when the
+          // highlights query refetches (due to Convex reactivity)
+          // No need to manually apply a temporary highlight
+        }
+      } catch (error) {
+        console.error('Error creating highlight:', error)
+        toast.error('Failed to create highlight', {
+          description:
+            error instanceof Error
+              ? error.message
+              : 'Please try again or refresh the page.',
         })
-
-        // Clear selection immediately for better UX
-        setSelectedText(null)
-        setPopoverPosition(null)
-        window.getSelection()?.removeAllRanges()
-
-        // Note: The highlight will be applied automatically when the
-        // highlights query refetches (due to Convex reactivity)
-        // No need to manually apply a temporary highlight
       }
-    } catch (error) {
-      console.error('❌ Error creating highlight:', error)
-      toast.error('Failed to create highlight', {
-        description: error instanceof Error ? error.message : 'Please try again or refresh the page.',
-      })
-    }
-  }, [selectedText, editor, articleId, createHighlight])
-  
+    },
+    [selectedText, editor, articleId, createHighlight]
+  )
+
   // Handle popover close
   const handlePopoverClose = useCallback(() => {
     setSelectedText(null)
     setPopoverPosition(null)
     window.getSelection()?.removeAllRanges()
   }, [])
-  
+
   // Handle tooltip close
   const handleTooltipClose = useCallback(() => {
     setHighlightTooltip(null)
   }, [])
-  
+
   return (
-    <div 
-      className={cn("highlightable-article relative", className)} 
+    <div
+      className={cn('highlightable-article relative', className)}
       ref={editorRef}
     >
       <EditorContent editor={editor} />
-      
+
       {/* Highlight creation popover */}
       <AnimatePresence>
         {popoverPosition && selectedText && article && (
@@ -266,7 +283,7 @@ export function HighlightableArticle({
           />
         )}
       </AnimatePresence>
-      
+
       {/* Highlight details panel */}
       <AnimatePresence>
         {highlightTooltip && article && (

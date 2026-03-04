@@ -1,7 +1,7 @@
-'use client';
+'use client'
 
-import Link from 'next/link';
-import { useState } from 'react';
+import Link from 'next/link'
+import { useState } from 'react'
 import {
   UserPlus,
   Edit3,
@@ -13,88 +13,101 @@ import {
   Highlighter,
   Wallet,
   Heart,
-} from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { LucideIcon } from 'lucide-react';
+} from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { useInView } from 'framer-motion'
+import { useRef } from 'react'
+import { LucideIcon } from 'lucide-react'
 
 interface Step {
-  icon: LucideIcon;
-  title: string;
-  description: string;
-  detail: string;
+  icon: LucideIcon
+  title: string
+  description: string
+  detail: string
 }
 
 export default function HowItWorksSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const [activeTab, setActiveTab] = useState<'writers' | 'readers'>('writers');
-  const [activeStep, setActiveStep] = useState(0);
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
+  const [activeTab, setActiveTab] = useState<'writers' | 'readers'>('writers')
+  const [activeStep, setActiveStep] = useState(0)
 
   const writerSteps: Step[] = [
     {
       icon: UserPlus,
-      title: "Sign Up",
-      description: "Create your account and connect your Stellar wallet in seconds",
-      detail: "One-click registration with your email. Connect Freighter wallet to start receiving tips instantly.",
+      title: 'Sign Up',
+      description:
+        'Create your account and connect your Stellar wallet in seconds',
+      detail:
+        'One-click registration with your email. Connect Freighter wallet to start receiving tips instantly.',
     },
     {
       icon: Edit3,
-      title: "Write",
-      description: "Craft compelling content with our intuitive rich text editor",
-      detail: "Full markdown support, code blocks, media embeds, and a distraction-free writing experience.",
+      title: 'Write',
+      description:
+        'Craft compelling content with our intuitive rich text editor',
+      detail:
+        'Full markdown support, code blocks, media embeds, and a distraction-free writing experience.',
     },
     {
       icon: Globe,
-      title: "Publish",
-      description: "Share your work with the world on the blockchain",
-      detail: "Your article is stored permanently on Arweave. A tamper-proof record of your creative work, forever.",
+      title: 'Publish',
+      description: 'Share your work with the world on the blockchain',
+      detail:
+        'Your article is stored permanently on Arweave. A tamper-proof record of your creative work, forever.',
     },
     {
       icon: Coins,
-      title: "Earn",
-      description: "Receive instant tips from readers who value your work",
-      detail: "Tips settle in 3 seconds via Stellar. You keep 97.5% of every tip — no minimums, no waiting periods.",
-    }
-  ];
+      title: 'Earn',
+      description: 'Receive instant tips from readers who value your work',
+      detail:
+        'Tips settle in 3 seconds via Stellar. You keep 97.5% of every tip — no waiting periods.',
+    },
+  ]
 
   const readerSteps: Step[] = [
     {
       icon: BookOpen,
-      title: "Browse",
-      description: "Discover articles from writers across the platform",
-      detail: "All articles are free to read. Explore by topic, trending, or latest. No paywalls, ever.",
+      title: 'Browse',
+      description: 'Discover articles from writers across the platform',
+      detail:
+        'All articles are free to read. Explore by topic, trending, or latest. No paywalls, ever.',
     },
     {
       icon: Highlighter,
-      title: "Highlight",
-      description: "Select your favorite passages and save them",
-      detail: "Mark the words that resonate with you. Add colors and notes to build your personal collection.",
+      title: 'Highlight',
+      description: 'Select your favorite passages and save them',
+      detail:
+        'Mark the words that resonate with you. Add colors and notes to build your personal collection.',
     },
     {
       icon: Wallet,
-      title: "Connect",
-      description: "Set up a Stellar wallet in 2 minutes",
-      detail: "Install Freighter, fund with free testnet XLM, and you're ready to tip your favorite writers.",
+      title: 'Connect',
+      description: 'Set up a Stellar wallet in 2 minutes',
+      detail:
+        "Install Freighter, fund with free testnet XLM, and you're ready to tip your favorite writers.",
     },
     {
       icon: Heart,
-      title: "Tip",
-      description: "Send micro-tips starting at $0.01",
-      detail: "Tip an article or a specific highlight. 97.5% goes directly to the author — near-zero fees.",
-    }
-  ];
+      title: 'Tip',
+      description: 'Send micro-tips starting at $0.01',
+      detail:
+        'Tip an article or a specific highlight. 97.5% goes directly to the author — near-zero fees.',
+    },
+  ]
 
-  const steps = activeTab === 'writers' ? writerSteps : readerSteps;
+  const steps = activeTab === 'writers' ? writerSteps : readerSteps
 
   const handleTabChange = (tab: 'writers' | 'readers') => {
-    setActiveTab(tab);
-    setActiveStep(0);
-  };
+    setActiveTab(tab)
+    setActiveStep(0)
+  }
 
   return (
-    <section id="how-it-works" className="py-32 px-6 bg-neutral-950 relative overflow-hidden">
+    <section
+      id="how-it-works"
+      className="py-32 px-6 bg-neutral-950 relative overflow-hidden"
+    >
       {/* Subtle background grain */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.03)_0%,_transparent_60%)]" />
 
@@ -111,7 +124,11 @@ export default function HowItWorksSection() {
               <motion.div
                 className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 backdrop-blur-sm rounded-full border border-white/10 mb-6"
                 initial={{ opacity: 0, scale: 0.9 }}
-                animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
+                animate={
+                  isInView
+                    ? { opacity: 1, scale: 1 }
+                    : { opacity: 0, scale: 0.9 }
+                }
                 transition={{ duration: 0.5 }}
               >
                 <Sparkles className="w-3.5 h-3.5 text-neutral-500" />
@@ -125,7 +142,8 @@ export default function HowItWorksSection() {
                 <span className="text-neutral-400 italic">in four steps.</span>
               </h2>
               <p className="text-[15px] text-neutral-500 max-w-lg leading-relaxed">
-                Whether you write or read, QuillTip makes it simple to participate in the future of publishing.
+                Whether you write or read, QuillTip makes it simple to
+                participate in the future of publishing.
               </p>
             </div>
 
@@ -163,7 +181,7 @@ export default function HowItWorksSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           {steps.map((step, index) => {
-            const isActive = activeStep === index;
+            const isActive = activeStep === index
             return (
               <motion.div
                 key={step.title}
@@ -238,7 +256,7 @@ export default function HowItWorksSection() {
                   )}
                 </AnimatePresence>
               </motion.div>
-            );
+            )
           })}
         </motion.div>
 
@@ -250,7 +268,7 @@ export default function HowItWorksSection() {
           transition={{ duration: 0.6, delay: 0.3 }}
         >
           {steps.map((step, index) => {
-            const isActive = activeStep === index;
+            const isActive = activeStep === index
             return (
               <motion.div
                 key={step.title}
@@ -263,12 +281,20 @@ export default function HowItWorksSection() {
               >
                 {/* Header row */}
                 <div className="flex items-center gap-4 p-5">
-                  <div className={`w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-300 ${
-                    isActive ? 'bg-white/10 border border-white/10' : 'bg-white/5 border border-white/[0.06]'
-                  }`}>
-                    <step.icon className={`w-5 h-5 transition-colors duration-300 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
+                  <div
+                    className={`w-11 h-11 rounded-xl flex items-center justify-center transition-colors duration-300 ${
+                      isActive
+                        ? 'bg-white/10 border border-white/10'
+                        : 'bg-white/5 border border-white/[0.06]'
+                    }`}
+                  >
+                    <step.icon
+                      className={`w-5 h-5 transition-colors duration-300 ${isActive ? 'text-white' : 'text-neutral-500'}`}
+                    />
                   </div>
-                  <span className={`text-[15px] font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-neutral-500'}`}>
+                  <span
+                    className={`text-[15px] font-medium transition-colors duration-300 ${isActive ? 'text-white' : 'text-neutral-500'}`}
+                  >
                     {step.title}
                   </span>
                 </div>
@@ -280,7 +306,7 @@ export default function HowItWorksSection() {
                       initial={{ height: 0, opacity: 0 }}
                       animate={{ height: 'auto', opacity: 1 }}
                       exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeOut" }}
+                      transition={{ duration: 0.3, ease: 'easeOut' }}
                     >
                       <div className="px-5 pb-5 pl-20">
                         <p className="text-[14px] text-neutral-300 leading-relaxed mb-2">
@@ -294,7 +320,7 @@ export default function HowItWorksSection() {
                   )}
                 </AnimatePresence>
               </motion.div>
-            );
+            )
           })}
         </motion.div>
 
@@ -315,5 +341,5 @@ export default function HowItWorksSection() {
         </motion.div>
       </div>
     </section>
-  );
+  )
 }

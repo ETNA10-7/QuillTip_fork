@@ -1,10 +1,10 @@
-'use client';
+'use client'
 
-import { Heart, PenTool } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Heart, PenTool } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear()
 
   return (
     <footer className="bg-gradient-to-b from-neutral-900 to-black text-white relative overflow-hidden">
@@ -26,10 +26,13 @@ export default function Footer() {
               <div className="w-9 h-9 bg-gradient-to-br from-white to-neutral-400 rounded-lg flex items-center justify-center shadow-lg">
                 <PenTool className="w-5 h-5 text-neutral-900" />
               </div>
-              <h3 className="text-2xl font-display font-medium tracking-[-0.01em]">QuillTip</h3>
+              <h3 className="text-2xl font-display font-medium tracking-[-0.01em]">
+                QuillTip
+              </h3>
             </div>
             <p className="text-neutral-400 text-[15px] leading-relaxed max-w-2xl mx-auto">
-              Empowering writers with blockchain-powered micro-tipping and content monetization.
+              Empowering writers with blockchain-powered micro-tipping and
+              content monetization.
             </p>
           </motion.div>
         </div>
@@ -50,5 +53,5 @@ export default function Footer() {
         </motion.div>
       </div>
     </footer>
-  );
+  )
 }

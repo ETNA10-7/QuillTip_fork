@@ -7,7 +7,13 @@ import { Id } from '@/convex/_generated/dataModel'
 import { MintButton } from './MintButton'
 import { NFTBadge } from './NFTBadge'
 import { TransferModal } from './TransferModal'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Badge } from '@/components/ui/badge'
@@ -15,11 +21,11 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { ArrowRight, Trophy, TrendingUp, Users, Zap } from 'lucide-react'
 
 interface NFTIntegrationProps {
-  articleId: Id<"articles">
+  articleId: Id<'articles'>
   articleTitle: string
   articleSlug: string
-  authorId: Id<"users">
-  currentUserId?: Id<"users">
+  authorId: Id<'users'>
+  currentUserId?: Id<'users'>
   currentUserAddress?: string | null
 }
 
@@ -40,12 +46,14 @@ export function NFTIntegration({
   articleSlug,
   authorId,
   currentUserId,
-  currentUserAddress
+  currentUserAddress,
 }: NFTIntegrationProps) {
   const [showTransferModal, setShowTransferModal] = useState(false)
 
   // Use Convex query to fetch NFT status
-  const nftStatus = useQuery(api.nfts.getNFTByArticle, { articleId }) as NFTStatus | undefined
+  const nftStatus = useQuery(api.nfts.getNFTByArticle, { articleId }) as
+    | NFTStatus
+    | undefined
 
   const isLoading = nftStatus === undefined
 
@@ -62,7 +70,9 @@ export function NFTIntegration({
   const canMint = isAuthor && !nftStatus?.isMinted && nftStatus?.isEligible
   const canTransfer = isOwner && nftStatus?.isMinted
 
-  const progressPercentage = nftStatus ? (nftStatus.totalTips / nftStatus.tipThreshold) * 100 : 0
+  const progressPercentage = nftStatus
+    ? (nftStatus.totalTips / nftStatus.tipThreshold) * 100
+    : 0
 
   if (isLoading) {
     return (
@@ -92,17 +102,13 @@ export function NFTIntegration({
               <CardTitle className="flex items-center gap-2">
                 NFT Status
                 {nftStatus.isMinted && (
-                  <NFTBadge 
-                    rarity={nftStatus.rarity || 'common'}
-                    size="sm"
-                  />
+                  <NFTBadge rarity={nftStatus.rarity || 'common'} size="sm" />
                 )}
               </CardTitle>
               <CardDescription>
-                {nftStatus.isMinted 
+                {nftStatus.isMinted
                   ? `Minted as NFT on ${new Date(nftStatus.mintedAt!).toLocaleDateString()}`
-                  : 'Not yet minted as NFT'
-                }
+                  : 'Not yet minted as NFT'}
               </CardDescription>
             </div>
             {nftStatus.isMinted && (
@@ -128,20 +134,22 @@ export function NFTIntegration({
                     <div className="flex justify-between text-sm mb-2">
                       <span>Minting Progress</span>
                       <span className="font-medium">
-                        ${(nftStatus.totalTips / 100).toFixed(2)} / ${(nftStatus.tipThreshold / 100).toFixed(2)}
+                        ${(nftStatus.totalTips / 100).toFixed(2)} / $
+                        {(nftStatus.tipThreshold / 100).toFixed(2)}
                       </span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-2">
-                      <div 
+                      <div
                         className="bg-gradient-to-r from-blue-500 to-purple-500 h-2 rounded-full transition-all duration-500"
-                        style={{ width: `${Math.min(progressPercentage, 100)}%` }}
+                        style={{
+                          width: `${Math.min(progressPercentage, 100)}%`,
+                        }}
                       />
                     </div>
                     <p className="text-xs text-muted-foreground mt-2">
-                      {progressPercentage >= 100 
-                        ? '✨ Eligible for minting!'
-                        : `${(100 - progressPercentage).toFixed(0)}% more tips needed to unlock NFT minting`
-                      }
+                      {progressPercentage >= 100
+                        ? 'Eligible for minting!'
+                        : `${(100 - progressPercentage).toFixed(0)}% more tips needed to unlock NFT minting`}
                     </p>
                   </div>
 
@@ -172,18 +180,20 @@ export function NFTIntegration({
                   <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <span className="text-sm">Current Owner</span>
                     <span className="font-mono text-sm">
-                      {nftStatus.owner?.slice(0, 6)}...{nftStatus.owner?.slice(-6)}
+                      {nftStatus.owner?.slice(0, 6)}...
+                      {nftStatus.owner?.slice(-6)}
                     </span>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <span className="text-sm">Transfer History</span>
                     <span className="font-medium">
-                      {nftStatus.transferCount} {nftStatus.transferCount === 1 ? 'transfer' : 'transfers'}
+                      {nftStatus.transferCount}{' '}
+                      {nftStatus.transferCount === 1 ? 'transfer' : 'transfers'}
                     </span>
                   </div>
                   <div className="flex items-center justify-between p-3 bg-muted rounded-lg">
                     <span className="text-sm">Rarity</span>
-                    <NFTBadge 
+                    <NFTBadge
                       rarity={nftStatus.rarity || 'common'}
                       size="sm"
                       showLabel
@@ -208,7 +218,7 @@ export function NFTIntegration({
                   </p>
                 </div>
               </div>
-              
+
               <div className="pt-4 border-t">
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Users className="w-4 h-4" />
@@ -251,14 +261,14 @@ export function NFTIntegration({
                 <div className="text-center py-4">
                   {nftStatus.isMinted ? (
                     <p className="text-sm text-muted-foreground">
-                      You don&apos;t own this NFT. Current owner can transfer it.
+                      You don&apos;t own this NFT. Current owner can transfer
+                      it.
                     </p>
                   ) : (
                     <p className="text-sm text-muted-foreground">
-                      {isAuthor 
+                      {isAuthor
                         ? `Collect ${((nftStatus.tipThreshold - nftStatus.totalTips) / 100).toFixed(2)} more in tips to mint as NFT`
-                        : 'Only the author can mint this article as an NFT once eligible'
-                      }
+                        : 'Only the author can mint this article as an NFT once eligible'}
                     </p>
                   )}
                 </div>

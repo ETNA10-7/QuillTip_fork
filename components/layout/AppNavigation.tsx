@@ -2,7 +2,15 @@
 
 import Link from 'next/link'
 import { useAuth } from '@/components/providers/AuthContext'
-import { PenSquare, Home, User, LogOut, FileText, BookOpen, HelpCircle } from 'lucide-react'
+import {
+  PenSquare,
+  Home,
+  User,
+  LogOut,
+  FileText,
+  BookOpen,
+  HelpCircle,
+} from 'lucide-react'
 import { usePathname } from 'next/navigation'
 
 export default function AppNavigation() {
@@ -16,15 +24,19 @@ export default function AppNavigation() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-2">
-            <span className="text-3xl font-handwritten text-slate-900">QuillTip</span>
+            <span className="text-3xl font-handwritten text-slate-900">
+              QuillTip
+            </span>
           </Link>
-          
+
           <div className="flex items-center space-x-6">
             {/* Common links for all users */}
-            <Link 
-              href="/" 
+            <Link
+              href="/"
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition ${
-                isActive('/') ? 'bg-gray-100 text-brand-blue' : 'text-gray-600 hover:text-brand-blue'
+                isActive('/')
+                  ? 'bg-gray-100 text-brand-blue'
+                  : 'text-gray-600 hover:text-brand-blue'
               }`}
             >
               <Home className="w-4 h-4" />
@@ -33,7 +45,9 @@ export default function AppNavigation() {
             <Link
               href="/articles"
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition ${
-                isActive('/articles') ? 'bg-gray-100 text-brand-blue' : 'text-gray-600 hover:text-brand-blue'
+                isActive('/articles')
+                  ? 'bg-gray-100 text-brand-blue'
+                  : 'text-gray-600 hover:text-brand-blue'
               }`}
             >
               <BookOpen className="w-4 h-4" />
@@ -42,7 +56,9 @@ export default function AppNavigation() {
             <Link
               href="/guide"
               className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition ${
-                isActive('/guide') ? 'bg-gray-100 text-brand-blue' : 'text-gray-600 hover:text-brand-blue'
+                isActive('/guide')
+                  ? 'bg-gray-100 text-brand-blue'
+                  : 'text-gray-600 hover:text-brand-blue'
               }`}
             >
               <HelpCircle className="w-4 h-4" />
@@ -51,28 +67,34 @@ export default function AppNavigation() {
 
             {isAuthenticated ? (
               <>
-                <Link 
-                  href="/write" 
+                <Link
+                  href="/write"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition ${
-                    isActive('/write') ? 'bg-gray-100 text-brand-blue' : 'text-gray-600 hover:text-brand-blue'
+                    isActive('/write')
+                      ? 'bg-gray-100 text-brand-blue'
+                      : 'text-gray-600 hover:text-brand-blue'
                   }`}
                 >
                   <PenSquare className="w-4 h-4" />
                   <span>Write</span>
                 </Link>
-                <Link 
-                  href="/drafts" 
+                <Link
+                  href="/drafts"
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition ${
-                    isActive('/drafts') ? 'bg-gray-100 text-brand-blue' : 'text-gray-600 hover:text-brand-blue'
+                    isActive('/drafts')
+                      ? 'bg-gray-100 text-brand-blue'
+                      : 'text-gray-600 hover:text-brand-blue'
                   }`}
                 >
                   <FileText className="w-4 h-4" />
                   <span>Drafts</span>
                 </Link>
-                <Link 
-                  href={`/${user?.username || 'profile'}`} 
+                <Link
+                  href={`/${user?.username || 'profile'}`}
                   className={`flex items-center gap-2 px-3 py-1.5 rounded-lg transition ${
-                    pathname === `/${user?.username}` ? 'bg-gray-100 text-brand-blue' : 'text-gray-600 hover:text-brand-blue'
+                    pathname === `/${user?.username}`
+                      ? 'bg-gray-100 text-brand-blue'
+                      : 'text-gray-600 hover:text-brand-blue'
                   }`}
                 >
                   <User className="w-4 h-4" />

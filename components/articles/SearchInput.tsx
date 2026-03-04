@@ -11,12 +11,12 @@ interface SearchInputProps {
   debounceMs?: number
 }
 
-export default function SearchInput({ 
-  value, 
-  onChange, 
-  placeholder = "Search articles...", 
-  className = "",
-  debounceMs = 300 
+export default function SearchInput({
+  value,
+  onChange,
+  placeholder = 'Search articles...',
+  className = '',
+  debounceMs = 300,
 }: SearchInputProps) {
   const [localValue, setLocalValue] = useState(value)
 
@@ -41,7 +41,7 @@ export default function SearchInput({
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value
     setLocalValue(newValue)
-    
+
     // Clear previous timeout and set new one
     const cleanup = debouncedOnChange(newValue)
     return cleanup

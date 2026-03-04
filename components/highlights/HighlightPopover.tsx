@@ -183,9 +183,15 @@ export function HighlightPopover({
       {/* Action Buttons Section */}
       <div className="pt-3 border-t border-gray-200">
         <div className="text-xs font-medium text-gray-600 mb-3 text-center">
-          💾 Save highlight {articleId && articleSlug && authorStellarAddress && startOffset !== undefined && endOffset !== undefined && 'or 💰 tip the author'}
+          Save highlight{' '}
+          {articleId &&
+            articleSlug &&
+            authorStellarAddress &&
+            startOffset !== undefined &&
+            endOffset !== undefined &&
+            'or tip the author'}
         </div>
-        
+
         <div className="flex gap-2 mb-3">
           {/* Save Highlight Button */}
           <button
@@ -197,23 +203,27 @@ export function HighlightPopover({
           </button>
 
           {/* Tip Highlight Button - Show if article data is available */}
-          {articleId && articleSlug && authorStellarAddress && startOffset !== undefined && endOffset !== undefined && (
-            <HighlightTipButton
-              articleId={articleId}
-              articleSlug={articleSlug}
-              authorName={authorName || 'Author'}
-              authorStellarAddress={authorStellarAddress}
-              highlightText={selectedText}
-              startOffset={startOffset}
-              endOffset={endOffset}
-              className="flex-1"
-              onSuccess={() => {
-                // Create highlight with selected settings, then close
-                onCreateHighlight(selectedColor, note || undefined, isPublic)
-                onClose()
-              }}
-            />
-          )}
+          {articleId &&
+            articleSlug &&
+            authorStellarAddress &&
+            startOffset !== undefined &&
+            endOffset !== undefined && (
+              <HighlightTipButton
+                articleId={articleId}
+                articleSlug={articleSlug}
+                authorName={authorName || 'Author'}
+                authorStellarAddress={authorStellarAddress}
+                highlightText={selectedText}
+                startOffset={startOffset}
+                endOffset={endOffset}
+                className="flex-1"
+                onSuccess={() => {
+                  // Create highlight with selected settings, then close
+                  onCreateHighlight(selectedColor, note || undefined, isPublic)
+                  onClose()
+                }}
+              />
+            )}
         </div>
 
         {/* Close Button */}

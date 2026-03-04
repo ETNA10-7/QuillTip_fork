@@ -28,32 +28,32 @@ export function Editor({
   onChange,
   placeholder = 'Start writing your story...',
   editable = true,
-  className = ''
+  className = '',
 }: EditorProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [isUploading, setIsUploading] = useState(false)
   const [uploadProgress, setUploadProgress] = useState(0)
-  
+
   // Get Convex client for uploads
   const convex = useConvex()
-  
+
   const editor = useEditor({
     immediatelyRender: false,
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2, 3, 4, 5, 6]
+          levels: [1, 2, 3, 4, 5, 6],
         },
         codeBlock: false,
-        // Disable Link from StarterKit since we're adding it separately  
-        link: false
+        // Disable Link from StarterKit since we're adding it separately
+        link: false,
       }),
       // Add Link separately with our configuration
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'underline cursor-pointer'
-        }
+          class: 'underline cursor-pointer',
+        },
       }),
       // Add Underline extension
       Underline,
@@ -65,35 +65,37 @@ export function Editor({
         nocookie: true,
         allowFullscreen: true,
         HTMLAttributes: {
-          class: 'youtube-embed rounded-lg my-4'
-        }
+          class: 'youtube-embed rounded-lg my-4',
+        },
       }),
       ResizableImage.configure({
         HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg my-4'
-        }
+          class: 'max-w-full h-auto rounded-lg my-4',
+        },
       }),
       Placeholder.configure({
-        placeholder
+        placeholder,
       }),
       CodeBlockLowlight.configure({
         lowlight,
         HTMLAttributes: {
-          class: 'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto'
-        }
-      })
+          class:
+            'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto',
+        },
+      }),
     ],
     content,
     editable,
     editorProps: {
       attributes: {
-        class: 'prose prose-lg max-w-none focus:outline-none min-h-[400px] px-8 py-4'
-      }
+        class:
+          'prose prose-lg max-w-none focus:outline-none min-h-[400px] px-8 py-4',
+      },
     },
     onUpdate: ({ editor }) => {
       const html = editor.getHTML()
       onChange?.(html)
-    }
+    },
   })
 
   useEffect(() => {
@@ -131,7 +133,7 @@ export function Editor({
     if (!editor || !editable) return
 
     const files = Array.from(e.dataTransfer.files)
-    const imageFiles = files.filter(file => file.type.startsWith('image/'))
+    const imageFiles = files.filter((file) => file.type.startsWith('image/'))
 
     if (imageFiles.length === 0) {
       return // No image files dropped
@@ -148,7 +150,7 @@ export function Editor({
       // Compress image before upload for better performance
       const compressedFile = await compressImage(file, 1200, 0.8)
       const result = await uploadFile(
-        compressedFile, 
+        compressedFile,
         convex,
         'article_image',
         undefined, // no specific article
@@ -169,7 +171,7 @@ export function Editor({
   }
 
   return (
-    <div 
+    <div
       className={`editor-wrapper bg-white rounded-lg shadow-sm border border-gray-200 relative ${className} ${
         isDragging ? 'border-blue-400 bg-blue-50' : ''
       } ${isUploading ? 'pointer-events-none' : ''}`}
@@ -183,13 +185,11 @@ export function Editor({
             <div className="text-blue-600 text-lg font-medium mb-2">
               Drop image here
             </div>
-            <div className="text-blue-500 text-sm">
-              Release to upload
-            </div>
+            <div className="text-blue-500 text-sm">Release to upload</div>
           </div>
         </div>
       )}
-      
+
       {isUploading && (
         <div className="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10 rounded-lg">
           <div className="text-center">
@@ -198,22 +198,17 @@ export function Editor({
               Optimizing and uploading image...
             </div>
             <div className="mt-2 w-48 bg-gray-200 rounded-full h-2 mx-auto">
-              <div 
+              <div
                 className="bg-blue-600 h-2 rounded-full transition-all duration-300"
                 style={{ width: `${uploadProgress}%` }}
               ></div>
             </div>
-            <div className="text-gray-500 text-xs mt-1">
-              {uploadProgress}%
-            </div>
+            <div className="text-gray-500 text-xs mt-1">{uploadProgress}%</div>
           </div>
         </div>
       )}
-      
-      <EditorContent 
-        editor={editor} 
-        className="editor-content"
-      />
+
+      <EditorContent editor={editor} className="editor-content" />
     </div>
   )
 }

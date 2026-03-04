@@ -10,11 +10,16 @@ interface PaginationProps {
   basePath?: string
 }
 
-export default function Pagination({ currentPage, totalPages, onPageChange, basePath }: PaginationProps) {
+export default function Pagination({
+  currentPage,
+  totalPages,
+  onPageChange,
+  basePath,
+}: PaginationProps) {
   const getPageNumbers = () => {
     const pages = []
     const maxVisible = 5
-    
+
     if (totalPages <= maxVisible) {
       for (let i = 1; i <= totalPages; i++) {
         pages.push(i)
@@ -42,7 +47,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, base
         pages.push(totalPages)
       }
     }
-    
+
     return pages
   }
 
@@ -64,12 +69,12 @@ export default function Pagination({ currentPage, totalPages, onPageChange, base
   }
 
   // Render button or link based on whether we have onPageChange or basePath
-  const PaginationButton = ({ 
-    page, 
-    disabled = false, 
-    children, 
-    className, 
-    ariaLabel 
+  const PaginationButton = ({
+    page,
+    disabled = false,
+    children,
+    className,
+    ariaLabel,
   }: {
     page: number
     disabled?: boolean
@@ -101,7 +106,10 @@ export default function Pagination({ currentPage, totalPages, onPageChange, base
   }
 
   return (
-    <nav className="flex items-center justify-center space-x-1" aria-label="Pagination">
+    <nav
+      className="flex items-center justify-center space-x-1"
+      aria-label="Pagination"
+    >
       {/* Previous Button */}
       <PaginationButton
         page={currentPage - 1}
@@ -115,7 +123,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, base
 
       {/* Page Numbers */}
       <div className="hidden sm:flex space-x-1">
-        {getPageNumbers().map((page, index) => (
+        {getPageNumbers().map((page, index) =>
           page === '...' ? (
             <span key={`ellipsis-${index}`} className="px-3 py-2 text-gray-500">
               ...
@@ -134,7 +142,7 @@ export default function Pagination({ currentPage, totalPages, onPageChange, base
               {page}
             </PaginationButton>
           )
-        ))}
+        )}
       </div>
 
       {/* Mobile Page Indicator */}

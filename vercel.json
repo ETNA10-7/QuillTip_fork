@@ -2,7 +2,7 @@
   "buildCommand": "next build",
   "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "npm ci",
+  "installCommand": "bun install --frozen-lockfile",
   "functions": {
     "app/api/**/*.ts": {
       "maxDuration": 15

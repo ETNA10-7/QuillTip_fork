@@ -10,7 +10,7 @@ import { useAuth } from '@/components/providers/AuthContext'
 
 /**
  * Register Form Component
- * 
+ *
  * Handles user registration with email, username, password, and optional name.
  * Includes form validation, error handling, and loading states.
  */
@@ -21,36 +21,40 @@ export default function RegisterForm() {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [success, setSuccess] = useState(false)
-  
+
   const router = useRouter()
   const { signIn } = useAuth()
-  
+
   const {
     register,
     handleSubmit,
-    formState: { errors }
+    formState: { errors },
   } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema)
+    resolver: zodResolver(registerSchema),
   })
 
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true)
     setError(null)
-    
+
     try {
       await signIn('password', {
         email: data.email,
         password: data.password,
         flow: 'signUp',
         username: data.username,
-        ...(data.name && { name: data.name })
+        ...(data.name && { name: data.name }),
       })
 
       setSuccess(true)
       // Use replace to prevent back button returning to register
       router.replace('/')
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Registration failed. Please try again.')
+      setError(
+        error instanceof Error
+          ? error.message
+          : 'Registration failed. Please try again.'
+      )
       setIsLoading(false)
     }
   }
@@ -75,10 +79,13 @@ export default function RegisterForm() {
           <p className="text-sm text-red-700">{error}</p>
         </div>
       )}
-      
+
       {/* Email Field */}
       <div>
-        <label htmlFor="email" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="email"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Email address
         </label>
         <input
@@ -96,7 +103,10 @@ export default function RegisterForm() {
 
       {/* Username Field */}
       <div>
-        <label htmlFor="username" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="username"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Username
         </label>
         <input
@@ -114,7 +124,10 @@ export default function RegisterForm() {
 
       {/* Name Field (Optional) */}
       <div>
-        <label htmlFor="name" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="name"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Full Name <span className="text-quill-400">(optional)</span>
         </label>
         <input
@@ -132,7 +145,10 @@ export default function RegisterForm() {
 
       {/* Password Field */}
       <div>
-        <label htmlFor="password" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="password"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Password
         </label>
         <div className="relative">
@@ -163,7 +179,10 @@ export default function RegisterForm() {
 
       {/* Confirm Password Field */}
       <div>
-        <label htmlFor="confirmPassword" className="block text-sm font-medium text-quill-700 mb-2">
+        <label
+          htmlFor="confirmPassword"
+          className="block text-sm font-medium text-quill-700 mb-2"
+        >
           Confirm Password
         </label>
         <div className="relative">
@@ -188,7 +207,9 @@ export default function RegisterForm() {
           </button>
         </div>
         {errors.confirmPassword && (
-          <p className="mt-1 text-sm text-red-600">{errors.confirmPassword.message}</p>
+          <p className="mt-1 text-sm text-red-600">
+            {errors.confirmPassword.message}
+          </p>
         )}
       </div>
 

@@ -1,4 +1,4 @@
-'use client';
+'use client'
 
 import {
   Edit3,
@@ -9,67 +9,70 @@ import {
   TrendingUp,
   Globe,
   Sparkles,
-} from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
-import { LucideIcon } from 'lucide-react';
+} from 'lucide-react'
+import { motion } from 'framer-motion'
+import { useInView } from 'framer-motion'
+import { useRef } from 'react'
+import { LucideIcon } from 'lucide-react'
 
 interface Feature {
-  icon: LucideIcon;
-  title: string;
-  description: string;
+  icon: LucideIcon
+  title: string
+  description: string
 }
 
 const features: Feature[] = [
   {
     icon: Edit3,
-    title: "Rich Editor",
-    description: "Code blocks, media embeds, and full markdown support.",
+    title: 'Rich Editor',
+    description: 'Code blocks, media embeds, and full markdown support.',
   },
   {
     icon: DollarSign,
-    title: "Instant Tips",
-    description: "Payments in 3 seconds via Stellar with near-zero fees.",
+    title: 'Instant Tips',
+    description: 'Payments in 3 seconds via Stellar with near-zero fees.',
   },
   {
     icon: MessageSquare,
-    title: "Interactive Reading",
-    description: "Highlight passages and tip the words that move you.",
+    title: 'Interactive Reading',
+    description: 'Highlight passages and tip the words that move you.',
   },
   {
     icon: Shield,
-    title: "100% Ownership",
-    description: "Your content, your rules. No platform lock-in.",
+    title: '100% Ownership',
+    description: 'Your content, your rules. No platform lock-in.',
   },
   {
     icon: TrendingUp,
-    title: "Real-Time Analytics",
-    description: "Track earnings and audience growth as it happens.",
+    title: 'Real-Time Analytics',
+    description: 'Track earnings and audience growth as it happens.',
   },
   {
     icon: Zap,
-    title: "No Minimums",
-    description: "Withdraw any amount instantly. No thresholds.",
+    title: 'Instant Withdrawals',
+    description: 'Withdraw your earnings instantly. No thresholds.',
   },
   {
     icon: Globe,
-    title: "Permanent Storage",
-    description: "Articles stored forever on Arweave.",
+    title: 'Permanent Storage',
+    description: 'Articles stored forever on Arweave.',
   },
   {
     icon: Sparkles,
-    title: "NFT Minting",
-    description: "Mint top articles as collectible NFTs.",
+    title: 'NFT Minting',
+    description: 'Mint top articles as collectible NFTs.',
   },
-];
+]
 
 export default function FeaturesSection() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const ref = useRef(null)
+  const isInView = useInView(ref, { once: true, margin: '-100px' })
 
   return (
-    <section id="features" className="py-32 px-6 bg-gradient-to-b from-white via-neutral-50/30 to-white relative overflow-hidden">
+    <section
+      id="features"
+      className="py-32 px-6 bg-gradient-to-b from-white via-neutral-50/30 to-white relative overflow-hidden"
+    >
       <div className="container mx-auto max-w-3xl relative z-10" ref={ref}>
         {/* Header */}
         <motion.div
@@ -94,19 +97,21 @@ export default function FeaturesSection() {
             className="absolute left-1/2 top-0 bottom-0 w-px bg-neutral-900 -translate-x-1/2 origin-top"
             initial={{ scaleY: 0 }}
             animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
-            transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
+            transition={{ duration: 1.5, delay: 0.3, ease: 'easeOut' }}
           />
 
           <div className="space-y-8">
             {features.map((feature, index) => {
-              const isLeft = index % 2 === 0;
+              const isLeft = index % 2 === 0
 
               return (
                 <motion.div
                   key={feature.title}
                   className="group relative flex items-center cursor-default"
                   initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+                  animate={
+                    isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }
+                  }
                   transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
                 >
                   {/* Center dot */}
@@ -141,11 +146,11 @@ export default function FeaturesSection() {
                     </>
                   )}
                 </motion.div>
-              );
+              )
             })}
           </div>
         </div>
       </div>
     </section>
-  );
+  )
 }

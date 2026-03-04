@@ -24,7 +24,7 @@ interface TransferModalProps {
   articleId: string
   articleTitle: string
   currentOwner: string
-  nftId?: Id<"articleNFTs">
+  nftId?: Id<'articleNFTs'>
   onTransferComplete?: (newOwner: string) => void
 }
 
@@ -35,22 +35,25 @@ export function TransferModal({
   articleTitle,
   currentOwner,
   nftId,
-  onTransferComplete
+  onTransferComplete,
 }: TransferModalProps) {
   const [recipientUsername, setRecipientUsername] = useState('')
   const [isTransferring, setIsTransferring] = useState(false)
-  const [transferStatus, setTransferStatus] = useState<'idle' | 'confirming' | 'success' | 'error'>('idle')
+  const [transferStatus, setTransferStatus] = useState<
+    'idle' | 'confirming' | 'success' | 'error'
+  >('idle')
   const [errorMessage, setErrorMessage] = useState('')
-  
+
   const transferNFT = useMutation(api.nfts.transferNFT)
-  
+
   // Get NFT data if we don't have the ID
   const nftData = useQuery(
     api.nfts.getNFTByArticle,
-    !nftId ? { articleId: articleId as Id<"articles"> } : 'skip'
+    !nftId ? { articleId: articleId as Id<'articles'> } : 'skip'
   )
-  
-  const actualNftId = nftId || (nftData && nftData.isMinted ? nftData._id : null)
+
+  const actualNftId =
+    nftId || (nftData && nftData.isMinted ? nftData._id : null)
 
   const validateUsername = (username: string): boolean => {
     // Basic username validation
@@ -67,7 +70,9 @@ export function TransferModal({
     }
 
     if (!validateUsername(recipientUsername)) {
-      setErrorMessage('Invalid username format. Use only letters, numbers, underscores, and hyphens (3-30 characters).')
+      setErrorMessage(
+        'Invalid username format. Use only letters, numbers, underscores, and hyphens (3-30 characters).'
+      )
       return
     }
 
@@ -87,14 +92,16 @@ export function TransferModal({
     try {
       const transferId = await transferNFT({
         nftId: actualNftId,
-        toUsername: recipientUsername
+        toUsername: recipientUsername,
       })
 
       if (transferId) {
         setTransferStatus('success')
-        
+
         // Show success toast
-        toast.success(`NFT Transferred Successfully! Article NFT has been transferred to @${recipientUsername}`)
+        toast.success(
+          `NFT Transferred Successfully! Article NFT has been transferred to @${recipientUsername}`
+        )
 
         // Notify parent component
         if (onTransferComplete) {
@@ -111,7 +118,11 @@ export function TransferModal({
     } catch (error) {
       console.error('Transfer error:', error)
       setTransferStatus('error')
-      setErrorMessage(error instanceof Error ? error.message : 'Transfer failed. Please try again.')
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Transfer failed. Please try again.'
+      )
       toast.error(error instanceof Error ? error.message : 'Transfer failed')
     } finally {
       setIsTransferring(false)
@@ -191,11 +202,15 @@ export function TransferModal({
 
           {/* Status Message */}
           {transferStatus !== 'idle' && (
-            <div className={`flex items-center gap-2 p-3 rounded-lg ${
-              transferStatus === 'success' ? 'bg-green-50 text-green-700' :
-              transferStatus === 'error' ? 'bg-red-50 text-red-700' :
-              'bg-blue-50 text-blue-700'
-            }`}>
+            <div
+              className={`flex items-center gap-2 p-3 rounded-lg ${
+                transferStatus === 'success'
+                  ? 'bg-green-50 text-green-700'
+                  : transferStatus === 'error'
+                    ? 'bg-red-50 text-red-700'
+                    : 'bg-blue-50 text-blue-700'
+              }`}
+            >
               {getStatusIcon()}
               <span className="text-sm">{getStatusMessage()}</span>
             </div>
@@ -203,9 +218,7 @@ export function TransferModal({
 
           {/* Error Message */}
           {errorMessage && transferStatus === 'idle' && (
-            <div className="text-sm text-red-500">
-              {errorMessage}
-            </div>
+            <div className="text-sm text-red-500">{errorMessage}</div>
           )}
         </div>
 
@@ -219,7 +232,11 @@ export function TransferModal({
           </Button>
           <Button
             onClick={handleTransfer}
-            disabled={isTransferring || transferStatus === 'success' || !recipientUsername.trim()}
+            disabled={
+              isTransferring ||
+              transferStatus === 'success' ||
+              !recipientUsername.trim()
+            }
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600"
           >
             {isTransferring ? (

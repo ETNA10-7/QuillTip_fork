@@ -7,7 +7,7 @@ interface ArticleCardProps {
 }
 
 export default function ArticleCard({ article }: ArticleCardProps) {
-  const publishedDate = article.publishedAt 
+  const publishedDate = article.publishedAt
     ? formatDistanceToNow(new Date(article.publishedAt), { addSuffix: true })
     : null
 
@@ -36,9 +36,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
         {/* Excerpt */}
         {article.excerpt && (
-          <p className="text-gray-600 mb-4 line-clamp-3">
-            {article.excerpt}
-          </p>
+          <p className="text-gray-600 mb-4 line-clamp-3">{article.excerpt}</p>
         )}
 
         {/* Tags */}
@@ -62,7 +60,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
         {/* Author Info */}
         <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-          <Link 
+          <Link
             href={`/${article.author.username}`}
             className="flex items-center gap-3 hover:opacity-80 transition-opacity"
           >
@@ -76,7 +74,9 @@ export default function ArticleCard({ article }: ArticleCardProps) {
               />
             ) : (
               <div className="w-9 h-9 rounded-full bg-brand-blue text-white flex items-center justify-center font-semibold text-sm">
-                {(article.author.name || article.author.username).charAt(0).toUpperCase()}
+                {(article.author.name || article.author.username)
+                  .charAt(0)
+                  .toUpperCase()}
               </div>
             )}
             <div>
@@ -91,9 +91,7 @@ export default function ArticleCard({ article }: ArticleCardProps) {
 
           {/* Published Date */}
           {publishedDate && (
-            <span className="text-xs text-gray-500">
-              {publishedDate}
-            </span>
+            <span className="text-xs text-gray-500">{publishedDate}</span>
           )}
         </div>
       </div>

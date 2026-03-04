@@ -111,13 +111,41 @@ export function EditorToolbar({
   }
 
   const headingOptions = [
-    { level: 0, label: 'Paragraph', command: () => editor.chain().focus().setParagraph().run() },
-    { level: 1, label: 'Heading 1', command: () => editor.chain().focus().toggleHeading({ level: 1 }).run() },
-    { level: 2, label: 'Heading 2', command: () => editor.chain().focus().toggleHeading({ level: 2 }).run() },
-    { level: 3, label: 'Heading 3', command: () => editor.chain().focus().toggleHeading({ level: 3 }).run() },
-    { level: 4, label: 'Heading 4', command: () => editor.chain().focus().toggleHeading({ level: 4 }).run() },
-    { level: 5, label: 'Heading 5', command: () => editor.chain().focus().toggleHeading({ level: 5 }).run() },
-    { level: 6, label: 'Heading 6', command: () => editor.chain().focus().toggleHeading({ level: 6 }).run() },
+    {
+      level: 0,
+      label: 'Paragraph',
+      command: () => editor.chain().focus().setParagraph().run(),
+    },
+    {
+      level: 1,
+      label: 'Heading 1',
+      command: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
+    },
+    {
+      level: 2,
+      label: 'Heading 2',
+      command: () => editor.chain().focus().toggleHeading({ level: 2 }).run(),
+    },
+    {
+      level: 3,
+      label: 'Heading 3',
+      command: () => editor.chain().focus().toggleHeading({ level: 3 }).run(),
+    },
+    {
+      level: 4,
+      label: 'Heading 4',
+      command: () => editor.chain().focus().toggleHeading({ level: 4 }).run(),
+    },
+    {
+      level: 5,
+      label: 'Heading 5',
+      command: () => editor.chain().focus().toggleHeading({ level: 5 }).run(),
+    },
+    {
+      level: 6,
+      label: 'Heading 6',
+      command: () => editor.chain().focus().toggleHeading({ level: 6 }).run(),
+    },
   ]
 
   const getCurrentHeading = () => {

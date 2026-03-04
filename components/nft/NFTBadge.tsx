@@ -36,24 +36,62 @@ export function NFTBadge({
   const getRarity = (tips?: number) => {
     if (rarityProp) {
       const rarityMap = {
-        legendary: { label: 'Legendary', color: 'bg-gradient-to-r from-purple-500 to-pink-500' },
-        epic: { label: 'Epic', color: 'bg-gradient-to-r from-blue-500 to-purple-500' },
-        rare: { label: 'Rare', color: 'bg-gradient-to-r from-green-500 to-blue-500' },
-        uncommon: { label: 'Uncommon', color: 'bg-gradient-to-r from-yellow-500 to-green-500' },
-        common: { label: 'Common', color: 'bg-gradient-to-r from-gray-500 to-gray-600' },
+        legendary: {
+          label: 'Legendary',
+          color: 'bg-gradient-to-r from-purple-500 to-pink-500',
+        },
+        epic: {
+          label: 'Epic',
+          color: 'bg-gradient-to-r from-blue-500 to-purple-500',
+        },
+        rare: {
+          label: 'Rare',
+          color: 'bg-gradient-to-r from-green-500 to-blue-500',
+        },
+        uncommon: {
+          label: 'Uncommon',
+          color: 'bg-gradient-to-r from-yellow-500 to-green-500',
+        },
+        common: {
+          label: 'Common',
+          color: 'bg-gradient-to-r from-gray-500 to-gray-600',
+        },
       }
       return rarityMap[rarityProp]
     }
-    if (tips === undefined) return { label: 'NFT', color: 'bg-gradient-to-r from-gray-500 to-gray-600' }
-    if (tips >= 100) return { label: 'Legendary', color: 'bg-gradient-to-r from-purple-500 to-pink-500' }
-    if (tips >= 50) return { label: 'Epic', color: 'bg-gradient-to-r from-blue-500 to-purple-500' }
-    if (tips >= 25) return { label: 'Rare', color: 'bg-gradient-to-r from-green-500 to-blue-500' }
-    if (tips >= 10) return { label: 'Uncommon', color: 'bg-gradient-to-r from-yellow-500 to-green-500' }
-    return { label: 'Common', color: 'bg-gradient-to-r from-gray-500 to-gray-600' }
+    if (tips === undefined)
+      return {
+        label: 'NFT',
+        color: 'bg-gradient-to-r from-gray-500 to-gray-600',
+      }
+    if (tips >= 100)
+      return {
+        label: 'Legendary',
+        color: 'bg-gradient-to-r from-purple-500 to-pink-500',
+      }
+    if (tips >= 50)
+      return {
+        label: 'Epic',
+        color: 'bg-gradient-to-r from-blue-500 to-purple-500',
+      }
+    if (tips >= 25)
+      return {
+        label: 'Rare',
+        color: 'bg-gradient-to-r from-green-500 to-blue-500',
+      }
+    if (tips >= 10)
+      return {
+        label: 'Uncommon',
+        color: 'bg-gradient-to-r from-yellow-500 to-green-500',
+      }
+    return {
+      label: 'Common',
+      color: 'bg-gradient-to-r from-gray-500 to-gray-600',
+    }
   }
 
   const rarity = getRarity(totalTips)
-  
+
   const sizeClasses = {
     sm: 'text-xs px-2 py-0.5',
     md: 'text-sm px-2.5 py-1',
@@ -70,8 +108,8 @@ export function NFTBadge({
     // Show tip progress badge instead
     return (
       <Badge variant="outline" className={sizeClasses[size]}>
-        <TrendingUp className={`mr-1 ${iconSize[size]}`} />
-        ${totalTips.toFixed(0)} in tips
+        <TrendingUp className={`mr-1 ${iconSize[size]}`} />$
+        {totalTips.toFixed(0)} in tips
       </Badge>
     )
   }
@@ -81,7 +119,7 @@ export function NFTBadge({
   // Simple badge without tooltip if showLabel is true
   if (showLabel) {
     return (
-      <Badge 
+      <Badge
         className={`${sizeClasses[size]} ${rarity.color} text-white border-0`}
       >
         <Sparkles className={`mr-1 ${iconSize[size]}`} />
@@ -94,7 +132,7 @@ export function NFTBadge({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>
-          <Badge 
+          <Badge
             className={`${sizeClasses[size]} ${rarity.color} text-white border-0 cursor-default`}
           >
             <Sparkles className={`mr-1 ${iconSize[size]}`} />
@@ -112,14 +150,14 @@ export function NFTBadge({
                 </div>
                 {owner && (
                   <div>
-                    <span className="text-muted-foreground">Owner:</span>{' '}
-                    @{owner.username}
+                    <span className="text-muted-foreground">Owner:</span> @
+                    {owner.username}
                   </div>
                 )}
                 {totalTips !== undefined && (
                   <div>
-                    <span className="text-muted-foreground">Value:</span>{' '}
-                    ${totalTips.toFixed(2)} in tips
+                    <span className="text-muted-foreground">Value:</span> $
+                    {totalTips.toFixed(2)} in tips
                   </div>
                 )}
                 {mintDate && (

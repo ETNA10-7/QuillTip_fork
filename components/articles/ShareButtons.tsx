@@ -10,11 +10,11 @@ interface ShareButtonsProps {
   className?: string
 }
 
-export default function ShareButtons({ 
-  title, 
-  url, 
-  excerpt, 
-  className = "" 
+export default function ShareButtons({
+  title,
+  url,
+  excerpt,
+  className = '',
 }: ShareButtonsProps) {
   const [copied, setCopied] = useState(false)
   const [hasNativeShare, setHasNativeShare] = useState(false)
@@ -28,11 +28,14 @@ export default function ShareButtons({
   const encodedUrl = useMemo(() => encodeURIComponent(url), [url])
 
   // Share URLs for different platforms
-  const shareUrls = useMemo(() => ({
-    twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-    linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
-  }), [encodedTitle, encodedUrl, encodedText])
+  const shareUrls = useMemo(
+    () => ({
+      twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}&quote=${encodedText}`,
+    }),
+    [encodedTitle, encodedUrl, encodedText]
+  )
 
   // Check for native share support (client-side only)
   useEffect(() => {
@@ -51,7 +54,7 @@ export default function ShareButtons({
   // Copy link to clipboard
   const handleCopyLink = async () => {
     setError(null)
-    
+
     try {
       // Modern Clipboard API (requires HTTPS)
       if (navigator.clipboard && window.isSecureContext) {
@@ -60,7 +63,7 @@ export default function ShareButtons({
         timeoutRef.current = setTimeout(() => setCopied(false), 2000)
         return
       }
-      
+
       // Fallback for older browsers
       const textArea = document.createElement('textarea')
       textArea.value = url
@@ -68,7 +71,7 @@ export default function ShareButtons({
       textArea.style.opacity = '0'
       document.body.appendChild(textArea)
       textArea.select()
-      
+
       try {
         const success = document.execCommand('copy')
         if (success) {
@@ -89,7 +92,7 @@ export default function ShareButtons({
   // Handle Web Share API if available
   const handleNativeShare = async () => {
     if (!navigator.share) return
-    
+
     setError(null)
     try {
       await navigator.share({
@@ -113,7 +116,7 @@ export default function ShareButtons({
       'share-dialog',
       'width=626,height=436,resizable=yes,scrollbars=yes'
     )
-    
+
     // Check if popup was blocked
     if (!popup || popup.closed || typeof popup.closed === 'undefined') {
       // Fallback: open in same tab
@@ -129,70 +132,70 @@ export default function ShareButtons({
           {error}
         </div>
       )}
-      
+
       <div className="flex items-center gap-3">
         {/* Share label */}
         <span className="text-sm text-gray-600 font-medium">Share:</span>
 
         {/* Native share button (mobile) */}
         {hasNativeShare && (
-        <button
-          onClick={handleNativeShare}
-          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-brand-blue hover:bg-gray-50 rounded-lg transition-colors"
-          aria-label="Share article"
-        >
-          <Share2 className="h-4 w-4" />
-        </button>
-      )}
-
-      {/* Twitter */}
-      <button
-        onClick={() => openShareWindow(shareUrls.twitter)}
-        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
-        aria-label="Share on Twitter"
-      >
-        <Twitter className="h-4 w-4" />
-        <span className="hidden sm:inline">Twitter</span>
-      </button>
-
-      {/* LinkedIn */}
-      <button
-        onClick={() => openShareWindow(shareUrls.linkedin)}
-        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-        aria-label="Share on LinkedIn"
-      >
-        <Linkedin className="h-4 w-4" />
-        <span className="hidden sm:inline">LinkedIn</span>
-      </button>
-
-      {/* Facebook */}
-      <button
-        onClick={() => openShareWindow(shareUrls.facebook)}
-        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
-        aria-label="Share on Facebook"
-      >
-        <Facebook className="h-4 w-4" />
-        <span className="hidden sm:inline">Facebook</span>
-      </button>
-
-      {/* Copy Link */}
-      <button
-        onClick={handleCopyLink}
-        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-brand-blue hover:bg-gray-50 rounded-lg transition-colors"
-        aria-label={copied ? "Link copied!" : "Copy link"}
-      >
-        {copied ? (
-          <>
-            <Check className="h-4 w-4 text-green-600" />
-            <span className="hidden sm:inline text-green-600">Copied!</span>
-          </>
-        ) : (
-          <>
-            <Link className="h-4 w-4" />
-            <span className="hidden sm:inline">Copy Link</span>
-          </>
+          <button
+            onClick={handleNativeShare}
+            className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-brand-blue hover:bg-gray-50 rounded-lg transition-colors"
+            aria-label="Share article"
+          >
+            <Share2 className="h-4 w-4" />
+          </button>
         )}
-      </button>
+
+        {/* Twitter */}
+        <button
+          onClick={() => openShareWindow(shareUrls.twitter)}
+          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition-colors"
+          aria-label="Share on Twitter"
+        >
+          <Twitter className="h-4 w-4" />
+          <span className="hidden sm:inline">Twitter</span>
+        </button>
+
+        {/* LinkedIn */}
+        <button
+          onClick={() => openShareWindow(shareUrls.linkedin)}
+          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+          aria-label="Share on LinkedIn"
+        >
+          <Linkedin className="h-4 w-4" />
+          <span className="hidden sm:inline">LinkedIn</span>
+        </button>
+
+        {/* Facebook */}
+        <button
+          onClick={() => openShareWindow(shareUrls.facebook)}
+          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-blue-700 hover:bg-blue-50 rounded-lg transition-colors"
+          aria-label="Share on Facebook"
+        >
+          <Facebook className="h-4 w-4" />
+          <span className="hidden sm:inline">Facebook</span>
+        </button>
+
+        {/* Copy Link */}
+        <button
+          onClick={handleCopyLink}
+          className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-brand-blue hover:bg-gray-50 rounded-lg transition-colors"
+          aria-label={copied ? 'Link copied!' : 'Copy link'}
+        >
+          {copied ? (
+            <>
+              <Check className="h-4 w-4 text-green-600" />
+              <span className="hidden sm:inline text-green-600">Copied!</span>
+            </>
+          ) : (
+            <>
+              <Link className="h-4 w-4" />
+              <span className="hidden sm:inline">Copy Link</span>
+            </>
+          )}
+        </button>
       </div>
     </div>
   )

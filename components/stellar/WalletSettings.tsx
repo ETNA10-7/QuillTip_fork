@@ -4,7 +4,13 @@ import { useState } from 'react'
 import { useMutation } from 'convex/react'
 import { api } from '@/convex/_generated/api'
 import Link from 'next/link'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -35,7 +41,7 @@ export function WalletSettings({
   walletAddress,
   onAddressChange,
   isOwnProfile,
-  className = ''
+  className = '',
 }: WalletSettingsProps) {
   const updateProfile = useMutation(api.users.updateProfile)
   const { isLoading, connect, disconnect } = useWallet()
@@ -66,7 +72,7 @@ export function WalletSettings({
 
         if (connectedKey) {
           await updateProfile({
-            stellarAddress: connectedKey
+            stellarAddress: connectedKey,
           })
           onAddressChange?.(connectedKey)
           toast.success('Wallet connected and saved successfully!')
@@ -90,7 +96,7 @@ export function WalletSettings({
     try {
       // Step 1: Update database FIRST (ensures source of truth is updated)
       await updateProfile({
-        stellarAddress: null
+        stellarAddress: null,
       })
 
       // Step 2: Clear local wallet state AFTER DB confirms
@@ -100,7 +106,6 @@ export function WalletSettings({
       onAddressChange?.('')
 
       toast.success('Wallet disconnected successfully')
-
     } catch (error) {
       console.error('[WalletSettings] Failed to disconnect wallet:', error)
 
@@ -108,7 +113,10 @@ export function WalletSettings({
       if (error instanceof Error) {
         if (error.message.includes('Not authenticated')) {
           toast.error('Session expired. Please refresh and try again.')
-        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+        } else if (
+          error.message.includes('network') ||
+          error.message.includes('fetch')
+        ) {
           toast.error('Network error. Check your connection and try again.')
         } else {
           toast.error(`Disconnect failed: ${error.message}`)
@@ -119,7 +127,6 @@ export function WalletSettings({
 
       // Don't clear local state if DB update failed
       // This keeps UI in sync with actual DB state
-
     } finally {
       setIsConnecting(false)
     }
@@ -147,8 +154,7 @@ export function WalletSettings({
         <CardDescription>
           {isOwnProfile
             ? 'Manage your Stellar wallet for sending and receiving tips'
-            : 'Send tips directly to this user&apos;s Stellar wallet'
-          }
+            : 'Send tips directly to this user&apos;s Stellar wallet'}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
@@ -156,8 +162,10 @@ export function WalletSettings({
           <Alert className="bg-blue-50 border-blue-200">
             <AlertCircle className="h-4 w-4 text-blue-600" />
             <AlertDescription className="text-blue-900">
-              <strong>This wallet is for receiving tips.</strong> When readers tip your articles, payments come here.
-              To send tips to other authors, you&apos;ll connect your wallet extension directly on their articles.
+              <strong>This wallet is for receiving tips.</strong> When readers
+              tip your articles, payments come here. To send tips to other
+              authors, you&apos;ll connect your wallet extension directly on
+              their articles.
             </AlertDescription>
           </Alert>
         )}
@@ -194,10 +202,7 @@ export function WalletSettings({
 
                 <div className="text-center text-sm text-muted-foreground">
                   Need a wallet?{' '}
-                  <Link
-                    href="/guide"
-                    className="text-blue-600 hover:underline"
-                  >
+                  <Link href="/guide" className="text-blue-600 hover:underline">
                     Follow our setup guide
                   </Link>
                 </div>
@@ -209,12 +214,16 @@ export function WalletSettings({
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />
-                      <span className="text-sm font-medium">Wallet Connected</span>
+                      <span className="text-sm font-medium">
+                        Wallet Connected
+                      </span>
                     </div>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-xs text-muted-foreground">Your Wallet Address</Label>
+                    <Label className="text-xs text-muted-foreground">
+                      Your Wallet Address
+                    </Label>
                     <div className="flex gap-2">
                       <Input
                         value={walletAddress || ''}
@@ -239,7 +248,9 @@ export function WalletSettings({
                 <Alert>
                   <DollarSign className="h-4 w-4" />
                   <AlertDescription>
-                    You can send and receive tips with this wallet. You can change it anytime by disconnecting and connecting a different account.
+                    You can send and receive tips with this wallet. You can
+                    change it anytime by disconnecting and connecting a
+                    different account.
                   </AlertDescription>
                 </Alert>
 
@@ -247,7 +258,13 @@ export function WalletSettings({
                   <Button
                     variant="outline"
                     className="flex-1"
-                    onClick={() => walletAddress && window.open(`https://stellar.expert/explorer/testnet/account/${walletAddress}`, '_blank')}
+                    onClick={() =>
+                      walletAddress &&
+                      window.open(
+                        `https://stellar.expert/explorer/testnet/account/${walletAddress}`,
+                        '_blank'
+                      )
+                    }
                     disabled={!walletAddress}
                   >
                     <ArrowUpRight className="h-4 w-4 mr-2" />
@@ -285,11 +302,7 @@ export function WalletSettings({
                   readOnly
                   className="font-mono text-xs"
                 />
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleCopy}
-                >
+                <Button variant="outline" size="icon" onClick={handleCopy}>
                   {isCopied ? (
                     <Check className="h-4 w-4" />
                   ) : (
@@ -302,7 +315,13 @@ export function WalletSettings({
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => walletAddress && window.open(`https://stellar.expert/explorer/testnet/account/${walletAddress}`, '_blank')}
+              onClick={() =>
+                walletAddress &&
+                window.open(
+                  `https://stellar.expert/explorer/testnet/account/${walletAddress}`,
+                  '_blank'
+                )
+              }
               disabled={!walletAddress}
             >
               <ArrowUpRight className="h-4 w-4 mr-2" />
@@ -312,7 +331,8 @@ export function WalletSettings({
             <Alert>
               <DollarSign className="h-4 w-4" />
               <AlertDescription>
-                Tips sent to this wallet go directly to the user with minimal platform fees.
+                Tips sent to this wallet go directly to the user with minimal
+                platform fees.
               </AlertDescription>
             </Alert>
           </div>

@@ -34,14 +34,17 @@ export default function WritePage() {
   const [articleId, setArticleId] = useState<string | undefined>()
   const [editorContent, setEditorContent] = useState<JSONContent | null>(null)
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
-  const [publishStatus, setPublishStatus] = useState<{published: boolean, publishedAt: Date | null}>({
+  const [publishStatus, setPublishStatus] = useState<{
+    published: boolean
+    publishedAt: Date | null
+  }>({
     published: false,
-    publishedAt: null
+    publishedAt: null,
   })
 
   const router = useRouter()
   const { isAuthenticated, isLoading } = useAuth()
-  
+
   // Convex mutations
   const createArticleMutation = useMutation(api.articles.createArticle)
   const publishArticleMutation = useMutation(api.articles.publishArticle)
@@ -52,38 +55,39 @@ export default function WritePage() {
     extensions: [
       StarterKit.configure({
         heading: {
-          levels: [1, 2, 3, 4, 5, 6]
+          levels: [1, 2, 3, 4, 5, 6],
         },
-        codeBlock: false
+        codeBlock: false,
       }),
       Underline,
       Link.configure({
         openOnClick: false,
         HTMLAttributes: {
-          class: 'underline cursor-pointer'
-        }
+          class: 'underline cursor-pointer',
+        },
       }),
       ResizableImage.configure({
         HTMLAttributes: {
-          class: 'max-w-full h-auto rounded-lg my-4'
-        }
+          class: 'max-w-full h-auto rounded-lg my-4',
+        },
       }),
       Placeholder.configure({
-        placeholder: 'Start writing your story...'
+        placeholder: 'Start writing your story...',
       }),
       CodeBlockLowlight.configure({
         lowlight,
         HTMLAttributes: {
-          class: 'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto'
-        }
+          class: 'rounded-lg bg-gray-900 text-gray-100 p-4 my-4 overflow-x-auto',
+        },
       }),
-      TextAlign.configure({ types: ['heading', 'paragraph'] })
+      TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     content: '',
     editorProps: {
       attributes: {
-        class: 'prose prose-lg focus:outline-none min-h-[400px] py-6 break-words'
-      }
+        class:
+          'prose prose-lg focus:outline-none min-h-[400px] py-6 break-words',
+      },
     },
     onCreate: ({ editor }) => {
       // Set initial content state when editor is created
@@ -94,7 +98,7 @@ export default function WritePage() {
       const json = editor.getJSON()
       setEditorContent(json)
       setHasUnsavedChanges(true)
-    }
+    },
   })
 
   // Auto-save hook - enable when we have a user and any content
@@ -113,7 +117,7 @@ export default function WritePage() {
     },
     onSaveError: (error) => {
       console.error('Auto-save error:', error)
-    }
+    },
   })
 
   // Log article ID for development (F12 console)
@@ -125,13 +129,16 @@ export default function WritePage() {
 
 
   // Get draft ID from URL params
-  const urlParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null
+  const urlParams =
+    typeof window !== 'undefined'
+      ? new URLSearchParams(window.location.search)
+      : null
   const draftId = urlParams?.get('id')
-  
+
   // Load draft using Convex query
   const draft = useQuery(
-    api.articles.getArticleById, 
-    draftId ? { id: draftId as Id<"articles"> } : "skip"
+    api.articles.getArticleById,
+    draftId ? { id: draftId as Id<'articles'> } : 'skip'
   )
 
   // Load draft data when it arrives
@@ -143,7 +150,7 @@ export default function WritePage() {
       setCoverImage(draft.coverImage || '')
       setPublishStatus({
         published: draft.published,
-        publishedAt: draft.publishedAt ? new Date(draft.publishedAt) : null
+        publishedAt: draft.publishedAt ? new Date(draft.publishedAt) : null,
       })
       if (draft.content) {
         queueMicrotask(() => {
@@ -167,12 +174,14 @@ export default function WritePage() {
     try {
       // Save one final time before publishing
       await saveNow()
-      
-      let resultId: string;
-      
+
+      let resultId: string
+
       if (articleId) {
         // Publish existing draft
-        resultId = await publishArticleMutation({ id: articleId as Id<"articles"> })
+        resultId = await publishArticleMutation({
+          id: articleId as Id<'articles'>,
+        })
       } else {
         // Create and publish new article
         resultId = await createArticleMutation({
@@ -180,7 +189,7 @@ export default function WritePage() {
           content: editorContent,
           excerpt: excerpt || undefined,
           coverImage: coverImage || undefined,
-          tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+          tags: tags.split(',').map((t) => t.trim()).filter(Boolean),
           published: true, // Publishing immediately
         })
       }
@@ -189,21 +198,33 @@ export default function WritePage() {
       if (!articleId) {
         setArticleId(resultId)
       }
-      
+
       // Update publish status
       setPublishStatus({
         published: true,
-        publishedAt: new Date()
+        publishedAt: new Date(),
       })
-      
+
       toast.success('Article published successfully!')
     } catch (error) {
       console.error('Publish error:', error)
-      toast.error(`Failed to publish: ${error instanceof Error ? error.message : 'Unknown error'}`)
+      toast.error(
+        `Failed to publish: ${error instanceof Error ? error.message : 'Unknown error'}`
+      )
     } finally {
       setIsPublishing(false)
     }
-  }, [title, editorContent, excerpt, coverImage, tags, saveNow, articleId, publishArticleMutation, createArticleMutation])
+  }, [
+    title,
+    editorContent,
+    excerpt,
+    coverImage,
+    tags,
+    saveNow,
+    articleId,
+    publishArticleMutation,
+    createArticleMutation,
+  ])
 
   // Authentication checks
   if (isLoading) {
@@ -322,6 +343,36 @@ export default function WritePage() {
                 className="w-full resize-none overflow-hidden bg-transparent text-3xl font-semibold text-gray-900 placeholder:text-gray-300 focus:outline-none leading-snug py-2"
               />
             </div>
+            {/* Excerpt */}
+            <div id="field-excerpt" className="mb-4">
+              <label htmlFor="article-excerpt" className="block text-sm font-medium text-gray-700 mb-1">
+                Excerpt
+              </label>
+              <textarea
+                id="article-excerpt"
+                value={excerpt}
+                onChange={(e) => { setExcerpt(e.target.value); setHasUnsavedChanges(true) }}
+                placeholder="Brief description (optional)"
+                rows={2}
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-sky-500 outline-none resize-none placeholder-gray-400 text-sm"
+              />
+            </div>
+
+            {/* Tags */}
+            <div id="field-tags" className="mb-4">
+              <label htmlFor="article-tags" className="block text-sm font-medium text-gray-700 mb-1">
+                Tags
+              </label>
+              <input
+                id="article-tags"
+                type="text"
+                value={tags}
+                onChange={(e) => setTags(e.target.value)}
+                placeholder="Add tags separated by commas"
+                className="w-full px-3 py-2 border border-gray-200 rounded-lg focus:border-sky-500 outline-none placeholder-gray-400 text-sm"
+              />
+            </div>
+
             {editor && (
               <EditorContent
                 editor={editor}
@@ -329,7 +380,6 @@ export default function WritePage() {
               />
             )}
           </div>
-        </div>
       </div>
 
       <ImageUploadDialog
